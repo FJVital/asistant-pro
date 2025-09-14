@@ -5,119 +5,106 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Your digital clerk — asistant.pro</title>
 
-  <!-- FAVICON / (place your favicon files alongside this file) -->
   <link rel="icon" href="asistant_pro_favicon.png" type="image/png">
 
   <style>
-    /* ---------- Reset & base ---------- */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html,body { height: 100%; }
-    body {
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: #f7f9fb;
-      color: #0f1724;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height: 1.45;
-      -webkit-text-size-adjust: 100%;
+    /* Reset & base */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      background:#f7f9fb;color:#0f1724;-webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;line-height:1.45;font-size:16px;
     }
-    .container { max-width: 1100px; margin: 0 auto; padding: 28px 20px; }
+    .container{max-width:1100px;margin:0 auto;padding:28px 20px}
 
-    /* ---------- Header / Logo ---------- */
-    header {
-      display:flex; align-items:center; justify-content:center;
-      padding: 20px; background: #fff; border-bottom: 1px solid rgba(15,23,42,0.04);
-    }
-    .logo { max-width:380px; width: min(86vw,380px); height: auto; display:block; }
-    /* ensure logo preserves ratio; provide width/height attributes on img to avoid layout shift */
+    /* Header */
+    header{display:flex;align-items:center;justify-content:center;padding:20px;background:#fff;border-bottom:1px solid rgba(15,23,42,0.04)}
+    .logo{max-width:380px;width:min(86vw,380px);height:auto;display:block}
 
-    /* ---------- Hero ---------- */
-    .hero { text-align:center; padding: 52px 20px; display:flex; gap:24px; align-items:center; justify-content:center; flex-wrap:wrap; background:linear-gradient(180deg,#ffffff,#f3f6fb); }
-    .hero-left { max-width:560px; flex:1 1 420px; }
-    .hero-right { flex:1 1 380px; display:flex; align-items:center; justify-content:center; }
-    h1 { font-size: 2.4rem; font-weight:700; margin-bottom:12px; letter-spacing: -0.02em; }
-    .hero-sub { color:#475569; font-size:1.05rem; margin-bottom:20px; }
+    /* Section base */
+    section{padding:48px 0}
+    .section-title{text-align:center;font-size:1.6rem;font-weight:700;margin-bottom:12px;color:#0f1724}
+    .lead{text-align:center;color:#475569;margin-bottom:26px;max-width:820px;margin-left:auto;margin-right:auto}
 
-    .hero-cta { display:inline-block; background:#2e2dbd; color:#fff; padding:12px 20px; border-radius:10px; text-decoration:none; font-weight:700; box-shadow: 0 8px 24px rgba(46,45,189,0.12); transition: transform .12s ease; }
-    .hero-cta:hover { transform: translateY(-3px); }
+    /* HERO */
+    .hero{display:flex;gap:24px;align-items:center;justify-content:center;flex-wrap:wrap;background:linear-gradient(180deg,#ffffff,#f3f6fb);padding:56px 20px}
+    .hero-left{max-width:560px;flex:1 1 420px}
+    .hero-right{flex:1 1 380px;display:flex;align-items:center;justify-content:center}
+    h1{font-size:2.4rem;font-weight:700;margin-bottom:12px;letter-spacing:-0.02em}
+    .hero-sub{color:#475569;font-size:1.05rem;margin-bottom:18px}
+    .hero-cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
-    .hero-image { max-width:420px; width:92%; height:auto; border-radius:10px; }
+    /* Image scaling (reduced to 75%) */
+    .scale-75{width:75%;height:auto;display:block}
 
-    /* ---------- Sections ---------- */
-    section { padding:48px 0; }
-    .section-title { text-align:center; font-size:1.6rem; font-weight:700; margin-bottom:18px; color:#0f1724; }
-    .lead { text-align:center; color:#475569; margin-bottom:26px; max-width:820px; margin-left:auto; margin-right:auto; }
+    /* Sections two-col */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+    .feature-list{list-style:none;padding-left:0}
+    .feature-item{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;color:#374151}
+    .feature-item img{width:36px;height:36px;object-fit:contain}
 
-    /* Problem & Features */
-    .two-col { display:grid; grid-template-columns: 1fr 1fr; gap:28px; align-items:center; }
-    .feature-list { list-style:none; padding-left:0; }
-    .feature-item { display:flex; gap:12px; align-items:flex-start; margin-bottom:12px; color:#374151; }
-    .feature-item img { width:36px; height:36px; object-fit:contain; }
+    @media (max-width:880px){.two-col{grid-template-columns:1fr}h1{font-size:1.8rem}}
 
-    @media (max-width:880px) {
-      .two-col { grid-template-columns: 1fr; }
-      h1 { font-size:1.8rem; }
-    }
+    /* Pricing */
+    .pricing{background:#fff;border-radius:12px;padding:28px;box-shadow:0 6px 26px rgba(15,23,42,0.04)}
+    .billing-toggle{display:flex;gap:14px;align-items:center;justify-content:center;margin-bottom:18px}
+    .toggle-label{color:#475569;font-weight:600}
+    .toggle{position:relative;width:56px;height:30px;background:#e6e9f2;border-radius:999px;cursor:pointer;display:inline-block}
+    .toggle-knob{position:absolute;top:3px;left:3px;width:24px;height:24px;background:#fff;border-radius:50%;transition:transform .25s}
+    .toggle.on{background:#2e2dbd}
+    .toggle.on .toggle-knob{transform:translateX(26px)}
 
-    /* ---------- Pricing ---------- */
-    .pricing { background:#fff; border-radius:12px; padding:34px; box-shadow:0 6px 26px rgba(15,23,42,0.04); }
-    .billing-toggle { display:flex; gap:14px; align-items:center; justify-content:center; margin-bottom:18px; }
-    .toggle-label { color:#475569; font-weight:600; }
-    .toggle { position:relative; width:56px; height:30px; background:#e6e9f2; border-radius:999px; cursor:pointer; display:inline-block; }
-    .toggle-knob { position:absolute; top:3px; left:3px; width:24px; height:24px; background:#fff; border-radius:50%; transition: transform .25s ease, background .25s; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
-    .toggle.on { background:#2e2dbd; }
-    .toggle.on .toggle-knob { transform: translateX(26px); background:#fff; }
+    .plans-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+    .plan{background:#f9fafb;border-radius:12px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(2,6,23,0.03);transition:transform .2s,box-shadow .2s}
+    .plan:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(2,6,23,0.06)}
+    .plan-icon{width:64px;height:64px;margin:0 auto 12px}
+    .plan h3{margin-bottom:8px;font-size:1.15rem}
+    .price{font-size:1.6rem;color:#2e2dbd;font-weight:700;margin-bottom:6px}
+    .setup{color:#64748b;margin-bottom:10px}
+    .plan ul{list-style:none;text-align:left;color:#374151;padding-left:0;margin-bottom:12px}
+    .plan li{margin-bottom:8px}
 
-    .plans-grid { display:grid; gap:20px; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); }
-    .plan { background:#f9fafb; border-radius:12px; padding:20px; text-align:center; box-shadow:0 2px 12px rgba(2,6,23,0.03); transition: transform .2s ease, box-shadow .2s; }
-    .plan:hover { transform: translateY(-8px); box-shadow:0 18px 40px rgba(2,6,23,0.06); }
-    .plan .plan-icon { width:64px; height:64px; margin:0 auto 12px; }
-    .plan h3 { margin-bottom:8px; font-size:1.15rem; }
-    .plan .price { font-size:1.6rem; color:#2e2dbd; font-weight:700; margin-bottom:6px; }
-    .plan .setup { color:#64748b; margin-bottom:10px; }
-    .plan ul { list-style:none; text-align:left; color:#374151; padding-left:0; margin-bottom:14px; }
-    .plan li { margin-bottom:8px; }
+    /* Buttons use images */
+    .img-btn{background:none;border:none;padding:0;cursor:pointer;display:inline-block}
+    .img-btn img{display:block;height:auto;max-width:220px}
 
-    .plan .choose { display:inline-block; background:#2e2dbd; color:#fff; padding:10px 16px; border-radius:10px; text-decoration:none; font-weight:600; }
-    .plan .choose.secondary { background:#fff; color:#2e2dbd; border:1px solid #dbe0ff; margin-left:8px; }
+    /* Testimonials: 2 rows of 4 */
+    .testimonials-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:18px}
+    .testimonial{background:#fff;border-radius:12px;padding:16px;box-shadow:0 6px 20px rgba(2,6,23,0.04);display:flex;gap:12px;align-items:flex-start}
+    .testimonial img{width:56px;height:56px;border-radius:50%;object-fit:cover}
+    .testimonial .who{font-weight:700;margin-bottom:6px}
+    .testimonial .quote{color:#374151}
 
-    /* ---------- Testimonials ---------- */
-    .testimonials { display:grid; gap:18px; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); }
-    .testimonial { background:#fff; border-radius:12px; padding:16px; box-shadow:0 6px 20px rgba(2,6,23,0.04); display:flex; gap:12px; align-items:flex-start; }
-    .testimonial img { width:56px; height:56px; border-radius:50%; object-fit:cover; }
-    .testimonial .who { font-weight:700; margin-bottom:6px; }
-    .testimonial .quote { color:#374151; }
+    @media (max-width:980px){.testimonials-grid{grid-template-columns:repeat(2,1fr)}.plans-grid{grid-template-columns:1fr}}
 
-    /* ---------- Future CTA ---------- */
-    .future-cta { display:flex; gap:20px; align-items:center; justify-content:center; margin-top:12px; }
+    /* Dividers & backgrounds */
+    .divider{display:block;margin:28px auto 8px;width:140px;opacity:.7}
+    .alt-bg{background:#fbfdff;padding:36px 0}
 
-    /* ---------- Chatbot (floating) ---------- */
-    .chat-bubble {
-      position:fixed; right:22px; bottom:22px; width:64px; height:64px; border-radius:50%;
-      background:#2e2dbd; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 30px rgba(46,45,189,0.18); cursor:pointer; z-index:1200;
-    }
-    .chat-bubble img { width:36px; height:36px; border-radius:50%; object-fit:cover; background:#fff; padding:6px; }
+    /* Future CTA */
+    .future-cta{display:flex;gap:20px;align-items:center;justify-content:center;margin-top:12px}
 
-    .chat-window {
-      position:fixed; right:22px; bottom:100px; width:360px; max-height:70vh; background:#fff; border-radius:12px; box-shadow:0 18px 60px rgba(2,6,23,0.12); overflow:hidden; display:flex; flex-direction:column; z-index:1200;
-    }
-    .chat-header { padding:12px 14px; display:flex; gap:10px; align-items:center; border-bottom:1px solid #eef2f6; background:#fbfdff; }
-    .chat-header img { width:36px; height:36px; object-fit:cover; border-radius:6px; }
-    .chat-title { font-weight:700; font-size:0.98rem; color:#0f1724; }
-    .chat-sub { font-size:0.85rem; color:#64748b; }
+    /* Chatbot */
+    .chat-bubble{position:fixed;right:22px;bottom:22px;width:64px;height:64px;border-radius:50%;background:#2e2dbd;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(46,45,189,0.18);cursor:pointer;z-index:1200}
+    .chat-bubble img{width:36px;height:36px;border-radius:50%;object-fit:cover;background:#fff;padding:6px}
+    .chat-window{position:fixed;right:22px;bottom:100px;width:380px;max-height:70vh;background:#fff;border-radius:12px;box-shadow:0 18px 60px rgba(2,6,23,0.12);overflow:hidden;display:flex;flex-direction:column;z-index:1200}
+    .chat-header{padding:12px 14px;display:flex;gap:10px;align-items:center;border-bottom:1px solid #eef2f6;background:#fbfdff}
+    .chat-header img{width:36px;height:36px;object-fit:cover;border-radius:6px}
+    .chat-title{font-weight:700;font-size:.98rem;color:#0f1724}
+    .chat-sub{font-size:.85rem;color:#64748b}
+    .chat-body{padding:12px;overflow:auto;flex:1 1 auto;display:flex;flex-direction:column;gap:12px}
+    .bubble{max-width:78%;padding:10px 12px;border-radius:10px}
+    .bubble.bot{background:#f3f4f6;align-self:flex-start;display:flex;gap:8px}
+    .bubble.user{background:#e7eefc;align-self:flex-end}
+    .msg-row{display:flex;gap:8px;align-items:flex-start}
+    .msg-row.bot img{width:36px;height:36px;border-radius:6px;object-fit:cover}
+    .msg-row.user{justify-content:flex-end}
+    .chat-input{display:flex;gap:8px;padding:10px;border-top:1px solid #eef2f6}
+    .chat-input input{flex:1;padding:8px 10px;border-radius:8px;border:1px solid #e6eaf5}
 
-    .chat-body { padding:12px; overflow:auto; flex:1 1 auto; display:flex; flex-direction:column; gap:12px; }
-    .bubble { max-width:78%; padding:10px 12px; border-radius:10px; }
-    .bubble.bot { background:#f3f4f6; align-self:flex-start; display:flex; gap:8px; }
-    .bubble.user { background:#e7eefc; align-self:flex-end; }
-    .msg-row { display:flex; gap:8px; align-items:flex-start; }
-    .msg-row.bot img { width:36px; height:36px; border-radius:6px; object-fit:cover; }
-    .msg-row.user { justify-content:flex-end; }
-    .chat-input { display:flex; gap:8px; padding:10px; border-top:1px solid #eef2f6; }
-    .chat-input input { flex:1; padding:8px 10px; border-radius:8px; border:1px solid #e6eaf5; }
-
-    /* ---------- Footer ---------- */
-    footer { padding:28px 20px; text-align:center; color:#6b7280; font-size:0.95rem; margin-top:28px; }
+    /* Footer */
+    footer{padding:28px 20px;text-align:center;color:#6b7280;font-size:.95rem;margin-top:28px}
   </style>
 </head>
 <body>
@@ -131,65 +118,85 @@
   <main class="hero container" role="main" aria-labelledby="hero-heading">
     <div class="hero-left">
       <h1 id="hero-heading">Your digital clerk</h1>
-      <p class="hero-sub">An affordable AI assistant that answers emails, manages tasks, and works 24/7.</p>
-      <div style="display:flex; gap:12px; justify-content:center;">
-        <a class="hero-cta" href="#pricing">See pricing</a>
-        <a class="hero-cta" href="#pricing" style="background:#fff;color:#2e2dbd;border:1px solid #dbe0ff;font-weight:700">Choose plan</a>
+      <p class="hero-sub">A first-class, always-available AI assistant that thoughtfully answers emails, organizes your schedule, and gives you back time to focus on growth — private, reliable, and built for professionals.</p>
+
+      <div class="hero-cta-row" aria-hidden="false">
+        <!-- Use your button image: Get started now scrolls to pricing -->
+        <button class="img-btn" id="btn-get-started" title="Get started">
+          <img src="button_get_started_today.png" alt="Get started today">
+        </button>
+
+        <a href="#problem" style="display:inline-block">
+          <img src="button_learn_more.png" alt="Learn more" style="height:auto;max-width:220px">
+        </a>
       </div>
     </div>
 
     <div class="hero-right">
-      <img class="hero-image" src="hero_section.png" alt="Digital assistant illustration">
+      <!-- scale to 75% -->
+      <img class="scale-75" src="hero_section.png" alt="Digital assistant illustration">
     </div>
   </main>
 
-  <!-- Problem We Solve -->
-  <section id="problem" class="container">
-    <h2 class="section-title">The problem we solve</h2>
-    <p class="lead">Hiring a human assistant is expensive, often awkward for people who work from home, and many assistants sit idle for large parts of the day. Ideas don't wait for office hours—your digital clerk is available when inspiration strikes.</p>
+  <!-- DIVIDER -->
+  <img class="divider" src="divider_line.png" alt="divider">
 
-    <div class="two-col" style="margin-top:22px;">
+  <!-- PROBLEM -->
+  <section id="problem" class="container alt-bg">
+    <h2 class="section-title">The problem we solve</h2>
+    <p class="lead">Human assistants are expensive, awkward for home offices, and often spend hours idle. You lose time, miss follow-ups, and late-night ideas stall until morning. We built a solution for professionals who need an assistant, not the overhead.</p>
+
+    <div class="two-col" style="margin-top:22px">
       <div>
-        <img src="the_problem_we_solve.png" alt="Problem illustration" style="width:100%; height:auto; border-radius:10px;">
+        <!-- 75% scale -->
+        <img class="scale-75" src="the_problem_we_solve.png" alt="Problem illustration" style="border-radius:10px">
       </div>
+
       <div>
         <ul class="feature-list">
-          <li class="feature-item"><img src="calendar.png" alt=""><div><strong>Privacy-friendly</strong><div>No strangers in your home office — everything handled securely in the cloud.</div></div></li>
-          <li class="feature-item"><img src="email_reply.png" alt=""><div><strong>Always-on</strong><div>Ideas at midnight? Your clerk acts immediately — no waiting until morning.</div></div></li>
-          <li class="feature-item"><img src="reminders.png" alt=""><div><strong>Cost-effective</strong><div>A fraction of the cost of a human assistant but focused on high-value tasks.</div></div></li>
-          <li class="feature-item"><img src="note_taking.png" alt=""><div><strong>No idle time</strong><div>Your digital clerk never sits unproductive — it works only on tasks you prioritize.</div></div></li>
+          <li class="feature-item"><img src="calendar.png" alt="calendar"><div><strong>Respect your privacy</strong><div>No one needs to be in your home office — everything is handled securely in the cloud.</div></div></li>
+          <li class="feature-item"><img src="email_reply.png" alt="email"><div><strong>Always available</strong><div>Your ideas and urgent tasks don't wait for office hours — your clerk is ready immediately.</div></div></li>
+          <li class="feature-item"><img src="reminders.png" alt="reminders"><div><strong>Save money, not time</strong><div>Affordable assistant-level productivity without the salary or the overhead.</div></div></li>
+          <li class="feature-item"><img src="note_taking.png" alt="notes"><div><strong>No idle hours</strong><div>Instead of paying for downtime, you only benefit from continuous productivity.</div></div></li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- What You Get -->
+  <!-- DIVIDER -->
+  <img class="divider" src="divider_line.png" alt="divider">
+
+  <!-- WHAT YOU GET -->
   <section id="features" class="container">
     <h2 class="section-title">What you get</h2>
-    <p class="lead">A practical, secure assistant that handles day-to-day tasks so you can focus on growth.</p>
+    <p class="lead">A practical, secure assistant that takes care of the everyday work — so you can create, sell, and lead. It’s the help you wanted but more private, affordable, and always-on.</p>
 
-    <div class="two-col" style="margin-top:18px;">
+    <div class="two-col" style="margin-top:18px">
       <div>
-        <img src="what_you_get.png" alt="What you get illustration" style="width:100%; height:auto; border-radius:10px;">
+        <img class="scale-75" src="what_you_get.png" alt="What you get illustration" style="border-radius:10px">
       </div>
+
       <div>
         <ul class="feature-list">
-          <li class="feature-item"><img src="email_reply.png" alt=""><div><strong>Answer & draft emails</strong><div>Quick replies, templated messages, or draft-first responses for your review.</div></div></li>
-          <li class="feature-item"><img src="calendar.png" alt=""><div><strong>Calendar & scheduling</strong><div>Book meetings, set reminders, and sync events.</div></div></li>
-          <li class="feature-item"><img src="reminders.png" alt=""><div><strong>Reminders & follow-ups</strong><div>Never miss deadlines or important follow-ups.</div></div></li>
-          <li class="feature-item"><img src="reports.png" alt=""><div><strong>Reports & summaries</strong><div>Turn data and notes into clear, actionable summaries.</div></div></li>
-          <li class="feature-item"><img src="note_taking.png" alt=""><div><strong>Notes & drafts</strong><div>Draft messages, proposals, and short-form content quickly.</div></div></li>
+          <li class="feature-item"><img src="email_reply.png" alt=""><div><strong>Answer & draft emails</strong><div>Clear, professional replies and draft-first workflows so you stay in control.</div></div></li>
+          <li class="feature-item"><img src="calendar.png" alt=""><div><strong>Calendar & scheduling</strong><div>Smart booking, reminders, and conflict-free calendars.</div></div></li>
+          <li class="feature-item"><img src="reminders.png" alt=""><div><strong>Follow-ups & reminders</strong><div>Automated nudges so nothing slips through the cracks.</div></div></li>
+          <li class="feature-item"><img src="reports.png" alt=""><div><strong>Reports & summaries</strong><div>Quickly turn activity and notes into concise, actionable summaries.</div></div></li>
+          <li class="feature-item"><img src="note_taking.png" alt=""><div><strong>Notes & drafts</strong><div>From social posts to client letters — draft-ready content that sounds like you.</div></div></li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- PRICING -->
-  <section id="pricing" class="container" style="padding-top:22px;">
-    <h2 class="section-title">Choose your plan</h2>
-    <p class="lead">Pick a plan that fits your needs. You pay a one-time setup fee (we personalize your clerk) and a monthly or yearly subscription.</p>
+  <!-- DIVIDER -->
+  <img class="divider" src="divider_line.png" alt="divider">
 
-    <div class="pricing" style="margin-top:18px;">
+  <!-- PRICING -->
+  <section id="pricing" class="container alt-bg" style="padding-top:22px">
+    <h2 class="section-title">Pick a plan that fits your needs</h2>
+    <p class="lead">Choose a one-time setup (we personalize your clerk) and an ongoing subscription. Start with the essentials and upgrade as your business grows.</p>
+
+    <div class="pricing" style="margin-top:18px">
       <div class="billing-toggle">
         <span class="toggle-label">Monthly</span>
         <div id="billingToggle" class="toggle" role="switch" aria-checked="false" tabindex="0" title="Toggle billing period">
@@ -198,7 +205,7 @@
         <span class="toggle-label">Yearly (save ~15%)</span>
       </div>
 
-      <div class="plans-grid">
+      <div class="plans-grid" role="list">
         <!-- STARTER -->
         <div class="plan" aria-labelledby="starter-title">
           <img class="plan-icon" src="icon_starter.png" alt="Starter">
@@ -207,12 +214,11 @@
           <div class="setup">+ $99 one-time setup</div>
           <ul>
             <li>Choose up to 3 core functions</li>
-            <li>Answer routine emails</li>
-            <li>Reminders & quick drafts</li>
+            <li>Answer routine emails, reminders, quick drafts</li>
           </ul>
-          <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
-            <button id="starter-monthly-btn" class="choose">Choose Monthly</button>
-            <button id="starter-yearly-btn" class="choose">Choose Yearly</button>
+          <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
+            <button class="img-btn" id="starter-monthly-btn"><img src="button_choose_monthly_starter.png" alt="Choose Starter Monthly"></button>
+            <button class="img-btn" id="starter-yearly-btn"><img src="button_choose_yearly_starter.png" alt="Choose Starter Yearly"></button>
           </div>
         </div>
 
@@ -224,12 +230,11 @@
           <div class="setup">+ $199 one-time setup</div>
           <ul>
             <li>Choose up to 5 functions</li>
-            <li>Email replies, calendar, basic reports</li>
-            <li>Automated follow-ups</li>
+            <li>Email replies, calendar, follow-ups, light reports</li>
           </ul>
-          <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
-            <button id="growth-monthly-btn" class="choose">Choose Monthly</button>
-            <button id="growth-yearly-btn" class="choose">Choose Yearly</button>
+          <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
+            <button class="img-btn" id="growth-monthly-btn"><img src="button_choose_monthly_growth.png" alt="Choose Growth Monthly"></button>
+            <button class="img-btn" id="growth-yearly-btn"><img src="button_choose_yearly_growth.png" alt="Choose Growth Yearly"></button>
           </div>
         </div>
 
@@ -241,12 +246,11 @@
           <div class="setup">+ $299 one-time setup</div>
           <ul>
             <li>Choose up to 8 functions</li>
-            <li>Advanced email handling & reports</li>
-            <li>Meeting prep & smart alerts</li>
+            <li>Advanced email, reporting, meeting prep</li>
           </ul>
-          <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
-            <button id="pro-monthly-btn" class="choose">Choose Monthly</button>
-            <button id="pro-yearly-btn" class="choose">Choose Yearly</button>
+          <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
+            <button class="img-btn" id="pro-monthly-btn"><img src="button_choose_monthly_pro.png" alt="Choose Pro Monthly"></button>
+            <button class="img-btn" id="pro-yearly-btn"><img src="button_choose_yearly_pro.png" alt="Choose Pro Yearly"></button>
           </div>
         </div>
 
@@ -258,75 +262,83 @@
           <div class="setup">+ $499 one-time setup</div>
           <ul>
             <li>Choose up to 10 functions</li>
-            <li>Full inbox triage, advanced workflows</li>
-            <li>Executive-level reports & content</li>
+            <li>Full inbox triage, workflows, executive-level support</li>
           </ul>
-          <div style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap;">
-            <button id="exec-monthly-btn" class="choose">Choose Monthly</button>
-            <button id="exec-yearly-btn" class="choose">Choose Yearly</button>
+          <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
+            <button class="img-btn" id="exec-monthly-btn"><img src="button_choose_monthly_executive.png" alt="Choose Executive Monthly"></button>
+            <button class="img-btn" id="exec-yearly-btn"><img src="button_choose_yearly_executive.png" alt="Choose Executive Yearly"></button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section id="testimonials" class="container">
-    <h2 class="section-title">What customers say</h2>
-    <p class="lead">Hundreds of customers have reclaimed hours each week with their digital clerk.</p>
+  <!-- DIVIDER -->
+  <img class="divider" src="divider_line.png" alt="divider">
 
-    <div class="testimonials" style="margin-top:18px;">
-      <div class="testimonial"><img src="testimonial_avatar1.png" alt="Testimonial 1"><div><div class="who">Laura G.</div><div class="quote">I never thought I’d have an assistant — now I can't imagine running my week without mine.</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar2.png" alt="Testimonial 2"><div><div class="who">Daniel M.</div><div class="quote">My inbox is finally under control — and I get more done.</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar3.png" alt="Testimonial 3"><div><div class="who">Sofia R.</div><div class="quote">Saved me 8 hours a week. Simple, private, and reliable.</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar4.png" alt="Testimonial 4"><div><div class="who">Miguel T.</div><div class="quote">Affordable and practical — the setup was quick and painless.</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar5.png" alt="Testimonial 5"><div><div class="who">Anita P.</div><div class="quote">It helps me follow up with leads automatically. My pipeline is healthier already.</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar6.png" alt="Testimonial 6"><div><div class="who">Jose L.</div><div class="quote">No awkward in-home hires, no drama — just work getting done.</div></div></div>
+  <!-- TESTIMONIALS: 2 rows of 4 -->
+  <section id="testimonials" class="container">
+    <h2 class="section-title">Hundreds of customers have reclaimed hours each week</h2>
+    <p class="lead">Real people, real time saved — these are a few stories from customers who discovered the power of a digital clerk.</p>
+
+    <div class="testimonials-grid" style="margin-top:18px">
+      <div class="testimonial"><img src="testimonial_avatar1.png" alt=""><div><div class="who">Laura G.</div><div class="quote">“I never imagined having an assistant would be this simple. My digital clerk organizes my week and handles messages so I can focus on clients.”</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar2.png" alt=""><div><div class="who">Daniel M.</div><div class="quote">“Inbox zero is now real for me — and it only costs a fraction of hiring help. The setup was fast and professional.”</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar3.png" alt=""><div><div class="who">Sofia R.</div><div class="quote">“Saved me 8 hours a week. The clerk captures ideas at all hours — no more lost opportunities.”</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar4.png" alt=""><div><div class="who">Miguel T.</div><div class="quote">“As a realtor, timing matters. Follow-ups are automatic now and my leads are warmer than ever.”</div></div></div>
+
+      <div class="testimonial"><img src="testimonial_avatar5.png" alt=""><div><div class="who">Anita P.</div><div class="quote">“We scaled our outreach without extra hires. The clerk drafts messages and tracks replies — it pays for itself.”</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar6.png" alt=""><div><div class="who">Jose L.</div><div class="quote">“No awkward in-home hires. Just discreet, reliable help that respects my privacy.”</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar7.png" alt=""><div><div class="who">Kevin S.</div><div class="quote">“The executive-level summaries are incredible — I make smarter decisions faster.”</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar8.png" alt=""><div><div class="who">Maya L.</div><div class="quote">“From drafting proposals to scheduling calls, the clerk handles the busywork so we can close deals.”</div></div></div>
     </div>
   </section>
 
+  <!-- DIVIDER -->
+  <img class="divider" src="divider_line.png" alt="divider">
+
   <!-- FUTURE -->
-  <section id="future" class="container">
+  <section id="future" class="container alt-bg">
     <h2 class="section-title">The future is now</h2>
-    <p class="lead">In five years, AI clerks will be as common as email. Starting now gives you a competitive edge.</p>
-    <div style="display:flex; gap:18px; align-items:center; justify-content:center; flex-wrap:wrap; margin-top:18px;">
-      <img src="future_is_now.png" alt="Future illustration" style="width:320px; max-width:92%; height:auto; border-radius:10px;">
-      <div style="max-width:420px; color:#475569;">Start today and be the business that wins more time, responds faster, and closes more opportunities. Our setup gets you ready on day one.</div>
+    <p class="lead">In five years, AI clerks will be as common as email. Start today and gain the advantage — respond faster, operate smarter, and win more opportunities.</p>
+
+    <div style="display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:18px">
+      <img class="scale-75" src="future_is_now.png" alt="Future illustration" style="border-radius:10px;max-width:420px">
+      <div style="max-width:460px;color:#475569">Start today and be the business that wins more time and closes more opportunities. Our onboarding configures your clerk so it's ready to work on day one — no fuss, just results.</div>
     </div>
-    <div class="future-cta" style="margin-top:18px;">
-      <a href="#pricing" class="hero-cta">Join them now</a>
+
+    <div class="future-cta" style="margin-top:18px">
+      <a href="#pricing"><img src="button_join_them_now.png" alt="Join them now" style="max-width:220px"></a>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <img src="divider_line.png" alt="" style="width:120px; opacity:.6; margin-bottom:12px;">
-    <div style="margin-bottom:14px;">
-      <a href="#pricing" style="margin-right:12px; color:#2e2dbd; text-decoration:none; font-weight:600;">Pricing</a>
-      <a href="#" style="margin-right:12px; color:#64748b; text-decoration:none;">Privacy Policy</a>
-      <a href="#" style="color:#64748b; text-decoration:none;">Terms of Service</a>
+    <img src="divider_line.png" alt="" style="width:120px;opacity:.6;margin-bottom:12px">
+    <div style="margin-bottom:14px">
+      <a href="#pricing" style="margin-right:12px;color:#2e2dbd;text-decoration:none;font-weight:600">Pricing</a>
+      <a href="#" style="margin-right:12px;color:#64748b;text-decoration:none"><img src="button_privacy_policy.png" alt="Privacy" style="height:20px;vertical-align:middle"></a>
+      <a href="#" style="color:#64748b;text-decoration:none"><img src="button_terms_of_service.png" alt="Terms" style="height:20px;vertical-align:middle"></a>
     </div>
     <div>&copy; <span id="year"></span> asistant.pro — All rights reserved.</div>
   </footer>
 
-  <!-- CHATBOT: Floating Bubble + Window (scripted Q&A) -->
-  <div id="chatBubble" class="chat-bubble" title="Ask about your digital clerk" aria-hidden="false">
+  <!-- CHATBOT -->
+  <div id="chatBubble" class="chat-bubble" title="Ask about your digital clerk">
     <img src="asistant_pro_favicon.png" alt="chat">
   </div>
 
-  <div id="chatWindow" class="chat-window" style="display:none;">
+  <div id="chatWindow" class="chat-window" style="display:none">
     <div class="chat-header">
-      <img src="asistant_pro_logo.png" alt="logo" style="width:44px;height:44px;object-fit:contain;">
+      <img src="asistant_pro_logo.png" alt="logo">
       <div>
         <div class="chat-title">asistant.pro Clerk</div>
         <div class="chat-sub">Ask me anything about your digital clerk</div>
       </div>
-      <div style="margin-left:auto;">
-        <button id="closeChat" style="background:none;border:none;cursor:pointer;font-weight:700;color:#64748b">×</button>
-      </div>
+      <div style="margin-left:auto"><button id="closeChat" style="background:none;border:none;cursor:pointer;font-weight:700;color:#64748b">×</button></div>
     </div>
+
     <div id="chatBody" class="chat-body" role="log" aria-live="polite">
-      <!-- chat messages inserted here -->
       <div class="msg-row bot">
         <img src="chatbot_avatar.png" alt="bot">
         <div class="bubble bot"><strong>Hello — I am your digital clerk assistant. Ask me about pricing, setup, or features.</strong></div>
@@ -339,19 +351,14 @@
     </div>
   </div>
 
-  <!-- Stripe JS -->
+  <!-- Stripe -->
   <script src="https://js.stripe.com/v3/"></script>
 
   <script>
-    /*************************************************************************
-     *  NOTE:
-     *  - Replace 'pk_test_replace_with_your_publishable_key' with your Stripe
-     *    publishable key (test or live). Do NOT expose your secret key here.
-     *  - Replace successUrl/cancelUrl with your GitHub Pages hosted pages.
-     *************************************************************************/
-    const stripe = Stripe("pk_live_51S6Iwe6W7xl7S1m11FkI51ucL0G5pdnpFqV4JPWB2Bxcuyrn6XH3hhQI5wjEhEdLXVCB7BZeZ6eTZ6TUawFKnGhy00Hdble84x"); // <- REPLACE
+    // ========== Stripe publishable key ==========
+    const stripe = Stripe("pk_live_51S6Iwe6W7xl7S1m11FkI51ucL0G5pdnpFqV4JPWB2Bxcuyrn6XH3hhQI5wjEhEdLXVCB7BZeZ6eTZ6TUawFKnGhy00Hdble84x");
 
-    // Price IDs (exact ones you provided)
+    // Price mapping (your provided IDs)
     const PRICES = {
       starter: { monthly: "price_1S6YSn6W7xl7S1m134J6CbAa", yearly: "price_1S6YcT6W7xl7S1m1KF3bb8aj", setup: "price_1S6Yl66W7xl7S1m1uGLV8bwt" },
       growth:  { monthly: "price_1S6YzH6W7xl7S1m1mQnJZ8Zn", yearly: "price_1S6Yzp6W7xl7S1m1kOjupC60", setup: "price_1S6Z1m6W7xl7S1m1XEzgBjBq" },
@@ -359,78 +366,56 @@
       exec:    { monthly: "price_1S6ZJp6W7xl7S1m1eu0vZgNw", yearly: "price_1S6ZKz6W7xl7S1m1cSowtVzW", setup: "price_1S6ZMk6W7xl7S1m1APGQJaom" }
     };
 
-    // Replace these with your repo's success/cancel pages when ready
-    const successUrl = window.location.origin + "/success.html"; // replace if needed
-    const cancelUrl = window.location.origin + "/cancel.html";   // replace if needed
+    // success and cancel (update if you host pages at different paths)
+    const successUrl = window.location.origin + "/success.html";
+    const cancelUrl = window.location.origin + "/cancel.html";
 
-    // Generic function to start checkout with multiple line items
-    function startCheckout(lineItems) {
+    function startCheckout(lineItems){
       stripe.redirectToCheckout({
         lineItems: lineItems,
         mode: 'subscription',
         successUrl: successUrl,
         cancelUrl: cancelUrl
-      }).then(function(result) {
-        if (result.error) {
-          alert(result.error.message || "Checkout error");
-        }
+      }).then(function(result){
+        if(result.error) alert(result.error.message || "Checkout error");
       });
     }
 
-    // Hook up plan buttons (monthly + yearly, each includes setup fee)
-    document.getElementById('starter-monthly-btn').addEventListener('click', function() {
-      startCheckout([
-        { price: PRICES.starter.monthly, quantity: 1 },
-        { price: PRICES.starter.setup, quantity: 1 }
-      ]);
+    // Hook buttons (image buttons)
+    document.getElementById("starter-monthly-btn").addEventListener("click", ()=> {
+      startCheckout([{ price: PRICES.starter.monthly, quantity: 1 }, { price: PRICES.starter.setup, quantity: 1 }]);
     });
-    document.getElementById('starter-yearly-btn').addEventListener('click', function() {
-      startCheckout([
-        { price: PRICES.starter.yearly, quantity: 1 },
-        { price: PRICES.starter.setup, quantity: 1 }
-      ]);
+    document.getElementById("starter-yearly-btn").addEventListener("click", ()=> {
+      startCheckout([{ price: PRICES.starter.yearly, quantity: 1 }, { price: PRICES.starter.setup, quantity: 1 }]);
     });
 
-    document.getElementById('growth-monthly-btn').addEventListener('click', function() {
-      startCheckout([
-        { price: PRICES.growth.monthly, quantity: 1 },
-        { price: PRICES.growth.setup, quantity: 1 }
-      ]);
+    document.getElementById("growth-monthly-btn").addEventListener("click", ()=> {
+      startCheckout([{ price: PRICES.growth.monthly, quantity: 1 }, { price: PRICES.growth.setup, quantity: 1 }]);
     });
-    document.getElementById('growth-yearly-btn').addEventListener('click', function() {
-      startCheckout([
-        { price: PRICES.growth.yearly, quantity: 1 },
-        { price: PRICES.growth.setup, quantity: 1 }
-      ]);
+    document.getElementById("growth-yearly-btn").addEventListener("click", ()=> {
+      startCheckout([{ price: PRICES.growth.yearly, quantity: 1 }, { price: PRICES.growth.setup, quantity: 1 }]);
     });
 
-    document.getElementById('pro-monthly-btn').addEventListener('click', function() {
-      startCheckout([
-        { price: PRICES.pro.monthly, quantity: 1 },
-        { price: PRICES.pro.setup, quantity: 1 }
-      ]);
+    document.getElementById("pro-monthly-btn").addEventListener("click", ()=> {
+      startCheckout([{ price: PRICES.pro.monthly, quantity: 1 }, { price: PRICES.pro.setup, quantity: 1 }]);
     });
-    document.getElementById('pro-yearly-btn').addEventListener('click', function() {
-      startCheckout([
-        { price: PRICES.pro.yearly, quantity: 1 },
-        { price: PRICES.pro.setup, quantity: 1 }
-      ]);
+    document.getElementById("pro-yearly-btn").addEventListener("click", ()=> {
+      startCheckout([{ price: PRICES.pro.yearly, quantity: 1 }, { price: PRICES.pro.setup, quantity: 1 }]);
     });
 
-    document.getElementById('exec-monthly-btn').addEventListener('click', function() {
-      startCheckout([
-        { price: PRICES.exec.monthly, quantity: 1 },
-        { price: PRICES.exec.setup, quantity: 1 }
-      ]);
+    document.getElementById("exec-monthly-btn").addEventListener("click", ()=> {
+      startCheckout([{ price: PRICES.exec.monthly, quantity: 1 }, { price: PRICES.exec.setup, quantity: 1 }]);
     });
-    document.getElementById('exec-yearly-btn').addEventListener('click', function() {
-      startCheckout([
-        { price: PRICES.exec.yearly, quantity: 1 },
-        { price: PRICES.exec.setup, quantity: 1 }
-      ]);
+    document.getElementById("exec-yearly-btn").addEventListener("click", ()=> {
+      startCheckout([{ price: PRICES.exec.yearly, quantity: 1 }, { price: PRICES.exec.setup, quantity: 1 }]);
     });
 
-    // ---------- Billing toggle (Monthly / Yearly) ----------
+    // hero CTA scroll
+    document.getElementById("btn-get-started").addEventListener("click", ()=> {
+      document.getElementById("pricing").scrollIntoView({ behavior: "smooth" });
+    });
+
+    // Billing toggle logic
     const billingToggle = document.getElementById('billingToggle');
     const priceEls = [
       { el: document.getElementById('starter-price'), key: 'starter' },
@@ -439,23 +424,22 @@
       { el: document.getElementById('exec-price'), key: 'exec' }
     ];
     let yearly = false;
-    function updatePrices() {
+    function updatePrices(){
       priceEls.forEach(p => {
-        const el = p.el;
-        el.textContent = yearly ? el.dataset.yearly : el.dataset.monthly;
+        p.el.textContent = yearly ? p.el.dataset.yearly : p.el.dataset.monthly;
       });
     }
-    billingToggle.addEventListener('click', function() {
+    billingToggle.addEventListener('click', ()=> {
       yearly = !yearly;
       billingToggle.classList.toggle('on', yearly);
       billingToggle.setAttribute('aria-checked', yearly ? 'true' : 'false');
       updatePrices();
     });
 
-    // Set initial year
+    // set year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ---------- Chatbot (scripted) ----------
+    // ========== Chatbot scripted Q&A ==========
     const chatBubble = document.getElementById('chatBubble');
     const chatWindow = document.getElementById('chatWindow');
     const chatBody = document.getElementById('chatBody');
@@ -463,52 +447,50 @@
     const chatSend = document.getElementById('chatSend');
     const closeChat = document.getElementById('closeChat');
 
-    chatBubble.addEventListener('click', () => {
+    chatBubble.addEventListener('click', ()=> {
       chatBubble.style.display = 'none';
       chatWindow.style.display = 'flex';
       chatBody.scrollTop = chatBody.scrollHeight;
       chatInput.focus();
     });
-    closeChat.addEventListener('click', () => {
+    closeChat.addEventListener('click', ()=> {
       chatWindow.style.display = 'none';
       chatBubble.style.display = 'flex';
     });
 
-    // scripted Q&A map (keywords -> response)
     const FAQ = [
-      { q: "what is asistant.pro", a: "asistant.pro gives you a digital clerk: an AI assistant that manages tasks like answering emails, scheduling, reminders, notes, and reports. It is private, affordable, and available 24/7." },
-      { q: "how does it work", a: "Pick a plan and complete payment with Stripe. After payment you'll reach a setup page where you name your clerk and choose the functions you want. We configure your clerk and it starts working." },
-      { q: "what tasks can the clerk do", a: "Depending on plan, your clerk can reply to routine emails, manage calendar events, send reminders, draft notes, summarize documents, track tasks, handle follow-ups, and more." },
-      { q: "how much does it cost", a: "We offer Starter ($29/mo + $99 setup), Growth ($59/mo + $199 setup), Pro ($119/mo + $299 setup), and Executive ($249/mo + $499 setup). You pay the setup once and then the subscription." },
-      { q: "why is there a setup fee", a: "The setup fee covers the personalized configuration of your clerk: connecting systems, presets, and enabling the functions you selected." },
-      { q: "do i get a free trial", a: "We do not offer a free trial. We focus on delivering a configured, ready-to-work clerk immediately after purchase." },
-      { q: "can i name my clerk", a: "Yes. During setup you'll choose a name for your clerk." },
-      { q: "how is this better than hiring a human assistant", a: "Your clerk is available 24/7, never idle, respects privacy, and is far more cost effective than a full-time human assistant." },
-      { q: "is my data safe", a: "We use secure industry-standard protections. Payment is handled by Stripe, and customer data is treated privately and securely." },
-      { q: "what happens after i pay", a: "Stripe redirects you to a setup page. There you provide details, name your clerk, and select functions. We receive that info and finalize your clerk setup." },
-      { q: "can the clerk answer at midnight", a: "Yes — the clerk is available 24/7." },
-      { q: "do i need technical skills", a: "No. If you can send an email, you can use your clerk." },
-      { q: "what if i outgrow my plan", a: "You can upgrade at any time to unlock more functions and capacity." },
-      { q: "how do i get started", a: "Scroll to pricing, choose your plan, and proceed with the Stripe checkout." }
+      { q: "what is asistant.pro", a: "asistant.pro provides a first-class digital clerk — an AI assistant that handles emails, scheduling, reminders, notes, and reports. It gives professionals reliable assistant-level support without the full time cost." },
+      { q: "how does it work", a: "Choose a plan, complete secure payment via Stripe, and you will be redirected to a setup page where you name your clerk and pick the functions you want. We configure it and your clerk starts working." },
+      { q: "what tasks can the clerk do", a: "From drafting and answering emails to scheduling, reminders, summaries, follow-ups, and light report prep — the exact functions depend on your chosen plan." },
+      { q: "how much does it cost", a: "Starter: $29/mo + $99 setup (3 functions). Growth: $59/mo + $199 setup (5 functions). Pro: $119/mo + $299 setup (8 functions). Executive: $249/mo + $499 setup (10 functions)." },
+      { q: "why is there a setup fee", a: "Setup covers the personalized configuration, initial preferences, and any integrations required to get your clerk productive right away." },
+      { q: "do i get a free trial", a: "We do not provide a free trial — instead we configure a ready-to-use clerk immediately so you can start benefiting from day one." },
+      { q: "can i name my clerk", a: "Yes — you choose the clerk's name during setup." },
+      { q: "how is this better than hiring a human assistant", a: "Your clerk is available 24/7, doesn't sit idle, respects privacy, and costs a fraction of hiring full-time help." },
+      { q: "is my data safe", a: "Payment is handled by Stripe and customer data is managed securely. We take privacy seriously." },
+      { q: "what happens after i pay", a: "Stripe redirects you to a setup page: you provide details, name the clerk, and select functions. We receive that information and finalize the configuration." },
+      { q: "can the clerk answer at midnight", a: "Yes. The clerk runs 24/7 and will capture ideas whenever they appear." },
+      { q: "do i need technical skills", a: "No. The setup form is straightforward and your clerk will be ready without technical complexity." },
+      { q: "what if i outgrow my plan", a: "You can upgrade anytime to unlock more functions and capacity." },
+      { q: "how do i get started", a: "Scroll to pricing, choose a plan, and proceed with Stripe checkout. After payment, complete the setup form so we can personalize your clerk." }
     ];
 
-    // fun responses and fallbacks (no emoji)
     const FUN = {
-      greeting: "Hello. I'm your future digital clerk. I'm here to answer questions about the product and onboarding.",
+      greeting: "Hello. I'm your future digital clerk. Ask me anything about plans, setup, or features.",
       identity: "I was built by the team at asistant.pro to help professionals get their first affordable assistant.",
       humanQuestion: "I am not a human — I am a digital clerk designed to help with tasks and information about asistant.pro.",
       joke: "Why did the busy entrepreneur try a digital clerk? Because the to-do list kept growing faster than time.",
-      fallback: "I can answer questions about asistant.pro: plans, setup, features, and what happens after purchase. What would you like to know?"
+      fallback: "I can answer questions about asistant.pro: plans, setup, features, and what happens after payment. What would you like to know?"
     };
 
-    function appendBot(text) {
+    function appendBot(text){
       const row = document.createElement('div');
       row.className = 'msg-row bot';
       row.innerHTML = '<img src="chatbot_avatar.png" alt="bot"><div class="bubble bot">' + text + '</div>';
       chatBody.appendChild(row);
       chatBody.scrollTop = chatBody.scrollHeight;
     }
-    function appendUser(text) {
+    function appendUser(text){
       const row = document.createElement('div');
       row.className = 'msg-row user';
       row.innerHTML = '<div class="bubble user">' + text + '</div>';
@@ -516,52 +498,30 @@
       chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    function findFAQMatch(text) {
+    function findFAQMatch(text){
       const t = text.toLowerCase().trim();
-      // direct exact matches for some short queries
-      for (let f of FAQ) {
-        if (t === f.q.toLowerCase()) return f.a;
-      }
-      // keyword based checks (a few examples)
-      if (/\bprice|cost|how much|plans?\b/.test(t)) return FAQ.find(x=>x.q.includes("how much")).a;
-      if (/\btrial\b/.test(t)) return FAQ.find(x=>x.q.includes("do i get a free trial")).a;
-      if (/\bname\b|\bname the clerk\b/.test(t)) return "Yes — you'll be able to name your clerk on the setup page after purchase.";
-      if (/\bsetup fee|setup\b/.test(t)) return FAQ.find(x=>x.q.includes("why is there a setup fee")).a;
-      if (/\bemail\b|\binbox\b|\breply\b/.test(t)) return "The clerk can draft and reply to routine emails depending on your chosen plan. Pro and Executive plans include more advanced inbox management.";
-      if (/\bhow does it work|how it work\b/.test(t)) return FAQ.find(x=>x.q.includes("how does it work")).a;
-      if (/\bhello|hi|hey\b/.test(t)) return FUN.greeting;
-      if (/\bwho built you\b/.test(t)) return FUN.identity;
-      if (/\bare you a real person\b/.test(t)) return FUN.humanQuestion;
-      if (/\bjoke\b/.test(t)) return FUN.joke;
-      // fallback to a general reply
+      for(let f of FAQ){ if(t === f.q.toLowerCase()) return f.a; }
+      if(/\bprice|cost|how much|plans?\b/.test(t)) return FAQ.find(x=>x.q.includes("how much")).a;
+      if(/\btrial\b/.test(t)) return FAQ.find(x=>x.q.includes("do i get a free trial")).a;
+      if(/\bname\b|\bname the clerk\b/.test(t)) return "Yes — you'll be able to name your clerk on the setup page after purchase.";
+      if(/\bsetup fee|setup\b/.test(t)) return FAQ.find(x=>x.q.includes("why is there a setup fee")).a;
+      if(/\bemail\b|\binbox\b|\breply\b/.test(t)) return "The clerk can draft and reply to routine emails depending on your chosen plan. Pro and Executive include advanced inbox handling.";
+      if(/\bhow does it work|how it work\b/.test(t)) return FAQ.find(x=>x.q.includes("how does it work")).a;
+      if(/\bhello|hi|hey\b/.test(t)) return FUN.greeting;
+      if(/\bwho built you\b/.test(t)) return FUN.identity;
+      if(/\bare you a real person\b/.test(t)) return FUN.humanQuestion;
+      if(/\bjoke\b/.test(t)) return FUN.joke;
       return FUN.fallback;
     }
 
-    chatSend.addEventListener('click', () => {
-      const text = chatInput.value.trim();
-      if (!text) return;
-      appendUser(text);
-      chatInput.value = '';
-      setTimeout(() => {
-        const answer = findFAQMatch(text);
-        appendBot(answer);
-      }, 350);
+    chatSend.addEventListener('click', ()=>{
+      const text = chatInput.value.trim(); if(!text) return;
+      appendUser(text); chatInput.value='';
+      setTimeout(()=>{ const answer = findFAQMatch(text); appendBot(answer); },350);
     });
+    chatInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter') chatSend.click(); });
 
-    chatInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') chatSend.click();
-    });
-
-    // Make chat window scrollable and focusable
-    chatBody.addEventListener('scroll', () => { /* no-op placeholder for any future logic */ });
-
-    // initial accessibility focus
-    document.addEventListener('keydown', (e) => {
-      if (e.key === '/' && document.activeElement !== chatInput) {
-        e.preventDefault();
-        chatBubble.click();
-      }
-    });
+    document.addEventListener('keydown',(e)=>{ if(e.key==='/' && document.activeElement !== chatInput){ e.preventDefault(); chatBubble.click(); }});
   </script>
 </body>
 </html>
