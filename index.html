@@ -33,7 +33,7 @@
     .hero-right{flex:1 1 380px;display:flex;align-items:center;justify-content:center}
     h1{font-size:2.4rem;font-weight:700;margin-bottom:12px;letter-spacing:-0.02em}
     .hero-sub{color:#475569;font-size:1.05rem;margin-bottom:18px}
-    .hero-cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .hero-cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center}
 
     /* Image scaling (reduced to 75%) */
     .scale-75{width:75%;height:auto;display:block}
@@ -68,6 +68,10 @@
     /* Buttons use images */
     .img-btn{background:none;border:none;padding:0;cursor:pointer;display:inline-block}
     .img-btn img{display:block;height:auto;max-width:220px}
+    
+    /* Pricing buttons reduced to 60% */
+    .pricing-btn{background:none;border:none;padding:0;cursor:pointer;display:inline-block}
+    .pricing-btn img{display:block;height:auto;max-width:132px} /* 60% of 220px */
 
     /* Testimonials: 2 rows of 4 */
     .testimonials-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:18px}
@@ -84,6 +88,9 @@
 
     /* Future CTA */
     .future-cta{display:flex;gap:20px;align-items:center;justify-content:center;margin-top:12px}
+
+    /* Footer buttons - all same size at 40px height */
+    .footer-btn{height:40px;vertical-align:middle}
 
     /* Chatbot */
     .chat-bubble{position:fixed;right:22px;bottom:22px;width:64px;height:64px;border-radius:50%;background:#2e2dbd;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(46,45,189,0.18);cursor:pointer;z-index:1200}
@@ -121,13 +128,13 @@
       <p class="hero-sub">A first-class, always-available AI assistant that thoughtfully answers emails, organizes your schedule, and gives you back time to focus on growth — private, reliable, and built for professionals.</p>
 
       <div class="hero-cta-row" aria-hidden="false">
-        <!-- Use your button image: Get started now scrolls to pricing -->
+        <!-- Aligned buttons at same horizontal level -->
         <button class="img-btn" id="btn-get-started" title="Get started">
-          <img src="button_get_started_today.png" alt="Get started today">
+          <img src="button_get_started_today.png" alt="Get started today" style="max-width:220px">
         </button>
 
         <a href="#problem" style="display:inline-block">
-          <img src="button_learn_more.png" alt="Learn more" style="height:auto;max-width:220px">
+          <img src="button_learn_more.png" alt="Learn more" style="max-width:220px">
         </a>
       </div>
     </div>
@@ -169,7 +176,7 @@
   <!-- WHAT YOU GET -->
   <section id="features" class="container">
     <h2 class="section-title">What you get</h2>
-    <p class="lead">A practical, secure assistant that takes care of the everyday work — so you can create, sell, and lead. It’s the help you wanted but more private, affordable, and always-on.</p>
+    <p class="lead">A practical, secure assistant that takes care of the everyday work — so you can create, sell, and lead. It's the help you wanted but more private, affordable, and always-on.</p>
 
     <div class="two-col" style="margin-top:18px">
       <div>
@@ -217,8 +224,8 @@
             <li>Answer routine emails, reminders, quick drafts</li>
           </ul>
           <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
-            <button class="img-btn" id="starter-monthly-btn"><img src="button_choose_monthly_starter.png" alt="Choose Starter Monthly"></button>
-            <button class="img-btn" id="starter-yearly-btn"><img src="button_choose_yearly_starter.png" alt="Choose Starter Yearly"></button>
+            <button class="pricing-btn" id="starter-monthly-btn"><img src="button_choose_monthly_starter.png" alt="Choose Starter Monthly"></button>
+            <button class="pricing-btn" id="starter-yearly-btn"><img src="button_choose_yearly_starter.png" alt="Choose Starter Yearly"></button>
           </div>
         </div>
 
@@ -233,8 +240,8 @@
             <li>Email replies, calendar, follow-ups, light reports</li>
           </ul>
           <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
-            <button class="img-btn" id="growth-monthly-btn"><img src="button_choose_monthly_growth.png" alt="Choose Growth Monthly"></button>
-            <button class="img-btn" id="growth-yearly-btn"><img src="button_choose_yearly_growth.png" alt="Choose Growth Yearly"></button>
+            <button class="pricing-btn" id="growth-monthly-btn"><img src="button_choose_monthly_growth.png" alt="Choose Growth Monthly"></button>
+            <button class="pricing-btn" id="growth-yearly-btn"><img src="button_choose_yearly_growth.png" alt="Choose Growth Yearly"></button>
           </div>
         </div>
 
@@ -249,8 +256,8 @@
             <li>Advanced email, reporting, meeting prep</li>
           </ul>
           <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
-            <button class="img-btn" id="pro-monthly-btn"><img src="button_choose_monthly_pro.png" alt="Choose Pro Monthly"></button>
-            <button class="img-btn" id="pro-yearly-btn"><img src="button_choose_yearly_pro.png" alt="Choose Pro Yearly"></button>
+            <button class="pricing-btn" id="pro-monthly-btn"><img src="button_choose_monthly_pro.png" alt="Choose Pro Monthly"></button>
+            <button class="pricing-btn" id="pro-yearly-btn"><img src="button_choose_yearly_pro.png" alt="Choose Pro Yearly"></button>
           </div>
         </div>
 
@@ -265,8 +272,8 @@
             <li>Full inbox triage, workflows, executive-level support</li>
           </ul>
           <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
-            <button class="img-btn" id="exec-monthly-btn"><img src="button_choose_monthly_executive.png" alt="Choose Executive Monthly"></button>
-            <button class="img-btn" id="exec-yearly-btn"><img src="button_choose_yearly_executive.png" alt="Choose Executive Yearly"></button>
+            <button class="pricing-btn" id="exec-monthly-btn"><img src="button_choose_monthly_executive.png" alt="Choose Executive Monthly"></button>
+            <button class="pricing-btn" id="exec-yearly-btn"><img src="button_choose_yearly_executive.png" alt="Choose Executive Yearly"></button>
           </div>
         </div>
       </div>
@@ -282,15 +289,15 @@
     <p class="lead">Real people, real time saved — these are a few stories from customers who discovered the power of a digital clerk.</p>
 
     <div class="testimonials-grid" style="margin-top:18px">
-      <div class="testimonial"><img src="testimonial_avatar1.png" alt=""><div><div class="who">Laura G.</div><div class="quote">“I never imagined having an assistant would be this simple. My digital clerk organizes my week and handles messages so I can focus on clients.”</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar2.png" alt=""><div><div class="who">Daniel M.</div><div class="quote">“Inbox zero is now real for me — and it only costs a fraction of hiring help. The setup was fast and professional.”</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar3.png" alt=""><div><div class="who">Sofia R.</div><div class="quote">“Saved me 8 hours a week. The clerk captures ideas at all hours — no more lost opportunities.”</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar4.png" alt=""><div><div class="who">Miguel T.</div><div class="quote">“As a realtor, timing matters. Follow-ups are automatic now and my leads are warmer than ever.”</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar1.png" alt=""><div><div class="who">Laura G.</div><div class="quote">"I never imagined having an assistant would be this simple. My digital clerk organizes my week and handles messages so I can focus on clients."</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar2.png" alt=""><div><div class="who">Daniel M.</div><div class="quote">"Inbox zero is now real for me — and it only costs a fraction of hiring help. The setup was fast and professional."</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar3.png" alt=""><div><div class="who">Sofia R.</div><div class="quote">"Saved me 8 hours a week. The clerk captures ideas at all hours — no more lost opportunities."</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar4.png" alt=""><div><div class="who">Miguel T.</div><div class="quote">"As a realtor, timing matters. Follow-ups are automatic now and my leads are warmer than ever."</div></div></div>
 
-      <div class="testimonial"><img src="testimonial_avatar5.png" alt=""><div><div class="who">Anita P.</div><div class="quote">“We scaled our outreach without extra hires. The clerk drafts messages and tracks replies — it pays for itself.”</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar6.png" alt=""><div><div class="who">Jose L.</div><div class="quote">“No awkward in-home hires. Just discreet, reliable help that respects my privacy.”</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar7.png" alt=""><div><div class="who">Kevin S.</div><div class="quote">“The executive-level summaries are incredible — I make smarter decisions faster.”</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar8.png" alt=""><div><div class="who">Maya L.</div><div class="quote">“From drafting proposals to scheduling calls, the clerk handles the busywork so we can close deals.”</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar5.png" alt=""><div><div class="who">Anita P.</div><div class="quote">"We scaled our outreach without extra hires. The clerk drafts messages and tracks replies — it pays for itself."</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar6.png" alt=""><div><div class="who">Jose L.</div><div class="quote">"No awkward in-home hires. Just discreet, reliable help that respects my privacy."</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar7.png" alt=""><div><div class="who">Kevin S.</div><div class="quote">"The executive-level summaries are incredible — I make smarter decisions faster."</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar8.png" alt=""><div><div class="who">Maya L.</div><div class="quote">"From drafting proposals to scheduling calls, the clerk handles the busywork so we can close deals."</div></div></div>
     </div>
   </section>
 
@@ -316,9 +323,15 @@
   <footer>
     <img src="divider_line.png" alt="" style="width:120px;opacity:.6;margin-bottom:12px">
     <div style="margin-bottom:14px">
-      <a href="#pricing" style="margin-right:12px;color:#2e2dbd;text-decoration:none;font-weight:600">Pricing</a>
-      <a href="#" style="margin-right:12px;color:#64748b;text-decoration:none"><img src="button_privacy_policy.png" alt="Privacy" style="height:20px;vertical-align:middle"></a>
-      <a href="#" style="color:#64748b;text-decoration:none"><img src="button_terms_of_service.png" alt="Terms" style="height:20px;vertical-align:middle"></a>
+      <a href="#pricing" style="margin-right:12px;color:#64748b;text-decoration:none">
+        <img src="button_pricing.png" alt="Pricing" class="footer-btn">
+      </a>
+      <a href="privacy.html" style="margin-right:12px;color:#64748b;text-decoration:none">
+        <img src="button_privacy_policy.png" alt="Privacy Policy" class="footer-btn">
+      </a>
+      <a href="terms.html" style="color:#64748b;text-decoration:none">
+        <img src="button_terms_of_service.png" alt="Terms of Service" class="footer-btn">
+      </a>
     </div>
     <div>&copy; <span id="year"></span> asistant.pro — All rights reserved.</div>
   </footer>
@@ -381,7 +394,7 @@
       });
     }
 
-    // Hook buttons (image buttons)
+    // Hook buttons (image buttons) - updated to use pricing-btn class
     document.getElementById("starter-monthly-btn").addEventListener("click", ()=> {
       startCheckout([{ price: PRICES.starter.monthly, quantity: 1 }, { price: PRICES.starter.setup, quantity: 1 }]);
     });
