@@ -425,13 +425,6 @@
       startCheckout([{ price: PRICES.exec.yearly, quantity: 1 }, { price: PRICES.exec.setup, quantity: 1 }], 'executive');
     });
 
-    document.getElementById("exec-monthly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.exec.monthly, quantity: 1 }, { price: PRICES.exec.setup, quantity: 1 }]);
-    });
-    document.getElementById("exec-yearly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.exec.yearly, quantity: 1 }, { price: PRICES.exec.setup, quantity: 1 }]);
-    });
-
     // hero CTA scroll
     document.getElementById("btn-get-started").addEventListener("click", ()=> {
       document.getElementById("pricing").scrollIntoView({ behavior: "smooth" });
