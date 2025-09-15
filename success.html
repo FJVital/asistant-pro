@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful - asistant.pro</title>
+  <link rel="icon" type="image/png" href="asistant_pro_favicon.png">
+  <style>
+    body {
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #f7f9fb 0%, #eef2f6 100%);
+      color: #0f1724;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .container {
+      max-width: 600px;
+      padding: 40px 20px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.08);
+      margin: 20px;
+    }
+    
+    .logo {
+      max-width: 280px;
+      height: auto;
+      margin-bottom: 32px;
+    }
+    
+    .success-illustration {
+      max-width: 320px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 28px;
+    }
+    
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #2e2dbd;
+      margin-bottom: 16px;
+    }
+    
+    .message {
+      font-size: 1.1rem;
+      color: #475569;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    
+    .next-steps {
+      background: #f8f9fb;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 28px;
+      text-align: left;
+    }
+    
+    .next-steps h3 {
+      color: #0f1724;
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+    }
+    
+    .next-steps ol {
+      margin: 0;
+      padding-left: 20px;
+      color: #374151;
+    }
+    
+    .next-steps li {
+      margin-bottom: 8px;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    
+    .cta-buttons a {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+    
+    .cta-buttons a:hover {
+      transform: translateY(-2px);
+    }
+    
+    .footer-note {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-top: 16px;
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        margin: 10px;
+        padding: 30px 20px;
+      }
+      
+      h1 {
+        font-size: 1.6rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn {
+        width: 200px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img src="asistant_pro_logo.png" alt="asistant.pro Logo" class="logo">
+    
+    <img src="payment_success.png" alt="Payment successful" class="success-illustration">
+    
+    <h1>Payment Successful!</h1>
+    
+    <p class="message">
+      Thank you for subscribing to <strong>asistant.pro</strong>! Your digital clerk is being prepared and will be ready to transform your productivity.
+    </p>
+    
+    <div class="next-steps">
+      <h3>What happens next:</h3>
+      <ol>
+        <li>Check your email for a confirmation receipt from Stripe</li>
+        <li>You'll receive setup instructions within 24 hours</li>
+        <li>Our team will configure your clerk based on your selected plan</li>
+        <li>Start delegating tasks and reclaim your time!</li>
+      </ol>
+    </div>
+    
+    <div class="cta-buttons">
+      <a href="#" id="setupLink">
+        <img src="button_complete_setup_now.png" alt="Complete Setup Now" style="max-width:220px;height:auto;">
+      </a>
+      <a href="index.html">
+        <img src="button_back_home.png" alt="Back to Home" style="max-width:220px;height:auto;">
+      </a>
+    </div>
+
+    <script>
+      // Get plan from URL and pass it to setup form
+      const urlParams = new URLSearchParams(window.location.search);
+      const plan = urlParams.get('plan') || 'executive'; // Default to executive if no plan specified
+      
+      // Set the setup link with plan parameter
+      document.getElementById('setupLink').href = `setup_form.html?plan=${plan}`;
+      
+      // Update the message to be more specific about their plan
+      const planNames = {
+        'starter': 'Starter Clerk',
+        'growth': 'Growth Clerk', 
+        'pro': 'Pro Clerk',
+        'executive': 'Executive Clerk'
+      };
+      
+      const planName = planNames[plan] || 'Executive Clerk';
+      document.querySelector('.message').innerHTML = `
+        Thank you for subscribing to <strong>${planName}</strong>! Your digital clerk is being prepared and will be ready to transform your productivity.
+      `;
+    </script>
+    
+    <p class="footer-note">
+      Need help? Contact us at <strong>support@asistant.pro</strong>
+    </p>
+  </div>
+
+</body>
+</html>
