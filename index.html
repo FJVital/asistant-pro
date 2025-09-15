@@ -379,41 +379,50 @@
       exec:    { monthly: "price_1S6ZJp6W7xl7S1m1eu0vZgNw", yearly: "price_1S6ZKz6W7xl7S1m1cSowtVzW", setup: "price_1S6ZMk6W7xl7S1m1APGQJaom" }
     };
 
-    // success and cancel (update if you host pages at different paths)
-    const successUrl = window.location.origin + "/success.html";
+    // success and cancel URLs with plan parameters
+    function getSuccessUrl(plan) {
+      return window.location.origin + "/success.html?plan=" + plan;
+    }
     const cancelUrl = window.location.origin + "/cancel.html";
 
-    function startCheckout(lineItems){
+    function startCheckout(lineItems, plan){
       stripe.redirectToCheckout({
         lineItems: lineItems,
         mode: 'subscription',
-        successUrl: successUrl,
+        successUrl: getSuccessUrl(plan),
         cancelUrl: cancelUrl
       }).then(function(result){
         if(result.error) alert(result.error.message || "Checkout error");
       });
     }
 
-    // Hook buttons (image buttons) - updated to use pricing-btn class
+    // Hook buttons (image buttons) - updated with plan parameters
     document.getElementById("starter-monthly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.starter.monthly, quantity: 1 }, { price: PRICES.starter.setup, quantity: 1 }]);
+      startCheckout([{ price: PRICES.starter.monthly, quantity: 1 }, { price: PRICES.starter.setup, quantity: 1 }], 'starter');
     });
     document.getElementById("starter-yearly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.starter.yearly, quantity: 1 }, { price: PRICES.starter.setup, quantity: 1 }]);
+      startCheckout([{ price: PRICES.starter.yearly, quantity: 1 }, { price: PRICES.starter.setup, quantity: 1 }], 'starter');
     });
 
     document.getElementById("growth-monthly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.growth.monthly, quantity: 1 }, { price: PRICES.growth.setup, quantity: 1 }]);
+      startCheckout([{ price: PRICES.growth.monthly, quantity: 1 }, { price: PRICES.growth.setup, quantity: 1 }], 'growth');
     });
     document.getElementById("growth-yearly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.growth.yearly, quantity: 1 }, { price: PRICES.growth.setup, quantity: 1 }]);
+      startCheckout([{ price: PRICES.growth.yearly, quantity: 1 }, { price: PRICES.growth.setup, quantity: 1 }], 'growth');
     });
 
     document.getElementById("pro-monthly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.pro.monthly, quantity: 1 }, { price: PRICES.pro.setup, quantity: 1 }]);
+      startCheckout([{ price: PRICES.pro.monthly, quantity: 1 }, { price: PRICES.pro.setup, quantity: 1 }], 'pro');
     });
     document.getElementById("pro-yearly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.pro.yearly, quantity: 1 }, { price: PRICES.pro.setup, quantity: 1 }]);
+      startCheckout([{ price: PRICES.pro.yearly, quantity: 1 }, { price: PRICES.pro.setup, quantity: 1 }], 'pro');
+    });
+
+    document.getElementById("exec-monthly-btn").addEventListener("click", ()=> {
+      startCheckout([{ price: PRICES.exec.monthly, quantity: 1 }, { price: PRICES.exec.setup, quantity: 1 }], 'executive');
+    });
+    document.getElementById("exec-yearly-btn").addEventListener("click", ()=> {
+      startCheckout([{ price: PRICES.exec.yearly, quantity: 1 }, { price: PRICES.exec.setup, quantity: 1 }], 'executive');
     });
 
     document.getElementById("exec-monthly-btn").addEventListener("click", ()=> {
