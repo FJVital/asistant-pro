@@ -151,9 +151,35 @@
     </div>
     
     <div class="cta-buttons">
-      <a href="setup_form.html" class="btn btn-primary">Complete Setup Now</a>
-      <a href="index.html" class="btn btn-secondary">Back to Home</a>
+      <a href="#" id="setupLink">
+        <img src="button_complete_setup_now.png" alt="Complete Setup Now" style="max-width:220px;height:auto;">
+      </a>
+      <a href="index.html">
+        <img src="button_back_home.png" alt="Back to Home" style="max-width:220px;height:auto;">
+      </a>
     </div>
+
+    <script>
+      // Get plan from URL and pass it to setup form
+      const urlParams = new URLSearchParams(window.location.search);
+      const plan = urlParams.get('plan') || 'executive'; // Default to executive if no plan specified
+      
+      // Set the setup link with plan parameter
+      document.getElementById('setupLink').href = `setup_form.html?plan=${plan}`;
+      
+      // Update the message to be more specific about their plan
+      const planNames = {
+        'starter': 'Starter Clerk',
+        'growth': 'Growth Clerk', 
+        'pro': 'Pro Clerk',
+        'executive': 'Executive Clerk'
+      };
+      
+      const planName = planNames[plan] || 'Executive Clerk';
+      document.querySelector('.message').innerHTML = `
+        Thank you for subscribing to <strong>${planName}</strong>! Your digital clerk is being prepared and will be ready to transform your productivity.
+      `;
+    </script>
     
     <p class="footer-note">
       Need help? Contact us at <strong>support@asistant.pro</strong>
