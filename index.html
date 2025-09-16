@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Your digital clerk — asistant.pro</title>
+  <title>Your digital clerk – asistant.pro</title>
 
   <link rel="icon" href="asistant_pro_favicon.png" type="image/png">
 
@@ -55,13 +55,19 @@
     .toggle.on{background:#2e2dbd}
     .toggle.on .toggle-knob{transform:translateX(26px)}
 
+    /* No Setup Fees Banner */
+    .promo-banner{background:linear-gradient(135deg,#10b981,#059669);color:#fff;text-align:center;padding:12px 20px;border-radius:8px;margin-bottom:20px;box-shadow:0 4px 12px rgba(16,185,129,0.3)}
+    .promo-banner strong{font-size:1.1rem}
+    .promo-banner span{opacity:0.9;font-size:0.95rem}
+
     .plans-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
     .plan{background:#f9fafb;border-radius:12px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(2,6,23,0.03);transition:transform .2s,box-shadow .2s}
     .plan:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(2,6,23,0.06)}
     .plan-icon{width:64px;height:64px;margin:0 auto 12px}
     .plan h3{margin-bottom:8px;font-size:1.15rem}
     .price{font-size:1.6rem;color:#2e2dbd;font-weight:700;margin-bottom:6px}
-    .setup{color:#64748b;margin-bottom:10px}
+    .setup{color:#64748b;margin-bottom:10px;font-size:0.9rem}
+    .savings{background:#dcfce7;color:#16a34a;padding:4px 8px;border-radius:6px;font-size:0.8rem;font-weight:600;margin-bottom:8px;display:inline-block}
     .plan ul{list-style:none;text-align:left;color:#374151;padding-left:0;margin-bottom:12px}
     .plan li{margin-bottom:8px}
 
@@ -125,7 +131,7 @@
   <main class="hero container" role="main" aria-labelledby="hero-heading">
     <div class="hero-left">
       <h1 id="hero-heading">Your digital clerk</h1>
-      <p class="hero-sub">A first-class, always-available AI assistant that thoughtfully answers emails, organizes your schedule, and gives you back time to focus on growth — private, reliable, and built for professionals.</p>
+      <p class="hero-sub">A first-class, always-available AI assistant that thoughtfully answers emails, organizes your schedule, and gives you back time to focus on growth – private, reliable, and built for professionals.</p>
 
       <div class="hero-cta-row" aria-hidden="false">
         <!-- Aligned buttons at same horizontal level -->
@@ -161,8 +167,8 @@
 
       <div>
         <ul class="feature-list">
-          <li class="feature-item"><img src="calendar.png" alt="calendar"><div><strong>Respect your privacy</strong><div>No one needs to be in your home office — everything is handled securely in the cloud.</div></div></li>
-          <li class="feature-item"><img src="email_reply.png" alt="email"><div><strong>Always available</strong><div>Your ideas and urgent tasks don't wait for office hours — your clerk is ready immediately.</div></div></li>
+          <li class="feature-item"><img src="calendar.png" alt="calendar"><div><strong>Respect your privacy</strong><div>No one needs to be in your home office – everything is handled securely in the cloud.</div></div></li>
+          <li class="feature-item"><img src="email_reply.png" alt="email"><div><strong>Always available</strong><div>Your ideas and urgent tasks don't wait for office hours – your clerk is ready immediately.</div></div></li>
           <li class="feature-item"><img src="reminders.png" alt="reminders"><div><strong>Save money, not time</strong><div>Affordable assistant-level productivity without the salary or the overhead.</div></div></li>
           <li class="feature-item"><img src="note_taking.png" alt="notes"><div><strong>No idle hours</strong><div>Instead of paying for downtime, you only benefit from continuous productivity.</div></div></li>
         </ul>
@@ -176,7 +182,7 @@
   <!-- WHAT YOU GET -->
   <section id="features" class="container">
     <h2 class="section-title">What you get</h2>
-    <p class="lead">A practical, secure assistant that takes care of the everyday work — so you can create, sell, and lead. It's the help you wanted but more private, affordable, and always-on.</p>
+    <p class="lead">A practical, secure assistant that takes care of the everyday work – so you can create, sell, and lead. It's the help you wanted but more private, affordable, and always-on.</p>
 
     <div class="two-col" style="margin-top:18px">
       <div>
@@ -189,7 +195,7 @@
           <li class="feature-item"><img src="calendar.png" alt=""><div><strong>Calendar & scheduling</strong><div>Smart booking, reminders, and conflict-free calendars.</div></div></li>
           <li class="feature-item"><img src="reminders.png" alt=""><div><strong>Follow-ups & reminders</strong><div>Automated nudges so nothing slips through the cracks.</div></div></li>
           <li class="feature-item"><img src="reports.png" alt=""><div><strong>Reports & summaries</strong><div>Quickly turn activity and notes into concise, actionable summaries.</div></div></li>
-          <li class="feature-item"><img src="note_taking.png" alt=""><div><strong>Notes & drafts</strong><div>From social posts to client letters — draft-ready content that sounds like you.</div></div></li>
+          <li class="feature-item"><img src="note_taking.png" alt=""><div><strong>Notes & drafts</strong><div>From social posts to client letters – draft-ready content that sounds like you.</div></div></li>
         </ul>
       </div>
     </div>
@@ -201,15 +207,21 @@
   <!-- PRICING -->
   <section id="pricing" class="container alt-bg" style="padding-top:22px">
     <h2 class="section-title">Pick a plan that fits your needs</h2>
-    <p class="lead">Choose a one-time setup (we personalize your clerk) and an ongoing subscription. Start with the essentials and upgrade as your business grows.</p>
+    <p class="lead">Start your digital clerk journey with zero upfront costs. Everything included in one simple monthly price – no hidden fees, no surprises.</p>
 
     <div class="pricing" style="margin-top:18px">
+      <!-- No Setup Fees Banner -->
+      <div class="promo-banner">
+        <strong>🎉 Limited Time: No Setup Fees!</strong><br>
+        <span>Get started immediately with no upfront costs. Setup and personalization included in your monthly subscription.</span>
+      </div>
+
       <div class="billing-toggle">
         <span class="toggle-label">Monthly</span>
         <div id="billingToggle" class="toggle" role="switch" aria-checked="false" tabindex="0" title="Toggle billing period">
           <div class="toggle-knob"></div>
         </div>
-        <span class="toggle-label">Yearly (save ~15%)</span>
+        <span class="toggle-label">Yearly (save up to $493)</span>
       </div>
 
       <div class="plans-grid" role="list">
@@ -217,8 +229,9 @@
         <div class="plan" aria-labelledby="starter-title">
           <img class="plan-icon" src="icon_starter.png" alt="Starter">
           <h3 id="starter-title">Starter Clerk</h3>
-          <div class="price" id="starter-price" data-monthly="$29/mo" data-yearly="$295/yr">$29/mo</div>
-          <div class="setup">+ $99 one-time setup</div>
+          <div class="price" id="starter-price" data-monthly="$37/mo" data-yearly="$395/yr">$37/mo</div>
+          <div class="setup">Setup included</div>
+          <div class="savings" id="starter-savings" style="display:none;">Save $49/year</div>
           <ul>
             <li>Choose up to 3 core functions</li>
             <li>Answer routine emails, reminders, quick drafts</li>
@@ -233,8 +246,9 @@
         <div class="plan" aria-labelledby="growth-title">
           <img class="plan-icon" src="icon_growth.png" alt="Growth">
           <h3 id="growth-title">Growth Clerk</h3>
-          <div class="price" id="growth-price" data-monthly="$59/mo" data-yearly="$599/yr">$59/mo</div>
-          <div class="setup">+ $199 one-time setup</div>
+          <div class="price" id="growth-price" data-monthly="$76/mo" data-yearly="$799/yr">$76/mo</div>
+          <div class="setup">Setup included</div>
+          <div class="savings" id="growth-savings" style="display:none;">Save $113/year</div>
           <ul>
             <li>Choose up to 5 functions</li>
             <li>Email replies, calendar, follow-ups, light reports</li>
@@ -249,8 +263,9 @@
         <div class="plan" aria-labelledby="pro-title">
           <img class="plan-icon" src="icon_pro.png" alt="Pro">
           <h3 id="pro-title">Pro Clerk</h3>
-          <div class="price" id="pro-price" data-monthly="$119/mo" data-yearly="$1199/yr">$119/mo</div>
-          <div class="setup">+ $299 one-time setup</div>
+          <div class="price" id="pro-price" data-monthly="$144/mo" data-yearly="$1,499/yr">$144/mo</div>
+          <div class="setup">Setup included</div>
+          <div class="savings" id="pro-savings" style="display:none;">Save $229/year</div>
           <ul>
             <li>Choose up to 8 functions</li>
             <li>Advanced email, reporting, meeting prep</li>
@@ -265,8 +280,9 @@
         <div class="plan" aria-labelledby="exec-title">
           <img class="plan-icon" src="icon_executive.png" alt="Executive">
           <h3 id="exec-title">Executive Clerk</h3>
-          <div class="price" id="exec-price" data-monthly="$249/mo" data-yearly="$2499/yr">$249/mo</div>
-          <div class="setup">+ $499 one-time setup</div>
+          <div class="price" id="exec-price" data-monthly="$291/mo" data-yearly="$2,999/yr">$291/mo</div>
+          <div class="setup">Setup included</div>
+          <div class="savings" id="exec-savings" style="display:none;">Save $493/year</div>
           <ul>
             <li>Choose up to 10 functions</li>
             <li>Full inbox triage, workflows, executive-level support</li>
@@ -286,17 +302,17 @@
   <!-- TESTIMONIALS: 2 rows of 4 -->
   <section id="testimonials" class="container">
     <h2 class="section-title">Hundreds of customers have reclaimed hours each week</h2>
-    <p class="lead">Real people, real time saved — these are a few stories from customers who discovered the power of a digital clerk.</p>
+    <p class="lead">Real people, real time saved – these are a few stories from customers who discovered the power of a digital clerk.</p>
 
     <div class="testimonials-grid" style="margin-top:18px">
       <div class="testimonial"><img src="testimonial_avatar1.png" alt=""><div><div class="who">Laura G.</div><div class="quote">"I never imagined having an assistant would be this simple. My digital clerk organizes my week and handles messages so I can focus on clients."</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar2.png" alt=""><div><div class="who">Daniel M.</div><div class="quote">"Inbox zero is now real for me — and it only costs a fraction of hiring help. The setup was fast and professional."</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar3.png" alt=""><div><div class="who">Sofia R.</div><div class="quote">"Saved me 8 hours a week. The clerk captures ideas at all hours — no more lost opportunities."</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar2.png" alt=""><div><div class="who">Daniel M.</div><div class="quote">"Inbox zero is now real for me – and it only costs a fraction of hiring help. The setup was fast and professional."</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar3.png" alt=""><div><div class="who">Sofia R.</div><div class="quote">"Saved me 8 hours a week. The clerk captures ideas at all hours – no more lost opportunities."</div></div></div>
       <div class="testimonial"><img src="testimonial_avatar4.png" alt=""><div><div class="who">Miguel T.</div><div class="quote">"As a realtor, timing matters. Follow-ups are automatic now and my leads are warmer than ever."</div></div></div>
 
-      <div class="testimonial"><img src="testimonial_avatar5.png" alt=""><div><div class="who">Anita P.</div><div class="quote">"We scaled our outreach without extra hires. The clerk drafts messages and tracks replies — it pays for itself."</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar5.png" alt=""><div><div class="who">Anita P.</div><div class="quote">"We scaled our outreach without extra hires. The clerk drafts messages and tracks replies – it pays for itself."</div></div></div>
       <div class="testimonial"><img src="testimonial_avatar6.png" alt=""><div><div class="who">Jose L.</div><div class="quote">"No awkward in-home hires. Just discreet, reliable help that respects my privacy."</div></div></div>
-      <div class="testimonial"><img src="testimonial_avatar7.png" alt=""><div><div class="who">Kevin S.</div><div class="quote">"The executive-level summaries are incredible — I make smarter decisions faster."</div></div></div>
+      <div class="testimonial"><img src="testimonial_avatar7.png" alt=""><div><div class="who">Kevin S.</div><div class="quote">"The executive-level summaries are incredible – I make smarter decisions faster."</div></div></div>
       <div class="testimonial"><img src="testimonial_avatar8.png" alt=""><div><div class="who">Maya L.</div><div class="quote">"From drafting proposals to scheduling calls, the clerk handles the busywork so we can close deals."</div></div></div>
     </div>
   </section>
@@ -307,11 +323,11 @@
   <!-- FUTURE -->
   <section id="future" class="container alt-bg">
     <h2 class="section-title">The future is now</h2>
-    <p class="lead">In five years, AI clerks will be as common as email. Start today and gain the advantage — respond faster, operate smarter, and win more opportunities.</p>
+    <p class="lead">In five years, AI clerks will be as common as email. Start today and gain the advantage – respond faster, operate smarter, and win more opportunities.</p>
 
     <div style="display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:18px">
       <img class="scale-75" src="future_is_now.png" alt="Future illustration" style="border-radius:10px;max-width:420px">
-      <div style="max-width:460px;color:#475569">Start today and be the business that wins more time and closes more opportunities. Our onboarding configures your clerk so it's ready to work on day one — no fuss, just results.</div>
+      <div style="max-width:460px;color:#475569">Start today and be the business that wins more time and closes more opportunities. Our onboarding configures your clerk so it's ready to work on day one – no fuss, just results.</div>
     </div>
 
     <div class="future-cta" style="margin-top:18px">
@@ -333,7 +349,7 @@
         <img src="button_terms_of_service.png" alt="Terms of Service" class="footer-btn">
       </a>
     </div>
-    <div>&copy; <span id="year"></span> asistant.pro — All rights reserved.</div>
+    <div>&copy; <span id="year"></span> asistant.pro – All rights reserved.</div>
   </footer>
 
   <!-- CHATBOT -->
@@ -354,7 +370,7 @@
     <div id="chatBody" class="chat-body" role="log" aria-live="polite">
       <div class="msg-row bot">
         <img src="chatbot_avatar.png" alt="bot">
-        <div class="bubble bot"><strong>Hello — I am your digital clerk assistant. Ask me about pricing, setup, or features.</strong></div>
+        <div class="bubble bot"><strong>Hello – I am your digital clerk assistant. Ask me about pricing, setup, or features.</strong></div>
       </div>
     </div>
 
@@ -371,13 +387,13 @@
     // ========== Stripe publishable key ==========
     const stripe = Stripe("pk_live_51S6Iwe6W7xl7S1m11FkI51ucL0G5pdnpFqV4JPWB2Bxcuyrn6XH3hhQI5wjEhEdLXVCB7BZeZ6eTZ6TUawFKnGhy00Hdble84x");
 
-    // Price mapping (your provided IDs)
+    // Updated Price mapping with new all-inclusive plans
     const PRICES = {
-  	starter: { monthly: "price_1S6YSn6W7xl7S1m134J6CbAa", yearly: "price_1S6YcT6W7xl7S1m1KF3bb8aj", setup: "price_1S80Oi6W7xl7S1m185qugH9O" },
-  	growth:  { monthly: "price_1S6YzH6W7xl7S1m1mQnJZ8Zn", yearly: "price_1S6Yzp6W7xl7S1m1kOjupC60", setup: "price_1S80QF6W7xl7S1m1dBFspTxD" },
-  	pro:     { monthly: "price_1S6ZBJ6W7xl7S1m1kurCrr7a", yearly: "price_1S6ZCH6W7xl7S1m14CKyiKV4", setup: "price_1S80RU6W7xl7S1m1RjwitHAU" },
-  	exec:    { monthly: "price_1S6ZJp6W7xl7S1m1eu0vZgNw", yearly: "price_1S6ZKz6W7xl7S1m1cSowtVzW", setup: "price_1S80Sc6W7xl7S1m17Vde4SDx" }
-};
+      starter: { monthly: "price_1S80wP6W7xl7S1m1BDFgUDDu", yearly: "price_1S81E76W7xl7S1m1C7XQWaww" },
+      growth:  { monthly: "price_1S80QF6W7xl7S1m1dBFspTxD", yearly: "price_1S81GG6W7xl7S1m1UVoPNlG8" },
+      pro:     { monthly: "price_1S80RU6W7xl7S1m1RjwitHAU", yearly: "price_1S81Hi6W7xl7S1m1G0vwVtvX" },
+      exec:    { monthly: "price_1S812j6W7xl7S1m1FmnLbnrh", yearly: "price_1S81IU6W7xl7S1m13bRoMWIq" }
+    };
 
     // success and cancel URLs with plan parameters
     function getSuccessUrl(plan) {
@@ -385,9 +401,10 @@
     }
     const cancelUrl = window.location.origin + "/cancel.html";
 
-    function startCheckout(lineItems, plan){
+    // Simplified checkout function - single price only
+    function startCheckout(priceId, plan){
       stripe.redirectToCheckout({
-        lineItems: lineItems,
+        lineItems: [{ price: priceId, quantity: 1 }],
         mode: 'subscription',
         successUrl: getSuccessUrl(plan),
         cancelUrl: cancelUrl
@@ -396,33 +413,33 @@
       });
     }
 
-    // Hook buttons (image buttons) - updated with plan parameters
+    // Hook buttons with simplified single price checkout
     document.getElementById("starter-monthly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.starter.monthly, quantity: 1 }, { price: PRICES.starter.setup, quantity: 1 }], 'starter');
+      startCheckout(PRICES.starter.monthly, 'starter');
     });
     document.getElementById("starter-yearly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.starter.yearly, quantity: 1 }, { price: PRICES.starter.setup, quantity: 1 }], 'starter');
+      startCheckout(PRICES.starter.yearly, 'starter');
     });
 
     document.getElementById("growth-monthly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.growth.monthly, quantity: 1 }, { price: PRICES.growth.setup, quantity: 1 }], 'growth');
+      startCheckout(PRICES.growth.monthly, 'growth');
     });
     document.getElementById("growth-yearly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.growth.yearly, quantity: 1 }, { price: PRICES.growth.setup, quantity: 1 }], 'growth');
+      startCheckout(PRICES.growth.yearly, 'growth');
     });
 
     document.getElementById("pro-monthly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.pro.monthly, quantity: 1 }, { price: PRICES.pro.setup, quantity: 1 }], 'pro');
+      startCheckout(PRICES.pro.monthly, 'pro');
     });
     document.getElementById("pro-yearly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.pro.yearly, quantity: 1 }, { price: PRICES.pro.setup, quantity: 1 }], 'pro');
+      startCheckout(PRICES.pro.yearly, 'pro');
     });
 
     document.getElementById("exec-monthly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.exec.monthly, quantity: 1 }, { price: PRICES.exec.setup, quantity: 1 }], 'executive');
+      startCheckout(PRICES.exec.monthly, 'executive');
     });
     document.getElementById("exec-yearly-btn").addEventListener("click", ()=> {
-      startCheckout([{ price: PRICES.exec.yearly, quantity: 1 }, { price: PRICES.exec.setup, quantity: 1 }], 'executive');
+      startCheckout(PRICES.exec.yearly, 'executive');
     });
 
     // hero CTA scroll
@@ -430,20 +447,25 @@
       document.getElementById("pricing").scrollIntoView({ behavior: "smooth" });
     });
 
-    // Billing toggle logic
+    // Billing toggle logic with savings display
     const billingToggle = document.getElementById('billingToggle');
     const priceEls = [
-      { el: document.getElementById('starter-price'), key: 'starter' },
-      { el: document.getElementById('growth-price'), key: 'growth' },
-      { el: document.getElementById('pro-price'), key: 'pro' },
-      { el: document.getElementById('exec-price'), key: 'exec' }
+      { el: document.getElementById('starter-price'), savings: document.getElementById('starter-savings') },
+      { el: document.getElementById('growth-price'), savings: document.getElementById('growth-savings') },
+      { el: document.getElementById('pro-price'), savings: document.getElementById('pro-savings') },
+      { el: document.getElementById('exec-price'), savings: document.getElementById('exec-savings') }
     ];
     let yearly = false;
+
     function updatePrices(){
       priceEls.forEach(p => {
         p.el.textContent = yearly ? p.el.dataset.yearly : p.el.dataset.monthly;
+        if (p.savings) {
+          p.savings.style.display = yearly ? 'inline-block' : 'none';
+        }
       });
     }
+
     billingToggle.addEventListener('click', ()=> {
       yearly = !yearly;
       billingToggle.classList.toggle('on', yearly);
@@ -474,13 +496,13 @@
     });
 
     const FAQ = [
-      { q: "what is asistant.pro", a: "asistant.pro provides a first-class digital clerk — an AI assistant that handles emails, scheduling, reminders, notes, and reports. It gives professionals reliable assistant-level support without the full time cost." },
+      { q: "what is asistant.pro", a: "asistant.pro provides a first-class digital clerk – an AI assistant that handles emails, scheduling, reminders, notes, and reports. It gives professionals reliable assistant-level support without the full time cost." },
       { q: "how does it work", a: "Choose a plan, complete secure payment via Stripe, and you will be redirected to a setup page where you name your clerk and pick the functions you want. We configure it and your clerk starts working." },
-      { q: "what tasks can the clerk do", a: "From drafting and answering emails to scheduling, reminders, summaries, follow-ups, and light report prep — the exact functions depend on your chosen plan." },
-      { q: "how much does it cost", a: "Starter: $29/mo + $99 setup (3 functions). Growth: $59/mo + $199 setup (5 functions). Pro: $119/mo + $299 setup (8 functions). Executive: $249/mo + $499 setup (10 functions)." },
-      { q: "why is there a setup fee", a: "Setup covers the personalized configuration, initial preferences, and any integrations required to get your clerk productive right away." },
-      { q: "do i get a free trial", a: "We do not provide a free trial — instead we configure a ready-to-use clerk immediately so you can start benefiting from day one." },
-      { q: "can i name my clerk", a: "Yes — you choose the clerk's name during setup." },
+      { q: "what tasks can the clerk do", a: "From drafting and answering emails to scheduling, reminders, summaries, follow-ups, and light report prep – the exact functions depend on your chosen plan." },
+      { q: "how much does it cost", a: "Starter: $37/mo (3 functions). Growth: $76/mo (5 functions). Pro: $144/mo (8 functions). Executive: $291/mo (10 functions). Setup included with no additional fees!" },
+      { q: "why is there no setup fee", a: "We simplified our pricing to remove barriers. Setup and personalization are now included in your monthly subscription at no extra cost." },
+      { q: "do i get a free trial", a: "We do not provide a free trial – instead we configure a ready-to-use clerk immediately so you can start benefiting from day one." },
+      { q: "can i name my clerk", a: "Yes – you choose the clerk's name during setup." },
       { q: "how is this better than hiring a human assistant", a: "Your clerk is available 24/7, doesn't sit idle, respects privacy, and costs a fraction of hiring full-time help." },
       { q: "is my data safe", a: "Payment is handled by Stripe and customer data is managed securely. We take privacy seriously." },
       { q: "what happens after i pay", a: "Stripe redirects you to a setup page: you provide details, name the clerk, and select functions. We receive that information and finalize the configuration." },
@@ -493,7 +515,7 @@
     const FUN = {
       greeting: "Hello. I'm your future digital clerk. Ask me anything about plans, setup, or features.",
       identity: "I was built by the team at asistant.pro to help professionals get their first affordable assistant.",
-      humanQuestion: "I am not a human — I am a digital clerk designed to help with tasks and information about asistant.pro.",
+      humanQuestion: "I am not a human – I am a digital clerk designed to help with tasks and information about asistant.pro.",
       joke: "Why did the busy entrepreneur try a digital clerk? Because the to-do list kept growing faster than time.",
       fallback: "I can answer questions about asistant.pro: plans, setup, features, and what happens after payment. What would you like to know?"
     };
@@ -518,8 +540,8 @@
       for(let f of FAQ){ if(t === f.q.toLowerCase()) return f.a; }
       if(/\bprice|cost|how much|plans?\b/.test(t)) return FAQ.find(x=>x.q.includes("how much")).a;
       if(/\btrial\b/.test(t)) return FAQ.find(x=>x.q.includes("do i get a free trial")).a;
-      if(/\bname\b|\bname the clerk\b/.test(t)) return "Yes — you'll be able to name your clerk on the setup page after purchase.";
-      if(/\bsetup fee|setup\b/.test(t)) return FAQ.find(x=>x.q.includes("why is there a setup fee")).a;
+      if(/\bname\b|\bname the clerk\b/.test(t)) return "Yes – you'll be able to name your clerk on the setup page after purchase.";
+      if(/\bsetup fee|setup\b/.test(t)) return FAQ.find(x=>x.q.includes("why is there no setup fee")).a;
       if(/\bemail\b|\binbox\b|\breply\b/.test(t)) return "The clerk can draft and reply to routine emails depending on your chosen plan. Pro and Executive include advanced inbox handling.";
       if(/\bhow does it work|how it work\b/.test(t)) return FAQ.find(x=>x.q.includes("how does it work")).a;
       if(/\bhello|hi|hey\b/.test(t)) return FUN.greeting;
