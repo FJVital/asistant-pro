@@ -240,7 +240,7 @@
 
     <div class="pricing" style="margin-top:18px">
       <!-- No Setup Fees Banner -->
-      <img src="banner_limited_time.png" alt="Limited Time: No Setup Fees!" style="width:100%;max-width:600px;height:auto;margin-bottom:20px;border-radius:8px;">
+      <img src="banner_limited_time.png" style="width:100%;max-width:1200px;height:auto;margin-bottom:20px;border-radius:8px;">
 
       <div class="billing-toggle">
         <span class="toggle-label">Monthly</span>
@@ -600,6 +600,13 @@
     chatInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter') chatSend.click(); });
 
     document.addEventListener('keydown',(e)=>{ if(e.key==='/' && document.activeElement !== chatInput){ e.preventDefault(); chatBubble.click(); }});
+// TEMPORARY DEBUG - Add this at the end
+document.querySelectorAll('.pricing-btn').forEach((btn, index) => {
+  btn.addEventListener('touchstart', function(e) {
+    console.log('Touch detected:', this.id);
+    alert('Touch works on: ' + this.id);
+  });
+});
   </script>
 </body>
 </html>
