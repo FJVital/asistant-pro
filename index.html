@@ -439,20 +439,27 @@
     }
     const cancelUrl = window.location.origin + "/cancel.html";
 
-    // Simplified checkout function - single price only
-    function startCheckout(priceId, plan){
-      stripe.redirectToCheckout({
-        lineItems: [{ price: priceId, quantity: 1 }],
-        mode: 'subscription',
-        successUrl: getSuccessUrl(plan),
-        cancelUrl: cancelUrl
-      }).then(function(result){
-        if(result.error) {
-          console.error('Stripe error:', result.error);
-          alert(result.error.message || "Checkout error");
-        }
-      });
+   // Replace your startCheckout function with this enhanced version:
+function startCheckout(priceId, plan){
+  console.log('Starting checkout for:', plan, 'with price:', priceId);
+  
+  stripe.redirectToCheckout({
+    lineItems: [{ price: priceId, quantity: 1 }],
+    mode: 'subscription',
+    successUrl: getSuccessUrl(plan),
+    cancelUrl: cancelUrl
+  }).then(function(result){
+    if(result.error) {
+      console.error('Stripe error:', result.error);
+      alert('Stripe Error: ' + (result.error.message || "Checkout error"));
+    } else {
+      console.log('Stripe redirect should have happened');
     }
+  }).catch(function(error) {
+    console.error('Stripe catch error:', error);
+    alert('Stripe Catch Error: ' + error.message);
+  });
+}
 
     // Hook buttons with simplified single price checkout
     document.getElementById("starter-monthly-btn").addEventListener("click", ()=> {
@@ -598,17 +605,7 @@
       setTimeout(()=>{ const answer = findFAQMatch(text); appendBot(answer); },350);
     });
     chatInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter') chatSend.click(); });
-
     document.addEventListener('keydown',(e)=>{ if(e.key==='/' && document.activeElement !== chatInput){ e.preventDefault(); chatBubble.click(); }});
-    // REPLACE the debug code with this:
-document.querySelectorAll('.pricing-btn').forEach((btn, index) => {
-  btn.addEventListener('click', function(e) {
-    console.log('Click event fired for:', this.id);
-    alert('Click detected on: ' + this.id + ' - About to call Stripe');
-  });
-});
-    
-
   </script>
 </body>
 </html>
