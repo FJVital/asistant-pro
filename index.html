@@ -388,12 +388,24 @@
     const stripe = Stripe("pk_live_51S6Iwe6W7xl7S1m11FkI51ucL0G5pdnpFqV4JPWB2Bxcuyrn6XH3hhQI5wjEhEdLXVCB7BZeZ6eTZ6TUawFKnGhy00Hdble84x");
 
     // Updated Price mapping with new all-inclusive plans
-    const PRICES = {
-      starter: { monthly: "price_1S80wP6W7xl7S1m1BDFgUDDu", yearly: "price_1S81E76W7xl7S1m1C7XQWaww" },
-      growth:  { monthly: "price_1S80QF6W7xl7S1m1dBFspTxD", yearly: "price_1S81GG6W7xl7S1m1UVoPNlG8" },
-      pro:     { monthly: "price_1S80RU6W7xl7S1m1RjwitHAU", yearly: "price_1S81Hi6W7xl7S1m1G0vwVtvX" },
-      exec:    { monthly: "price_1S812j6W7xl7S1m1FmnLbnrh", yearly: "price_1S81IU6W7xl7S1m13bRoMWIq" }
-    };
+    const TEST_PRICES = {
+  starter: { 
+    monthly: "price_1S81lX99tHGpH54PiUvJ5rJ3", 
+    yearly: "price_1S81ok99tHGpH54PRmvVNAlV" 
+  },
+  growth: { 
+    monthly: "price_1S81mJ99tHGpH54P70dpFi74", 
+    yearly: "price_1S81pK99tHGpH54PHsG9Ua7K" 
+  },
+  pro: { 
+    monthly: "price_1S81n799tHGpH54PoRyUKaDY", 
+    yearly: "price_1S81qs99tHGpH54PzNIIwG4H" 
+  },
+  exec: { 
+    monthly: "price_1S81o399tHGpH54PiPSMpaH7", 
+    yearly: "price_1S81rq99tHGpH54PJZwkPJ7j" 
+  }
+};
 
     // success and cancel URLs with plan parameters
     function getSuccessUrl(plan) {
@@ -562,3 +574,4 @@
   </script>
 </body>
 </html>
+
