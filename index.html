@@ -75,6 +75,34 @@
     /* Pricing buttons reduced to 60% */
     .pricing-btn{background:none;border:none;padding:0;cursor:pointer;display:inline-block}
     .pricing-btn img{display:block;height:auto;max-width:132px} /* 60% of 220px */
+    /* Mobile touch improvements for pricing buttons */
+    .pricing-btn {
+     background: none;
+     border: none;
+     padding: 12px; /* Add touch padding */
+     cursor: pointer;
+     display: inline-block;
+     min-height: 44px; /* Apple's recommended minimum touch target */
+     min-width: 44px;
+    -webkit-tap-highlight-color: transparent; /* Remove iOS tap highlight */
+    touch-action: manipulation; /* Improve touch response */
+}
+
+   .pricing-btn img {
+    display: block;
+    height: auto;
+    max-width: 132px;
+    pointer-events: none; /* Critical: prevent image from blocking touches */
+}
+
+   /* Remove hover effects on touch devices */
+   @media (hover: none) and (pointer: coarse) {
+    .plan:hover {
+    transform: none;
+    box-shadow: 0 2px 12px rgba(2,6,23,0.03);
+  }
+}
+
 
     /* Testimonials: 2 rows of 4 */
     .testimonials-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:18px}
