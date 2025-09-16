@@ -73,23 +73,30 @@
     .img-btn img{display:block;height:auto;max-width:220px}
     
     /* Mobile touch improvements for pricing buttons */
-    .pricing-btn {
-     background: none;
-     border: none;
-     padding: 12px; /* Add touch padding */
-     cursor: pointer;
-     display: inline-block;
-     min-height: 44px; /* Apple's recommended minimum touch target */
-     min-width: 44px;
-    -webkit-tap-highlight-color: transparent; /* Remove iOS tap highlight */
-    touch-action: manipulation; /* Improve touch response */
+    /* More aggressive mobile fix */
+.pricing-btn {
+  background: none;
+  border: none;
+  padding: 16px !important;
+  cursor: pointer;
+  display: inline-block;
+  min-height: 60px !important;
+  min-width: 60px !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  position: relative;
+  z-index: 10;
 }
 
-   .pricing-btn img {
-    display: block;
-    height: auto;
-    max-width: 132px;
-    pointer-events: none; /* Critical: prevent image from blocking touches */
+.pricing-btn img {
+  display: block;
+  height: auto;
+  max-width: 132px;
+  pointer-events: none !important;
+  position: relative;
+  z-index: 1;
 }
 
    /* Remove hover effects on touch devices */
@@ -593,18 +600,6 @@
     chatInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter') chatSend.click(); });
 
     document.addEventListener('keydown',(e)=>{ if(e.key==='/' && document.activeElement !== chatInput){ e.preventDefault(); chatBubble.click(); }});
-   
-// TEMPORARY DEBUG CODE - Add this at the very end of your script
-    document.querySelectorAll('.pricing-btn').forEach((btn, index) => {
-    btn.addEventListener('touchstart', function(e) {
-    console.log('Touch detected on button:', index, this.id);
-    alert('Button touched: ' + this.id);
-  });
-  
-   btn.addEventListener('click', function(e) {
-   console.log('Click detected on button:', index, this.id);
-  });
-});
   </script>
 </body>
 </html>
