@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Your digital clerk — asistant.pro [TEST MODE]</title>
+  <title>Your digital clerk — asistant.pro</title>
 
   <link rel="icon" href="asistant_pro_favicon.png" type="image/png">
 
@@ -17,18 +17,6 @@
       -moz-osx-font-smoothing:grayscale;line-height:1.45;font-size:16px;
     }
     .container{max-width:1100px;margin:0 auto;padding:28px 20px}
-
-    /* TEST MODE BANNER */
-    .test-banner {
-      background: #ff4444;
-      color: white;
-      text-align: center;
-      padding: 8px;
-      font-weight: bold;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
 
     /* Header */
     header{display:flex;align-items:center;justify-content:center;padding:20px;background:#fff;border-bottom:1px solid rgba(15,23,42,0.04)}
@@ -133,11 +121,6 @@
   </style>
 </head>
 <body>
-
-  <!-- TEST MODE BANNER -->
-  <div class="test-banner">
-    🧪 TEST MODE - Use test cards: 4242 4242 4242 4242 (success) or 4000 0000 0000 0002 (decline)
-  </div>
 
   <!-- HEADER -->
   <header>
@@ -401,26 +384,26 @@
   <script src="https://js.stripe.com/v3/"></script>
 
   <script>
-    // ========== TEST MODE STRIPE CONFIGURATION ==========
-    const stripe = Stripe("pk_test_51S6Iwp99tHGpH54PcYfRF4V19aH5MlTr7phRYcvdiJKUCh4TBBMkIaBjI9s0I7w1QRQlIosoCKwd2ePoOYMtWfkg007QGCA1bP");
+    // ========== PRODUCTION STRIPE CONFIGURATION ==========
+    const stripe = Stripe("pk_live_51S6Iwe6W7xl7S1m11FkI51ucL0G5pdnpFqV4JPWB2Bxcuyrn6XH3hhQI5wjEhEdLXVCB7BZeZ6eTZ6TUawFKnGhy00Hdble84x");
 
-    // TEST Price IDs - Updated from your project blueprint
+    // LIVE Price IDs - From your project blueprint
     const PRICES = {
       starter: { 
-        monthly: "price_1S81lX99tHGpH54PiUvJ5rJ3", 
-        yearly: "price_1S81ok99tHGpH54PRmvVNAlV" 
+        monthly: "price_1S80wP6W7xl7S1m1BDFgUDDu", 
+        yearly: "price_1S81E76W7xl7S1m1C7XQWaww" 
       },
       growth:  { 
-        monthly: "price_1S81mJ99tHGpH54P70dpFi74", 
-        yearly: "price_1S81pK99tHGpH54PHsG9Ua7K" 
+        monthly: "price_1S80QF6W7xl7S1m1dBFspTxD", 
+        yearly: "price_1S81GG6W7xl7S1m1UVoPNlG8" 
       },
       pro:     { 
-        monthly: "price_1S81n799tHGpH54PoRyUKaDY", 
-        yearly: "price_1S81qs99tHGpH54PzNIIwG4H" 
+        monthly: "price_1S80RU6W7xl7S1m1RjwitHAU", 
+        yearly: "price_1S81Hi6W7xl7S1m1G0vwVtvX" 
       },
       exec:    { 
-        monthly: "price_1S81o399tHGpH54PiPSMpaH7", 
-        yearly: "price_1S81rq99tHGpH54PJZwkPJ7j" 
+        monthly: "price_1S812j6W7xl7S1m1FmnLbnrh", 
+        yearly: "price_1S81IU6W7xl7S1m13bRoMWIq" 
       }
     };
 
@@ -432,7 +415,6 @@
 
     // Simplified checkout function - single price only
     function startCheckout(priceId, plan){
-      console.log(`Starting checkout for plan: ${plan}, priceId: ${priceId}`);
       stripe.redirectToCheckout({
         lineItems: [{ price: priceId, quantity: 1 }],
         mode: 'subscription',
@@ -592,12 +574,6 @@
     chatInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter') chatSend.click(); });
 
     document.addEventListener('keydown',(e)=>{ if(e.key==='/' && document.activeElement !== chatInput){ e.preventDefault(); chatBubble.click(); }});
-
-    // Test mode console logging for debugging
-    console.log('🧪 TEST MODE ACTIVE');
-    console.log('Stripe key:', stripe._apiKey);
-    console.log('Test prices loaded:', PRICES);
-    console.log('Use test cards: 4242 4242 4242 4242 (success) or 4000 0000 0000 0002 (decline)');
   </script>
 </body>
 </html>
