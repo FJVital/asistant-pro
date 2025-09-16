@@ -593,6 +593,18 @@
     chatInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter') chatSend.click(); });
 
     document.addEventListener('keydown',(e)=>{ if(e.key==='/' && document.activeElement !== chatInput){ e.preventDefault(); chatBubble.click(); }});
+   
+// TEMPORARY DEBUG CODE - Add this at the very end of your script
+    document.querySelectorAll('.pricing-btn').forEach((btn, index) => {
+    btn.addEventListener('touchstart', function(e) {
+    console.log('Touch detected on button:', index, this.id);
+    alert('Button touched: ' + this.id);
+  });
+  
+   btn.addEventListener('click', function(e) {
+   console.log('Click detected on button:', index, this.id);
+  });
+});
   </script>
 </body>
 </html>
