@@ -600,13 +600,17 @@
     chatInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter') chatSend.click(); });
 
     document.addEventListener('keydown',(e)=>{ if(e.key==='/' && document.activeElement !== chatInput){ e.preventDefault(); chatBubble.click(); }});
+    // REPLACE the debug code with this:
 document.querySelectorAll('.pricing-btn').forEach((btn, index) => {
   btn.addEventListener('click', function(e) {
     console.log('Click event fired for:', this.id);
     alert('Click detected on: ' + this.id + ' - About to call Stripe');
   });
 });
+    
+
   </script>
 </body>
 </html>
+
 
