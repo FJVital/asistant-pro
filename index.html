@@ -35,7 +35,7 @@
     .hero-sub{color:#475569;font-size:1.05rem;margin-bottom:18px}
     .hero-cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center}
 
-    /* Image scaling (reduced to 75%) */
+    /* Image scaling */
     .scale-75{width:75%;height:auto;display:block}
 
     /* Sections two-col */
@@ -55,8 +55,6 @@
     .toggle.on{background:#2e2dbd}
     .toggle.on .toggle-knob{transform:translateX(26px)}
 
-
-
     .plans-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
     .plan{background:#f9fafb;border-radius:12px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(2,6,23,0.03);transition:transform .2s,box-shadow .2s}
     .plan:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(2,6,23,0.06)}
@@ -68,47 +66,52 @@
     .plan ul{list-style:none;text-align:left;color:#374151;padding-left:0;margin-bottom:12px}
     .plan li{margin-bottom:8px}
 
-    /* Buttons use images */
+    /* Buttons */
     .img-btn{background:none;border:none;padding:0;cursor:pointer;display:inline-block}
     .img-btn img{display:block;height:auto;max-width:220px}
     
-    /* Mobile touch improvements for pricing buttons */
-    /* More aggressive mobile fix */
-.pricing-btn {
-  background: none;
-  border: none;
-  padding: 16px !important;
-  cursor: pointer;
-  display: inline-block;
-  min-height: 60px !important;
-  min-width: 60px !important;
-  -webkit-tap-highlight-color: rgba(0,0,0,0.1);
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  position: relative;
-  z-index: 10;
-}
+    /* Pricing buttons with mobile optimization */
+    .pricing-btn {
+      background: none;
+      border: none;
+      padding: 16px !important;
+      cursor: pointer;
+      display: inline-block;
+      min-height: 60px !important;
+      min-width: 60px !important;
+      -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      position: relative;
+      z-index: 10;
+      transition: transform 0.1s ease, opacity 0.1s ease;
+    }
 
-.pricing-btn img {
-  display: block;
-  height: auto;
-  max-width: 132px;
-  pointer-events: none !important;
-  position: relative;
-  z-index: 1;
-}
+    .pricing-btn img {
+      display: block;
+      height: auto;
+      max-width: 132px;
+      pointer-events: none !important;
+      position: relative;
+      z-index: 1;
+    }
 
-   /* Remove hover effects on touch devices */
-   @media (hover: none) and (pointer: coarse) {
-    .plan:hover {
-    transform: none;
-    box-shadow: 0 2px 12px rgba(2,6,23,0.03);
-  }
-}
+    /* Active/touch state for mobile feedback */
+    .pricing-btn:active {
+      transform: scale(0.95);
+      opacity: 0.8;
+    }
 
+    /* Remove hover effects on touch devices */
+    @media (hover: none) and (pointer: coarse) {
+      .plan:hover {
+        transform: none;
+        box-shadow: 0 2px 12px rgba(2,6,23,0.03);
+      }
+    }
 
-    /* Testimonials: 2 rows of 4 */
+    /* Testimonials */
     .testimonials-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:18px}
     .testimonial{background:#fff;border-radius:12px;padding:16px;box-shadow:0 6px 20px rgba(2,6,23,0.04);display:flex;gap:12px;align-items:flex-start}
     .testimonial img{width:56px;height:56px;border-radius:50%;object-fit:cover}
@@ -124,7 +127,7 @@
     /* Future CTA */
     .future-cta{display:flex;gap:20px;align-items:center;justify-content:center;margin-top:12px}
 
-    /* Footer buttons - all same size at 40px height */
+    /* Footer buttons */
     .footer-btn{height:40px;vertical-align:middle}
 
     /* Chatbot */
@@ -162,8 +165,7 @@
       <h1 id="hero-heading">Your digital clerk</h1>
       <p class="hero-sub">A first-class, always-available AI assistant that thoughtfully answers emails, organizes your schedule, and gives you back time to focus on growth — private, reliable, and built for professionals.</p>
 
-      <div class="hero-cta-row" aria-hidden="false">
-        <!-- Aligned buttons at same horizontal level -->
+      <div class="hero-cta-row">
         <button class="img-btn" id="btn-get-started" title="Get started">
           <img src="button_get_started_today.png" alt="Get started today" style="max-width:220px">
         </button>
@@ -175,7 +177,6 @@
     </div>
 
     <div class="hero-right">
-      <!-- scale to 75% -->
       <img class="scale-75" src="hero_section.png" alt="Digital assistant illustration">
     </div>
   </main>
@@ -190,7 +191,6 @@
 
     <div class="two-col" style="margin-top:22px">
       <div>
-        <!-- 75% scale -->
         <img class="scale-75" src="the_problem_we_solve.png" alt="Problem illustration" style="border-radius:10px">
       </div>
 
@@ -239,8 +239,8 @@
     <p class="lead">Start your digital clerk journey with zero upfront costs. Everything included in one simple monthly price — no hidden fees, no surprises.</p>
 
     <div class="pricing" style="margin-top:18px">
-      <!-- No Setup Fees Banner -->
-      <img src="banner_limited_time.png" style="width:100%;max-width:1200px;height:auto;margin-bottom:20px;border-radius:8px;">
+      <!-- Limited Time Banner -->
+      <img src="banner_limited_time.png" alt="Limited Time: No Setup Fees!" style="width:100%;max-width:1200px;height:auto;margin-bottom:20px;border-radius:8px;">
 
       <div class="billing-toggle">
         <span class="toggle-label">Monthly</span>
@@ -325,7 +325,7 @@
   <!-- DIVIDER -->
   <img class="divider" src="divider_line.png" alt="divider">
 
-  <!-- TESTIMONIALS: 2 rows of 4 -->
+  <!-- TESTIMONIALS -->
   <section id="testimonials" class="container">
     <h2 class="section-title">Hundreds of customers have reclaimed hours each week</h2>
     <p class="lead">Real people, real time saved — these are a few stories from customers who discovered the power of a digital clerk.</p>
@@ -410,10 +410,10 @@
   <script src="https://js.stripe.com/v3/"></script>
 
   <script>
-    // ========== PRODUCTION STRIPE CONFIGURATION ==========
+    // Stripe Configuration
     const stripe = Stripe("pk_live_51S6Iwe6W7xl7S1m11FkI51ucL0G5pdnpFqV4JPWB2Bxcuyrn6XH3hhQI5wjEhEdLXVCB7BZeZ6eTZ6TUawFKnGhy00Hdble84x");
 
-    // LIVE Price IDs - From your project blueprint
+    // Live Price IDs
     const PRICES = {
       starter: { 
         monthly: "price_1S80wP6W7xl7S1m1BDFgUDDu", 
@@ -433,69 +433,62 @@
       }
     };
 
-    // success and cancel URLs with plan parameters
+    // Success and cancel URLs
     function getSuccessUrl(plan) {
       return window.location.origin + "/success.html?plan=" + plan;
     }
     const cancelUrl = window.location.origin + "/cancel.html";
 
-   // Replace your startCheckout function with this enhanced version:
-function startCheckout(priceId, plan){
-  console.log('Starting checkout for:', plan, 'with price:', priceId);
-  
-  stripe.redirectToCheckout({
-    lineItems: [{ price: priceId, quantity: 1 }],
-    mode: 'subscription',
-    successUrl: getSuccessUrl(plan),
-    cancelUrl: cancelUrl
-  }).then(function(result){
-    if(result.error) {
-      console.error('Stripe error:', result.error);
-      alert('Stripe Error: ' + (result.error.message || "Checkout error"));
-    } else {
-      console.log('Stripe redirect should have happened');
+    // Checkout function
+    function startCheckout(priceId, plan) {
+      stripe.redirectToCheckout({
+        lineItems: [{ price: priceId, quantity: 1 }],
+        mode: 'subscription',
+        successUrl: getSuccessUrl(plan),
+        cancelUrl: cancelUrl
+      }).then(function(result) {
+        if(result.error) {
+          console.error('Stripe error:', result.error);
+          alert('Error: ' + (result.error.message || "Checkout error"));
+        }
+      });
     }
-  }).catch(function(error) {
-    console.error('Stripe catch error:', error);
-    alert('Stripe Catch Error: ' + error.message);
-  });
-}
 
-    // Hook buttons with simplified single price checkout
-    document.getElementById("starter-monthly-btn").addEventListener("click", ()=> {
+    // Button event listeners
+    document.getElementById("starter-monthly-btn").addEventListener("click", () => {
       startCheckout(PRICES.starter.monthly, 'starter');
     });
-    document.getElementById("starter-yearly-btn").addEventListener("click", ()=> {
+    document.getElementById("starter-yearly-btn").addEventListener("click", () => {
       startCheckout(PRICES.starter.yearly, 'starter');
     });
 
-    document.getElementById("growth-monthly-btn").addEventListener("click", ()=> {
+    document.getElementById("growth-monthly-btn").addEventListener("click", () => {
       startCheckout(PRICES.growth.monthly, 'growth');
     });
-    document.getElementById("growth-yearly-btn").addEventListener("click", ()=> {
+    document.getElementById("growth-yearly-btn").addEventListener("click", () => {
       startCheckout(PRICES.growth.yearly, 'growth');
     });
 
-    document.getElementById("pro-monthly-btn").addEventListener("click", ()=> {
+    document.getElementById("pro-monthly-btn").addEventListener("click", () => {
       startCheckout(PRICES.pro.monthly, 'pro');
     });
-    document.getElementById("pro-yearly-btn").addEventListener("click", ()=> {
+    document.getElementById("pro-yearly-btn").addEventListener("click", () => {
       startCheckout(PRICES.pro.yearly, 'pro');
     });
 
-    document.getElementById("exec-monthly-btn").addEventListener("click", ()=> {
+    document.getElementById("exec-monthly-btn").addEventListener("click", () => {
       startCheckout(PRICES.exec.monthly, 'executive');
     });
-    document.getElementById("exec-yearly-btn").addEventListener("click", ()=> {
+    document.getElementById("exec-yearly-btn").addEventListener("click", () => {
       startCheckout(PRICES.exec.yearly, 'executive');
     });
 
-    // hero CTA scroll
-    document.getElementById("btn-get-started").addEventListener("click", ()=> {
+    // Hero CTA scroll
+    document.getElementById("btn-get-started").addEventListener("click", () => {
       document.getElementById("pricing").scrollIntoView({ behavior: "smooth" });
     });
 
-    // Billing toggle logic with savings display
+    // Billing toggle
     const billingToggle = document.getElementById('billingToggle');
     const priceEls = [
       { el: document.getElementById('starter-price'), savings: document.getElementById('starter-savings') },
@@ -505,7 +498,7 @@ function startCheckout(priceId, plan){
     ];
     let yearly = false;
 
-    function updatePrices(){
+    function updatePrices() {
       priceEls.forEach(p => {
         p.el.textContent = yearly ? p.el.dataset.yearly : p.el.dataset.monthly;
         if (p.savings) {
@@ -514,17 +507,17 @@ function startCheckout(priceId, plan){
       });
     }
 
-    billingToggle.addEventListener('click', ()=> {
+    billingToggle.addEventListener('click', () => {
       yearly = !yearly;
       billingToggle.classList.toggle('on', yearly);
       billingToggle.setAttribute('aria-checked', yearly ? 'true' : 'false');
       updatePrices();
     });
 
-    // set year
+    // Set year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ========== Chatbot scripted Q&A ==========
+    // Chatbot
     const chatBubble = document.getElementById('chatBubble');
     const chatWindow = document.getElementById('chatWindow');
     const chatBody = document.getElementById('chatBody');
@@ -532,13 +525,13 @@ function startCheckout(priceId, plan){
     const chatSend = document.getElementById('chatSend');
     const closeChat = document.getElementById('closeChat');
 
-    chatBubble.addEventListener('click', ()=> {
+    chatBubble.addEventListener('click', () => {
       chatBubble.style.display = 'none';
       chatWindow.style.display = 'flex';
       chatBody.scrollTop = chatBody.scrollHeight;
       chatInput.focus();
     });
-    closeChat.addEventListener('click', ()=> {
+    closeChat.addEventListener('click', () => {
       chatWindow.style.display = 'none';
       chatBubble.style.display = 'flex';
     });
@@ -568,14 +561,14 @@ function startCheckout(priceId, plan){
       fallback: "I can answer questions about asistant.pro: plans, setup, features, and what happens after payment. What would you like to know?"
     };
 
-    function appendBot(text){
+    function appendBot(text) {
       const row = document.createElement('div');
       row.className = 'msg-row bot';
       row.innerHTML = '<img src="chatbot_avatar.png" alt="bot"><div class="bubble bot">' + text + '</div>';
       chatBody.appendChild(row);
       chatBody.scrollTop = chatBody.scrollHeight;
     }
-    function appendUser(text){
+    function appendUser(text) {
       const row = document.createElement('div');
       row.className = 'msg-row user';
       row.innerHTML = '<div class="bubble user">' + text + '</div>';
@@ -583,9 +576,9 @@ function startCheckout(priceId, plan){
       chatBody.scrollTop = chatBody.scrollHeight;
     }
 
-    function findFAQMatch(text){
+    function findFAQMatch(text) {
       const t = text.toLowerCase().trim();
-      for(let f of FAQ){ if(t === f.q.toLowerCase()) return f.a; }
+      for(let f of FAQ) { if(t === f.q.toLowerCase()) return f.a; }
       if(/\bprice|cost|how much|plans?\b/.test(t)) return FAQ.find(x=>x.q.includes("how much")).a;
       if(/\btrial\b/.test(t)) return FAQ.find(x=>x.q.includes("do i get a free trial")).a;
       if(/\bname\b|\bname the clerk\b/.test(t)) return "Yes — you'll be able to name your clerk on the setup page after purchase.";
@@ -599,15 +592,14 @@ function startCheckout(priceId, plan){
       return FUN.fallback;
     }
 
-    chatSend.addEventListener('click', ()=>{
+    chatSend.addEventListener('click', () => {
       const text = chatInput.value.trim(); if(!text) return;
       appendUser(text); chatInput.value='';
-      setTimeout(()=>{ const answer = findFAQMatch(text); appendBot(answer); },350);
+      setTimeout(() => { const answer = findFAQMatch(text); appendBot(answer); }, 350);
     });
-    chatInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter') chatSend.click(); });
-    document.addEventListener('keydown',(e)=>{ if(e.key==='/' && document.activeElement !== chatInput){ e.preventDefault(); chatBubble.click(); }});
+    chatInput.addEventListener('keypress', (e) => { if(e.key==='Enter') chatSend.click(); });
+
+    document.addEventListener('keydown', (e) => { if(e.key==='/' && document.activeElement !== chatInput) { e.preventDefault(); chatBubble.click(); }});
   </script>
 </body>
 </html>
-
-
