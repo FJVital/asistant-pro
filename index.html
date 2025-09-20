@@ -30,16 +30,21 @@
             text-align: center;
         }
         
-        .header-logo {
-            max-width: 300px;
-            width: 80%;
-            height: auto;
+        .header-logo-text {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #e8f4f8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 15px;
+            letter-spacing: -1px;
         }
         
-        .header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
+        .header-logo-text .pro {
+            font-size: 1.8rem;
+            color: #e8f4f8;
+            -webkit-text-fill-color: #e8f4f8;
         }
         
         .header p {
@@ -95,49 +100,169 @@
             box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
         }
         
-        .btn {
-            background: linear-gradient(90deg, #3498db, #2980b9);
+        /* Enhanced button styles replacing image buttons */
+        .btn-main-action {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 6px;
+            padding: 18px 30px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
             width: 100%;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
         }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+
+        .btn-main-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
         }
-        
-        .btn:disabled {
-            background: #bdc3c7;
-            transform: none;
-            cursor: not-allowed;
+
+        .btn-main-action:active {
+            transform: translateY(-1px);
         }
-        
-        .btn-image {
-            background: none;
+
+        .admin-btn-new {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
             border: none;
-            padding: 0;
+            padding: 12px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            width: 100%;
-            transition: transform 0.2s;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 5px;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
         }
-        
-        .btn-image:hover {
+
+        .admin-btn-new:hover {
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .admin-btn-test { background: linear-gradient(135deg, #2196F3, #1976D2); }
+        .admin-btn-refresh { background: linear-gradient(135deg, #FF9800, #F57C00); }
+        .admin-btn-status { background: linear-gradient(135deg, #9C27B0, #7B1FA2); }
+        
+        .voice-input-section {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
         }
         
-        .btn-image img {
+        .voice-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            min-width: 60px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .voice-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+        
+        .voice-btn.recording {
+            background: #e74c3c;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(231, 76, 60, 0.6); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(231, 76, 60, 0.8); }
+            100% { transform: scale(1); box-shadow: 0 0 20px rgba(231, 76, 60, 0.6); }
+        }
+        
+        .voice-status {
+            color: #666;
+            font-size: 14px;
+            flex: 1;
+            line-height: 1.4;
+        }
+        
+        .voice-status.error { color: #e74c3c; font-weight: 600; }
+        .voice-status.success { color: #27ae60; font-weight: 600; }
+        
+        /* Enhanced search section */
+        .search-section-enhanced {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #dee2e6;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .search-input-enhanced {
             width: 100%;
-            max-width: 300px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .search-input-enhanced:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid #dee2e6;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .results-count {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
         }
         
         .transaction-card {
@@ -147,24 +272,6 @@
             padding: 20px;
             margin-bottom: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .transaction-header {
-            display: flex;
-            justify-content: between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .property-address {
-            font-weight: bold;
-            color: #2c3e50;
-            font-size: 1.1rem;
-        }
-        
-        .client-name {
-            color: #7f8c8d;
-            font-size: 0.9rem;
         }
         
         .deadlines {
@@ -181,38 +288,113 @@
             text-align: center;
         }
         
-        .deadline-item.urgent {
-            background: #e74c3c;
+        .deadline-item.urgent { background: #e74c3c; color: white; }
+        .deadline-item.warning { background: #f39c12; color: white; }
+        .deadline-item.good { background: #27ae60; color: white; }
+        
+        /* Trial banner styles */
+        .trial-banner {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .trial-cta {
+            background: #333;
             color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            margin-left: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
-        
-        .deadline-item.warning {
-            background: #f39c12;
-            color: white;
+
+        .trial-cta:hover {
+            background: #000;
+            transform: translateY(-1px);
         }
-        
-        .deadline-item.good {
-            background: #27ae60;
-            color: white;
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
         }
-        
-        .deadline-label {
-            font-size: 0.8rem;
-            margin-bottom: 5px;
-            opacity: 0.8;
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease;
         }
-        
-        .deadline-date {
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .plan-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .plan-card {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .plan-card.recommended {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f8f9ff, #fff);
+        }
+
+        .plan-price {
+            font-size: 2rem;
             font-weight: bold;
+            color: #2c3e50;
         }
-        
-        .days-until {
-            font-size: 0.8rem;
-            margin-top: 5px;
+
+        .plan-price span {
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+
+        .plan-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            font-weight: 600;
         }
         
         .demo-note {
-            background: linear-gradient(90deg, #4a4a4a, #6a6a6a);
+            background: linear-gradient(90deg, #2c2c2c, #4a4a4a);
             color: white;
             padding: 20px;
             border-radius: 6px;
@@ -242,147 +424,22 @@
             text-align: center;
         }
         
-        .loading {
-            text-align: center;
-            color: #6c757d;
-            padding: 20px;
-        }
-        
-        .admin-panel {
-            background: #e8f5e8;
-            border: 1px solid #c3e6cb;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
-        }
-        
-        .admin-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            font-size: 12px;
-        }
-        
-        .automation-info {
-            background: #f0f8ff;
-            border: 1px solid #b8daff;
-            color: #004085;
-            padding: 20px;
-            border-radius: 6px;
-            margin: 20px 0;
-            line-height: 1.6;
-        }
-        
-        .automation-info h4 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-        
-        .search-section {
-            margin-bottom: 20px;
-            background: white;
-            padding: 15px;
-            border-radius: 6px;
-            border: 1px solid #e9ecef;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-        
-        .voice-input-section {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .voice-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 16px;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .voice-btn:hover {
-            background: #c0392b;
-        }
-        
-        .voice-btn.recording {
-            background: #e74c3c;
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        .voice-status {
-            color: #666;
-            font-size: 14px;
-            flex: 1;
-        }
-        
         @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                padding: 15px 20px;
-            }
-            
-            .deadlines {
-                grid-template-columns: 1fr;
-            }
-            
-            .header {
-                padding: 15px 20px;
-            }
-            
-            .header h1 {
-                font-size: 1.6rem;
-            }
-            
-            .header p {
-                font-size: 1rem;
-            }
-            
-            .container {
-                margin: 5px;
-                border-radius: 8px;
-            }
+            .main-content { grid-template-columns: 1fr; }
+            .plan-options { grid-template-columns: 1fr; }
+            .search-filters { flex-direction: column; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <img src="asistant_pro_logo.png" alt="asistant.pro logo" class="header-logo">
-            <h1>Real Estate Transaction Tracker</h1>
-            <p>Never miss another deadline - Automated reminders for every transaction</p>
+            <div class="header-logo-text">asistant<span class="pro">.pro</span></div>
+            <p>Automate deadline reminders for every transaction and never miss a date.</p>
         </div>
         
         <div class="demo-note">
-            <strong>Demo Version:</strong> Add a sample transaction below. Watch the system calculate all deadlines instantly and schedule 15 automatic reminders to prevent missed deadlines that cost commissions.
+            <strong>Demo Version:</strong> Add a sample transaction to instantly view calculated deadlines and automated reminders.
         </div>
         
         <div id="messageArea"></div>
@@ -393,7 +450,12 @@
                 
                 <div class="voice-input-section">
                     <button class="voice-btn" id="voiceBtn" title="Voice Input">🎤</button>
-                    <div class="voice-status" id="voiceStatus">Click microphone to use voice input</div>
+                    <div>
+                        <div class="voice-status" id="voiceStatus">Tap microphone to use voice input</div>
+                        <div class="voice-instructions" id="voiceInstructions">
+                            Say: "Add transaction 123 Oak Street client John Smith buyer contract today"
+                        </div>
+                    </div>
                 </div>
                 
                 <form id="transactionForm">
@@ -441,31 +503,38 @@
                         <input type="number" id="listPrice" placeholder="450000" step="1000">
                     </div>
                     
-                    <button type="submit" class="btn-image" id="submitBtn">
-                        <img src="button_add_transaction_calculate_deadlines.png" alt="Add Transaction & Calculate Deadlines">
+                    <button type="submit" class="btn-main-action" id="submitBtn">
+                        🏠 Add Transaction & Calculate Deadlines
                     </button>
                 </form>
                 
-                <div class="automation-info">
-                    <h4>Real Estate Transaction Automation</h4>
-                    <p>Automate your transaction timeline with precision. Input your contract and closing dates, and our system instantly calculates all five critical Texas deadlines.</p>
-                    <p>It then proactively manages your schedule with automated reminders, preventing costly oversights. Your data remains private and secure in your device, with access restricted solely to you. This zero-setup system delivers complete confidence and peace of mind throughout your transaction.</p>
-                </div>
-                
                 <div class="admin-panel">
                     <h4>Demo Controls</h4>
-                    <button class="admin-btn" onclick="triggerReminders()">Test Reminders</button>
-                    <button class="admin-btn" onclick="loadDashboard()">Refresh Dashboard</button>
-                    <button class="admin-btn" onclick="checkStatus()">System Status</button>
+                    <button class="admin-btn-new admin-btn-test" onclick="triggerReminders()">📧 Test Reminders</button>
+                    <button class="admin-btn-new admin-btn-refresh" onclick="loadDashboard()">🔄 Refresh Dashboard</button>
+                    <button class="admin-btn-new admin-btn-status" onclick="checkStatus()">📊 System Status</button>
                 </div>
             </div>
             
             <div class="transactions-list">
                 <h2 class="section-title">Active Transactions</h2>
                 
-                <div class="search-section">
-                    <input type="text" class="search-input" id="searchInput" placeholder="Search by property address, client name, or deadline...">
-                    <div style="font-size: 12px; color: #666;">Search across all your active transactions</div>
+                <div class="search-section-enhanced">
+                    <input type="text" class="search-input-enhanced" id="searchInput" 
+                           placeholder="Search by property address, client name, or deadline...">
+                    
+                    <div class="search-filters">
+                        <button class="filter-btn active" data-filter="urgency" data-value="all">All Urgency</button>
+                        <button class="filter-btn" data-filter="urgency" data-value="urgent">Urgent</button>
+                        <button class="filter-btn" data-filter="urgency" data-value="warning">Warning</button>
+                        <button class="filter-btn" data-filter="urgency" data-value="good">Good</button>
+                        
+                        <button class="filter-btn active" data-filter="type" data-value="all">All Types</button>
+                        <button class="filter-btn" data-filter="type" data-value="buyer">Buyer</button>
+                        <button class="filter-btn" data-filter="type" data-value="listing">Listing</button>
+                    </div>
+                    
+                    <div class="results-count" id="resultsCount">Showing all transactions</div>
                 </div>
                 
                 <div id="transactionsList">
@@ -480,126 +549,208 @@
         let allTransactions = [];
         let isRecording = false;
         let recognition = null;
+        let voiceSupported = false;
+        let searchManager = null;
+        let trialManager = null;
         
-        // Initialize voice recognition
-        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            recognition = new SpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.lang = 'en-US';
+        // Enhanced voice recognition with better error handling
+        function initializeVoiceRecognition() {
+        
+        // Enhanced search functionality
+        class TransactionSearch {
+            constructor() {
+                this.allTransactions = [];
+                this.filteredTransactions = [];
+                this.activeFilters = { status: 'all', type: 'all', urgency: 'all' };
+                this.searchTerm = '';
+                this.initializeSearch();
+            }
             
-            recognition.onstart = function() {
-                isRecording = true;
-                document.getElementById('voiceBtn').classList.add('recording');
-                document.getElementById('voiceStatus').textContent = 'Listening... Speak clearly';
-            };
+            initializeSearch() {
+                const searchInput = document.getElementById('searchInput');
+                const filterButtons = document.querySelectorAll('.filter-btn');
+                
+                let searchTimeout;
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        this.searchTerm = e.target.value.toLowerCase();
+                        this.applyFilters();
+                    }, 300);
+                });
+                
+                filterButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const filterType = btn.dataset.filter;
+                        const filterValue = btn.dataset.value;
+                        
+                        this.activeFilters[filterType] = filterValue;
+                        
+                        document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(b => 
+                            b.classList.remove('active'));
+                        btn.classList.add('active');
+                        
+                        this.applyFilters();
+                    });
+                });
+            }
             
-            recognition.onend = function() {
-                isRecording = false;
-                document.getElementById('voiceBtn').classList.remove('recording');
-                document.getElementById('voiceStatus').textContent = 'Click microphone to use voice input';
-            };
+            updateTransactions(transactions) {
+                this.allTransactions = transactions;
+                this.applyFilters();
+            }
             
-            recognition.onresult = function(event) {
-                const transcript = event.results[0][0].transcript;
-                parseVoiceInput(transcript);
-            };
+            applyFilters() {
+                let filtered = [...this.allTransactions];
+                
+                if (this.searchTerm) {
+                    filtered = filtered.filter(transaction => {
+                        const searchFields = [
+                            transaction.property_address,
+                            transaction.client_name,
+                            transaction.transaction_type
+                        ].join(' ').toLowerCase();
+                        
+                        return searchFields.includes(this.searchTerm);
+                    });
+                }
+                
+                if (this.activeFilters.type !== 'all') {
+                    filtered = filtered.filter(t => t.transaction_type === this.activeFilters.type);
+                }
+                
+                this.filteredTransactions = filtered;
+                displayTransactions(this.filteredTransactions);
+                this.updateResultsCount();
+            }
             
-            recognition.onerror = function(event) {
-                console.error('Speech recognition error:', event.error);
-                document.getElementById('voiceStatus').textContent = 'Voice input error. Try again.';
-            };
+            updateResultsCount() {
+                const countElement = document.getElementById('resultsCount');
+                if (countElement) {
+                    const total = this.allTransactions.length;
+                    const showing = this.filteredTransactions.length;
+                    countElement.textContent = `Showing ${showing} of ${total} transactions`;
+                }
+            }
         }
         
-        // Voice input button
-        document.getElementById('voiceBtn').addEventListener('click', function() {
-            if (!recognition) {
-                showMessage('Voice input not supported in this browser', 'error');
-                return;
+        // Trial payment manager
+        class TrialPaymentManager {
+            constructor() {
+                this.trialDaysRemaining = 14;
+                this.initializeTrialSystem();
             }
             
-            if (isRecording) {
-                recognition.stop();
-            } else {
-                recognition.start();
-            }
-        });
-        
-        // Parse voice input
-        function parseVoiceInput(transcript) {
-            document.getElementById('voiceStatus').textContent = `Heard: "${transcript}"`;
-            
-            // Simple parsing - look for key patterns
-            const text = transcript.toLowerCase();
-            
-            // Extract property address (look for street, avenue, drive, etc.)
-            const addressMatch = text.match(/(\d+\s+[\w\s]+(street|st|avenue|ave|drive|dr|road|rd|lane|ln|court|ct|way|circle|cir|place|pl)[\w\s]*)/i);
-            if (addressMatch) {
-                document.getElementById('propertyAddress').value = addressMatch[0];
+            initializeTrialSystem() {
+                this.createTrialBanner();
+                this.setupPaymentModal();
             }
             
-            // Extract client name (look for "client" or "for" followed by name)
-            const clientMatch = text.match(/(client|for)\s+([a-zA-Z\s]+)/i);
-            if (clientMatch) {
-                document.getElementById('clientName').value = clientMatch[2].trim();
+            createTrialBanner() {
+                const banner = document.createElement('div');
+                banner.className = 'trial-banner';
+                banner.id = 'trialBanner';
+                banner.innerHTML = `
+                    <strong>FREE TRIAL:</strong> ${this.trialDaysRemaining} days remaining to test all features
+                    <button class="trial-cta" onclick="trialManager.showPaymentModal()">
+                        Upgrade Now - $397/month
+                    </button>
+                `;
+                
+                const demoNote = document.querySelector('.demo-note');
+                if (demoNote) {
+                    demoNote.parentNode.insertBefore(banner, demoNote.nextSibling);
+                }
             }
             
-            // Extract transaction type
-            if (text.includes('buyer') || text.includes('buying')) {
-                document.getElementById('transactionType').value = 'buyer';
-            } else if (text.includes('seller') || text.includes('listing') || text.includes('selling')) {
-                document.getElementById('transactionType').value = 'listing';
+            setupPaymentModal() {
+                const modalHTML = `
+                    <div id="paymentModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="trialManager.closePaymentModal()">&times;</span>
+                            <h2>Choose Your Plan</h2>
+                            
+                            <div class="plan-options">
+                                <div class="plan-card">
+                                    <h3>Solo Agent</h3>
+                                    <div class="plan-price">$297<span>/month</span></div>
+                                    <ul style="text-align: left; margin: 15px 0;">
+                                        <li>✓ Up to 50 transactions/month</li>
+                                        <li>✓ Automated deadline reminders</li>
+                                        <li>✓ Voice input capability</li>
+                                        <li>✓ Mobile-optimized interface</li>
+                                        <li>✓ Email support</li>
+                                    </ul>
+                                    <button class="plan-btn" onclick="alert('Demo mode - Payment integration needed')">
+                                        Start Solo Plan
+                                    </button>
+                                </div>
+                                
+                                <div class="plan-card recommended">
+                                    <h3>Professional</h3>
+                                    <div class="plan-price">$397<span>/month</span></div>
+                                    <ul style="text-align: left; margin: 15px 0;">
+                                        <li>✓ Unlimited transactions</li>
+                                        <li>✓ Automated deadline reminders</li>
+                                        <li>✓ Voice input capability</li>
+                                        <li>✓ Mobile-optimized interface</li>
+                                        <li>✓ Priority support</li>
+                                        <li>✓ Custom deadline templates</li>
+                                    </ul>
+                                    <button class="plan-btn" onclick="alert('Demo mode - Payment integration needed')">
+                                        Start Professional Plan
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 20px;">
+                                <p>Need more time to evaluate? <a href="#" onclick="trialManager.requestExtension()">Request trial extension</a></p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
             }
             
-            // Extract dates
-            if (text.includes('today') || text.includes('contract today')) {
-                document.getElementById('contractDate').value = new Date().toISOString().split('T')[0];
+            showPaymentModal() {
+                document.getElementById('paymentModal').style.display = 'block';
             }
             
-            showMessage('Voice input processed - please review and complete any missing fields', 'success');
+            closePaymentModal() {
+                document.getElementById('paymentModal').style.display = 'none';
+            }
+            
+            requestExtension() {
+                this.trialDaysRemaining += 7;
+                this.updateTrialBanner();
+                this.closePaymentModal();
+                showMessage('Trial extended by 7 days! Use this time to test all features.', 'success');
+            }
+            
+            updateTrialBanner() {
+                const banner = document.getElementById('trialBanner');
+                if (banner) {
+                    banner.innerHTML = `
+                        <strong>FREE TRIAL:</strong> ${this.trialDaysRemaining} days remaining to test all features
+                        <button class="trial-cta" onclick="trialManager.showPaymentModal()">
+                            Upgrade Now - $397/month
+                        </button>
+                    `;
+                }
+            }
         }
         
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            filterTransactions(searchTerm);
-        });
-        
-        function filterTransactions(searchTerm) {
-            if (!searchTerm) {
-                displayTransactions(allTransactions);
-                return;
-            }
-            
-            const filtered = allTransactions.filter(transaction => {
-                return transaction.property_address.toLowerCase().includes(searchTerm) ||
-                       transaction.client_name.toLowerCase().includes(searchTerm) ||
-                       transaction.transaction_type.toLowerCase().includes(searchTerm);
-            });
-            
-            displayTransactions(filtered);
-        }
-        
-        // Show message to user
+        // Core application functions
         function showMessage(message, type = 'success') {
             const messageArea = document.getElementById('messageArea');
             const messageClass = type === 'error' ? 'error-message' : 'success-message';
-            
             messageArea.innerHTML = `<div class="${messageClass}">${message}</div>`;
-            
-            // Clear message after 5 seconds
-            setTimeout(() => {
-                messageArea.innerHTML = '';
-            }, 5000);
+            setTimeout(() => messageArea.innerHTML = '', 5000);
         }
         
-        // Add transaction
         document.getElementById('transactionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.style.opacity = '0.6';
             
             const formData = {
                 agent_email: document.getElementById('agentEmail').value,
@@ -615,16 +766,14 @@
             try {
                 const response = await fetch('/api/add-transaction', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
                 });
                 
                 const result = await response.json();
                 
                 if (result.success) {
-                    showMessage(`Transaction added successfully! Automated reminders scheduled for all 15 deadlines.`);
+                    showMessage('Transaction added successfully! Automated reminders scheduled for all deadlines.');
                     document.getElementById('transactionForm').reset();
                     setDefaultDates();
                     currentAgentEmail = formData.agent_email;
@@ -635,11 +784,8 @@
             } catch (error) {
                 showMessage('Error adding transaction: ' + error.message, 'error');
             }
-            
-            submitBtn.style.opacity = '1';
         });
         
-        // Load dashboard
         async function loadDashboard() {
             const transactionsList = document.getElementById('transactionsList');
             transactionsList.innerHTML = '<div class="loading">Loading transactions...</div>';
@@ -650,7 +796,11 @@
                 
                 if (result.success) {
                     allTransactions = result.transactions;
-                    displayTransactions(allTransactions);
+                    if (searchManager) {
+                        searchManager.updateTransactions(allTransactions);
+                    } else {
+                        displayTransactions(allTransactions);
+                    }
                 } else {
                     transactionsList.innerHTML = '<div class="error-message">Error loading transactions</div>';
                 }
@@ -659,7 +809,6 @@
             }
         }
         
-        // Display transactions
         function displayTransactions(transactions) {
             const transactionsList = document.getElementById('transactionsList');
             
@@ -673,7 +822,6 @@
             }).join('');
         }
         
-        // Create transaction card HTML
         function createTransactionCardHTML(transaction) {
             const today = new Date();
             
@@ -706,8 +854,8 @@
                 <div class="transaction-card">
                     <div class="transaction-header">
                         <div>
-                            <div class="property-address">${transaction.property_address}</div>
-                            <div class="client-name">Client: ${transaction.client_name} (${transaction.transaction_type === 'buyer' ? 'Buyer' : 'Seller'})</div>
+                            <div class="property-address" style="font-weight: bold; color: #2c3e50; font-size: 1.1rem;">${transaction.property_address}</div>
+                            <div class="client-name" style="color: #7f8c8d; font-size: 0.9rem;">Client: ${transaction.client_name} (${transaction.transaction_type === 'buyer' ? 'Buyer' : 'Seller'})</div>
                         </div>
                     </div>
                     <div class="deadlines">
@@ -717,41 +865,26 @@
             `;
         }
         
-        // Test reminders
         async function triggerReminders() {
             try {
-                const response = await fetch('/api/trigger-reminders', {
-                    method: 'POST'
-                });
+                const response = await fetch('/api/trigger-reminders', { method: 'POST' });
                 const result = await response.json();
-                
-                if (result.success) {
-                    showMessage(result.message);
-                } else {
-                    showMessage(result.message, 'error');
-                }
+                showMessage(result.success ? result.message : result.message, result.success ? 'success' : 'error');
             } catch (error) {
                 showMessage('Error triggering reminders: ' + error.message, 'error');
             }
         }
         
-        // Check system status
         async function checkStatus() {
             try {
                 const response = await fetch('/api/status');
                 const result = await response.json();
-                
-                if (result.success) {
-                    showMessage(`System Status: ${result.status.isRunning ? 'Running' : 'Stopped'} - Last check: ${new Date(result.timestamp).toLocaleString()}`);
-                } else {
-                    showMessage('Error checking status', 'error');
-                }
+                showMessage(`System Status: ${result.status.isRunning ? 'Running' : 'Stopped'} - Last check: ${new Date(result.timestamp).toLocaleString()}`);
             } catch (error) {
                 showMessage('Error checking status: ' + error.message, 'error');
             }
         }
         
-        // Set default dates
         function setDefaultDates() {
             const today = new Date();
             const closingDefault = new Date();
@@ -761,10 +894,15 @@
             document.getElementById('closingDate').value = closingDefault.toISOString().split('T')[0];
         }
         
-        // Initialize page
+        // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
+            initializeVoiceRecognition();
             setDefaultDates();
             document.getElementById('agentEmail').value = currentAgentEmail;
+            
+            searchManager = new TransactionSearch();
+            trialManager = new TrialPaymentManager();
+            
             loadDashboard();
         });
     </script>
