@@ -180,7 +180,7 @@ async function startServer() {
     if (gmailInitialized) {
       console.log('✅ Gmail sender ready');
     } else {
-      console.log(⚠️  Gmail sender not initialized - test emails will not work');
+      console.log('WARNING: Gmail sender not initialized - test emails will not work');
       console.log('   Run: node gmail-auth.js to set up Gmail authentication');
     }
 
