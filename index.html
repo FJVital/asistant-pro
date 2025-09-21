@@ -30,40 +30,58 @@
             text-align: center;
         }
         
-        .header-logo-text {
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #fff 0%, #e8f4f8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 15px;
-            letter-spacing: -1px;
+        .header-logo {
+            max-width: 300px;
+            width: 80%;
+            height: auto;
         }
         
-        .header-logo-text .pro {
-            font-size: 1.8rem;
-            color: #e8f4f8;
-            -webkit-text-fill-color: #e8f4f8;
+        .instruction-banner {
+            background: rgb(204, 204, 204);
+            color: rgb(0, 0, 102);
+            padding: 15px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 500;
         }
         
-        .header p {
-            opacity: 0.9;
-            font-size: 1.1rem;
+        .trial-banner {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            display: none;
+        }
+
+        .trial-cta {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            margin-left: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .trial-cta:hover {
+            background: #000;
+            transform: translateY(-1px);
         }
         
         .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            padding: 20px 30px 30px 30px;
+            padding: 30px;
         }
         
-        .add-transaction, .transactions-list {
+        .section {
             background: #f8f9fa;
             padding: 25px;
             border-radius: 8px;
             border: 1px solid #e9ecef;
+            margin-bottom: 30px;
         }
         
         .section-title {
@@ -85,7 +103,7 @@
             color: #34495e;
         }
         
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
@@ -94,64 +112,11 @@
             transition: border-color 0.3s;
         }
         
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: #3498db;
             box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
         }
-        
-        /* Enhanced button styles replacing image buttons */
-        .btn-main-action {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 18px 30px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin: 20px 0;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-main-action:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-main-action:active {
-            transform: translateY(-1px);
-        }
-
-        .admin-btn-new {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            margin: 5px;
-            transition: all 0.3s ease;
-            min-width: 140px;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-        }
-
-        .admin-btn-new:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
-
-        .admin-btn-test { background: linear-gradient(135deg, #2196F3, #1976D2); }
-        .admin-btn-refresh { background: linear-gradient(135deg, #FF9800, #F57C00); }
-        .admin-btn-status { background: linear-gradient(135deg, #9C27B0, #7B1FA2); }
         
         .voice-input-section {
             display: flex;
@@ -192,6 +157,12 @@
             box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
         }
         
+        .voice-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            animation: none;
+        }
+        
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 0 20px rgba(231, 76, 60, 0.6); }
             50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(231, 76, 60, 0.8); }
@@ -208,17 +179,72 @@
         .voice-status.error { color: #e74c3c; font-weight: 600; }
         .voice-status.success { color: #27ae60; font-weight: 600; }
         
-        /* Enhanced search section */
-        .search-section-enhanced {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 2px solid #dee2e6;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        .voice-instructions {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            line-height: 1.3;
         }
-
-        .search-input-enhanced {
+        
+        .btn-image {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+            margin: 15px 0;
+        }
+        
+        .btn-image:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-image img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .admin-panel {
+            background: #e8f5e8;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        
+        .admin-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            transition: transform 0.2s;
+        }
+        
+        .admin-btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .admin-btn img {
+            height: 40px;
+            width: auto;
+        }
+        
+        .search-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 30px;
+        }
+        
+        .search-input {
             width: 100%;
             padding: 15px 20px;
             border: 2px solid #ddd;
@@ -226,39 +252,14 @@
             font-size: 16px;
             transition: all 0.3s ease;
             background: white;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
         }
-
-        .search-input-enhanced:focus {
+        
+        .search-input:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-            transform: translateY(-1px);
         }
-
-        .search-filters {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: white;
-            border: 2px solid #dee2e6;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            border-color: #667eea;
-            background: #667eea;
-            color: white;
-        }
-
+        
         .results-count {
             font-size: 12px;
             color: #666;
@@ -272,6 +273,71 @@
             padding: 20px;
             margin-bottom: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .property-address {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .client-name {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .transaction-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-edit {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-edit:hover {
+            background: #2980b9;
+        }
+        
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+        
+        .btn-export {
+            background: #27ae60;
+            color: white;
+            padding: 8px 15px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn-export:hover {
+            background: #229954;
         }
         
         .deadlines {
@@ -286,42 +352,117 @@
             padding: 12px;
             border-radius: 6px;
             text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .deadline-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .deadline-item.urgent { background: #e74c3c; color: white; }
         .deadline-item.warning { background: #f39c12; color: white; }
         .deadline-item.good { background: #27ae60; color: white; }
         
-        /* Trial banner styles */
-        .trial-banner {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
+        .deadline-label {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+        
+        .deadline-date {
+            font-weight: bold;
+        }
+        
+        .days-until {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .deadline-modified {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #333;
+        }
+        
+        .notes-section {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .notes-toggle {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .notes-toggle:hover {
+            background: #e9ecef;
+        }
+        
+        .notes-content {
+            display: none;
+            margin-top: 10px;
+        }
+        
+        .notes-content.expanded {
+            display: block;
+        }
+        
+        .notes-textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            font-size: 13px;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 6px;
             margin-bottom: 20px;
             text-align: center;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
-
-        .trial-cta {
-            background: #333;
-            color: white;
-            border: none;
-            padding: 10px 25px;
+        
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
             border-radius: 6px;
-            margin-left: 15px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            text-align: center;
         }
-
-        .trial-cta:hover {
-            background: #000;
-            transform: translateY(-1px);
+        
+        .loading {
+            text-align: center;
+            color: #6c757d;
+            padding: 20px;
         }
-
-        /* Modal styles */
+        
         .modal {
             display: none;
             position: fixed;
@@ -350,102 +491,82 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        .plan-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .plan-card {
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .plan-card.recommended {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #f8f9ff, #fff);
-        }
-
-        .plan-price {
-            font-size: 2rem;
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
             font-weight: bold;
-            color: #2c3e50;
-        }
-
-        .plan-price span {
-            font-size: 1rem;
-            color: #7f8c8d;
-        }
-
-        .plan-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
-            font-weight: 600;
+        }
+
+        .close:hover {
+            color: #000;
         }
         
-        .demo-note {
-            background: linear-gradient(90deg, #2c2c2c, #4a4a4a);
+        .footer {
+            background: #2c3e50;
             color: white;
+            text-align: center;
             padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 1.1rem;
-            font-weight: 500;
+            font-size: 14px;
         }
         
-        .success-message {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            text-align: center;
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
         }
         
-        .error-message {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            text-align: center;
+        .footer a:hover {
+            text-decoration: underline;
         }
         
         @media (max-width: 768px) {
-            .main-content { grid-template-columns: 1fr; }
-            .plan-options { grid-template-columns: 1fr; }
-            .search-filters { flex-direction: column; }
+            .main-content { 
+                padding: 15px;
+            }
+            .deadlines { 
+                grid-template-columns: 1fr; 
+            }
+            .voice-input-section {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .transaction-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .transaction-actions {
+                align-self: flex-start;
+            }
+            .admin-btn img {
+                height: 35px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="header-logo-text">asistant<span class="pro">.pro</span></div>
-            <p>Automate deadline reminders for every transaction and never miss a date.</p>
+            <img src="asistant_pro_logo.png" alt="asistant.pro" class="header-logo">
         </div>
         
-        <div class="demo-note">
-            <strong>Demo Version:</strong> Add a sample transaction to instantly view calculated deadlines and automated reminders.
+        <div class="instruction-banner">
+            Type or say your transaction below, then click the blue button at the bottom to add it to your active transactions.
+        </div>
+        
+        <div class="trial-banner" id="trialBanner">
+            <strong>TRIAL ENDING SOON:</strong> <span id="trialDaysText">2 days remaining</span>
+            <button class="trial-cta" onclick="showPaymentModal()">
+                Upgrade Now - $397/month
+            </button>
         </div>
         
         <div id="messageArea"></div>
         
         <div class="main-content">
-            <div class="add-transaction">
+            <!-- 1. Add New Transaction -->
+            <div class="section">
                 <h2 class="section-title">Add New Transaction</h2>
                 
                 <div class="voice-input-section">
@@ -503,253 +624,421 @@
                         <input type="number" id="listPrice" placeholder="450000" step="1000">
                     </div>
                     
-                    <button type="submit" class="btn-main-action" id="submitBtn">
-                        🏠 Add Transaction & Calculate Deadlines
+                    <button type="submit" class="btn-image">
+                        <img src="button_add_transaction_calculate_deadlines.png" alt="Add Transaction & Calculate Deadlines">
                     </button>
                 </form>
-                
+            </div>
+            
+            <!-- 2. Admin Controls -->
+            <div class="section">
                 <div class="admin-panel">
                     <h4>Demo Controls</h4>
-                    <button class="admin-btn-new admin-btn-test" onclick="triggerReminders()">📧 Test Reminders</button>
-                    <button class="admin-btn-new admin-btn-refresh" onclick="loadDashboard()">🔄 Refresh Dashboard</button>
-                    <button class="admin-btn-new admin-btn-status" onclick="checkStatus()">📊 System Status</button>
+                    <button class="admin-btn" onclick="triggerReminders()">
+                        <img src="button_test_reminders.png" alt="Test Reminders">
+                    </button>
+                    <button class="admin-btn" onclick="loadDashboard()">
+                        <img src="button_refresh_dashboard.png" alt="Refresh Dashboard">
+                    </button>
+                    <button class="admin-btn" onclick="checkStatus()">
+                        <img src="button_system_status.png" alt="System Status">
+                    </button>
+                    <button class="btn-export" onclick="exportTransactions()">📥 Export CSV</button>
                 </div>
             </div>
             
-            <div class="transactions-list">
+            <!-- 3. Simple Search -->
+            <div class="search-section">
+                <h3 class="section-title">Search Transactions</h3>
+                <input type="text" class="search-input" id="searchInput" 
+                       placeholder="Search by property address...">
+                <div class="results-count" id="resultsCount">Showing all transactions</div>
+            </div>
+            
+            <!-- 4. Active Transactions -->
+            <div class="section">
                 <h2 class="section-title">Active Transactions</h2>
-                
-                <div class="search-section-enhanced">
-                    <input type="text" class="search-input-enhanced" id="searchInput" 
-                           placeholder="Search by property address, client name, or deadline...">
-                    
-                    <div class="search-filters">
-                        <button class="filter-btn active" data-filter="urgency" data-value="all">All Urgency</button>
-                        <button class="filter-btn" data-filter="urgency" data-value="urgent">Urgent</button>
-                        <button class="filter-btn" data-filter="urgency" data-value="warning">Warning</button>
-                        <button class="filter-btn" data-filter="urgency" data-value="good">Good</button>
-                        
-                        <button class="filter-btn active" data-filter="type" data-value="all">All Types</button>
-                        <button class="filter-btn" data-filter="type" data-value="buyer">Buyer</button>
-                        <button class="filter-btn" data-filter="type" data-value="listing">Listing</button>
-                    </div>
-                    
-                    <div class="results-count" id="resultsCount">Showing all transactions</div>
-                </div>
-                
                 <div id="transactionsList">
                     <div class="loading">Loading transactions...</div>
                 </div>
             </div>
         </div>
+        
+        <div class="footer">
+            © 2025. All rights reserved. Contact: <a href="mailto:support@asistant.pro">support@asistant.pro</a>
+        </div>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePaymentModal()">&times;</span>
+            <h2>Choose Your Plan</h2>
+            <div style="text-align: center; margin: 20px 0;">
+                <div style="border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: linear-gradient(135deg, #f8f9ff, #fff);">
+                    <h3>Professional Plan</h3>
+                    <div style="font-size: 2rem; font-weight: bold; color: #2c3e50; margin: 10px 0;">
+                        $397<span style="font-size: 1rem; color: #7f8c8d;">/month</span>
+                    </div>
+                    <ul style="text-align: left; margin: 15px 0;">
+                        <li>✓ Unlimited transactions</li>
+                        <li>✓ Automated deadline reminders</li>
+                        <li>✓ Voice input capability</li>
+                        <li>✓ Mobile-optimized interface</li>
+                        <li>✓ Priority support</li>
+                        <li>✓ Transaction notes</li>
+                        <li>✓ CSV export</li>
+                    </ul>
+                    <button style="background: #667eea; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: 600;" onclick="alert('Demo mode - Payment integration needed')">
+                        Start Professional Plan
+                    </button>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <p>Need more time to evaluate? <a href="#" onclick="showSurveyModal()">Request trial extension</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Survey Modal -->
+    <div id="surveyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSurveyModal()">&times;</span>
+            <h2>Get 7 More Days Free!</h2>
+            <p style="margin-bottom: 20px;">Help us improve by answering these quick questions to extend your trial:</p>
+            
+            <form id="surveyForm">
+                <div class="form-group">
+                    <label>Which features have you used most?</label>
+                    <select required>
+                        <option value="">Select...</option>
+                        <option value="voice">Voice input</option>
+                        <option value="deadlines">Deadline calculations</option>
+                        <option value="reminders">Email reminders</option>
+                        <option value="search">Transaction search</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>What frustrated you most?</label>
+                    <textarea placeholder="Your feedback helps us improve..." rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Would you recommend this to other agents?</label>
+                    <select required>
+                        <option value="">Select...</option>
+                        <option value="yes">Yes, definitely</option>
+                        <option value="maybe">Maybe</option>
+                        <option value="no">Probably not</option>
+                    </select>
+                </div>
+                
+                <button type="submit" style="background: #27ae60; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 600;">
+                    Submit & Get 7 More Days
+                </button>
+            </form>
+        </div>
     </div>
     
     <script>
+        // Global variables
         let currentAgentEmail = 'demo@agent.com';
         let allTransactions = [];
         let isRecording = false;
         let recognition = null;
         let voiceSupported = false;
-        let searchManager = null;
-        let trialManager = null;
+        let trialDaysRemaining = 14;
         
-        // Enhanced voice recognition with better error handling
+        // Initialize local storage
+        function initializeStorage() {
+            if (!localStorage.getItem('transactions')) {
+                localStorage.setItem('transactions', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('trialStartDate')) {
+                localStorage.setItem('trialStartDate', new Date().toISOString());
+            }
+        }
+        
+        // Trial management
+        function updateTrialStatus() {
+            const startDate = new Date(localStorage.getItem('trialStartDate'));
+            const now = new Date();
+            const daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+            trialDaysRemaining = Math.max(0, 14 - daysSinceStart);
+            
+            const trialBanner = document.getElementById('trialBanner');
+            const trialDaysText = document.getElementById('trialDaysText');
+            
+            if (trialDaysRemaining <= 2 && trialDaysRemaining > 0) {
+                trialBanner.style.display = 'block';
+                trialDaysText.textContent = `${trialDaysRemaining} days remaining`;
+            } else if (trialDaysRemaining === 0) {
+                trialBanner.style.display = 'block';
+                trialBanner.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                trialBanner.style.color = 'white';
+                trialDaysText.textContent = 'Trial expired';
+            }
+        }
+        
+        // Enhanced voice recognition
         function initializeVoiceRecognition() {
+            const voiceBtn = document.getElementById('voiceBtn');
+            const voiceStatus = document.getElementById('voiceStatus');
+            const voiceInstructions = document.getElementById('voiceInstructions');
+            
+            if (!window.isSecureContext) {
+                voiceStatus.textContent = 'Voice input requires HTTPS connection';
+                voiceStatus.className = 'voice-status error';
+                voiceInstructions.innerHTML = 'Use ngrok: <code>ngrok http 3000</code> for HTTPS';
+                voiceBtn.disabled = true;
+                return;
+            }
+            
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                voiceStatus.textContent = 'Voice input not supported';
+                voiceStatus.className = 'voice-status error';
+                voiceInstructions.textContent = 'Use Chrome or Edge browser';
+                voiceBtn.disabled = true;
+                return;
+            }
+            
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+            recognition.maxAlternatives = 3;
+            
+            recognition.onstart = function() {
+                isRecording = true;
+                voiceBtn.classList.add('recording');
+                voiceStatus.textContent = 'Listening... Speak clearly';
+                voiceStatus.className = 'voice-status';
+                if (navigator.vibrate) navigator.vibrate(50);
+            };
+            
+            recognition.onresult = function(event) {
+                let bestTranscript = '';
+                let highestConfidence = 0;
+                
+                for (let i = 0; i < event.results[0].length; i++) {
+                    const alternative = event.results[0][i];
+                    if (alternative.confidence > highestConfidence) {
+                        highestConfidence = alternative.confidence;
+                        bestTranscript = alternative.transcript;
+                    }
+                }
+                
+                voiceStatus.textContent = `Processing: "${bestTranscript}"`;
+                voiceStatus.className = 'voice-status success';
+                parseVoiceInput(bestTranscript, highestConfidence);
+            };
+            
+            recognition.onerror = function(event) {
+                isRecording = false;
+                voiceBtn.classList.remove('recording');
+                voiceStatus.textContent = 'Voice input error - try again';
+                voiceStatus.className = 'voice-status error';
+            };
+            
+            recognition.onend = function() {
+                isRecording = false;
+                voiceBtn.classList.remove('recording');
+            };
+            
+            voiceSupported = true;
+            voiceStatus.textContent = 'Voice input ready';
+            voiceInstructions.textContent = 'Example: "Add transaction 123 Oak Street client John Smith buyer"';
+        }
         
-        // Enhanced search functionality
-        class TransactionSearch {
-            constructor() {
-                this.allTransactions = [];
-                this.filteredTransactions = [];
-                this.activeFilters = { status: 'all', type: 'all', urgency: 'all' };
-                this.searchTerm = '';
-                this.initializeSearch();
-            }
+        function parseVoiceInput(transcript, confidence) {
+            const text = transcript.toLowerCase().trim();
+            let fieldsUpdated = 0;
             
-            initializeSearch() {
-                const searchInput = document.getElementById('searchInput');
-                const filterButtons = document.querySelectorAll('.filter-btn');
-                
-                let searchTimeout;
-                searchInput.addEventListener('input', (e) => {
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(() => {
-                        this.searchTerm = e.target.value.toLowerCase();
-                        this.applyFilters();
-                    }, 300);
-                });
-                
-                filterButtons.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const filterType = btn.dataset.filter;
-                        const filterValue = btn.dataset.value;
-                        
-                        this.activeFilters[filterType] = filterValue;
-                        
-                        document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(b => 
-                            b.classList.remove('active'));
-                        btn.classList.add('active');
-                        
-                        this.applyFilters();
-                    });
-                });
-            }
+            // Property address patterns
+            const addressPatterns = [
+                /(\d+\s+[\w\s]+(street|st|avenue|ave|drive|dr|road|rd|lane|ln|court|ct|way|circle|cir|place|pl|boulevard|blvd|trail|tr)[\w\s]*)/i,
+                /(\d+\s+[\w\s]{3,50}(?:\s+(houston|tx|texas)))/i,
+                /(\d+\s+[\w\s]{5,40})/i
+            ];
             
-            updateTransactions(transactions) {
-                this.allTransactions = transactions;
-                this.applyFilters();
-            }
-            
-            applyFilters() {
-                let filtered = [...this.allTransactions];
-                
-                if (this.searchTerm) {
-                    filtered = filtered.filter(transaction => {
-                        const searchFields = [
-                            transaction.property_address,
-                            transaction.client_name,
-                            transaction.transaction_type
-                        ].join(' ').toLowerCase();
-                        
-                        return searchFields.includes(this.searchTerm);
-                    });
+            for (const pattern of addressPatterns) {
+                const match = text.match(pattern);
+                if (match && match[1].length > 8) {
+                    document.getElementById('propertyAddress').value = match[1].trim();
+                    fieldsUpdated++;
+                    break;
                 }
-                
-                if (this.activeFilters.type !== 'all') {
-                    filtered = filtered.filter(t => t.transaction_type === this.activeFilters.type);
-                }
-                
-                this.filteredTransactions = filtered;
-                displayTransactions(this.filteredTransactions);
-                this.updateResultsCount();
             }
             
-            updateResultsCount() {
-                const countElement = document.getElementById('resultsCount');
-                if (countElement) {
-                    const total = this.allTransactions.length;
-                    const showing = this.filteredTransactions.length;
-                    countElement.textContent = `Showing ${showing} of ${total} transactions`;
+            // Client name patterns
+            const clientPatterns = [
+                /(client|for|buyers?|sellers?)\s+([a-zA-Z][a-zA-Z\s&]+?)(?:\s+(?:buyer|seller|listing|contract|closing)|$)/i,
+                /(mr|mrs|ms)\.?\s+([a-zA-Z\s&]{2,30})/i,
+                /([a-zA-Z]+\s+and\s+[a-zA-Z]+\s+[a-zA-Z]+)/i,
+                /([a-zA-Z]+\s+[a-zA-Z]+)(?:\s+(?:buyer|seller|client))/i
+            ];
+            
+            for (const pattern of clientPatterns) {
+                const match = text.match(pattern);
+                if (match && match[2] && match[2].length > 2) {
+                    document.getElementById('clientName').value = match[2].trim();
+                    fieldsUpdated++;
+                    break;
                 }
+            }
+            
+            // Transaction type
+            if (text.includes('buyer') || text.includes('buying') || text.includes('purchase')) {
+                document.getElementById('transactionType').value = 'buyer';
+                fieldsUpdated++;
+            } else if (text.includes('seller') || text.includes('listing') || text.includes('selling')) {
+                document.getElementById('transactionType').value = 'listing';
+                fieldsUpdated++;
+            }
+            
+            // Date detection
+            if (text.includes('today') || text.includes('contract today')) {
+                document.getElementById('contractDate').value = new Date().toISOString().split('T')[0];
+                fieldsUpdated++;
+            }
+            
+            // Price extraction
+            const pricePatterns = [
+                /(\d{3,7})\s*(?:thousand|k|dollars?)/i,
+                /(\d{6,7})/i
+            ];
+            
+            for (const pattern of pricePatterns) {
+                const match = text.match(pattern);
+                if (match) {
+                    let price = parseInt(match[1]);
+                    if (price < 10000) price *= 1000;
+                    document.getElementById('listPrice').value = price;
+                    fieldsUpdated++;
+                    break;
+                }
+            }
+            
+            setTimeout(() => {
+                const voiceStatus = document.getElementById('voiceStatus');
+                const voiceInstructions = document.getElementById('voiceInstructions');
+                
+                if (fieldsUpdated > 0) {
+                    const confidenceText = confidence > 0.8 ? 'High confidence' : 
+                                         confidence > 0.6 ? 'Good confidence' : 'Low confidence';
+                    
+                    voiceStatus.textContent = `${confidenceText} - ${fieldsUpdated} fields filled`;
+                    voiceStatus.className = 'voice-status success';
+                    voiceInstructions.textContent = 'Review and complete any missing information';
+                    showMessage(`Voice input successful: ${fieldsUpdated} fields filled`, 'success');
+                } else {
+                    voiceStatus.textContent = 'No information extracted - try again';
+                    voiceStatus.className = 'voice-status error';
+                    voiceInstructions.textContent = 'Speak more clearly. Example: "Add transaction 123 Oak Street for John Smith buyer"';
+                    showMessage('Voice input unclear - please try manual input', 'error');
+                }
+            }, 1000);
+        }
+        
+        // Voice button handler
+        document.getElementById('voiceBtn').addEventListener('click', async function() {
+            if (!voiceSupported || !recognition) return;
+            
+            if (isRecording) {
+                recognition.stop();
+                return;
+            }
+            
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                recognition.start();
+            } catch (error) {
+                document.getElementById('voiceStatus').textContent = 'Microphone access required';
+                document.getElementById('voiceStatus').className = 'voice-status error';
+            }
+        });
+        
+        // Transaction management
+        function calculateDeadlines(contractDate, closingDate) {
+            const contract = new Date(contractDate);
+            const closing = new Date(closingDate);
+            
+            const optionPeriodEnd = new Date(contract);
+            optionPeriodEnd.setDate(contract.getDate() + 7);
+            
+            const inspectionDate = new Date(contract);
+            inspectionDate.setDate(contract.getDate() + 10);
+            
+            const appraisalDate = new Date(contract);
+            appraisalDate.setDate(contract.getDate() + 21);
+            
+            const financingDeadline = new Date(closing);
+            financingDeadline.setDate(closing.getDate() - 5);
+            
+            return {
+                option_period_end: optionPeriodEnd.toISOString().split('T')[0],
+                inspection_date: inspectionDate.toISOString().split('T')[0],
+                appraisal_date: appraisalDate.toISOString().split('T')[0],
+                financing_deadline: financingDeadline.toISOString().split('T')[0],
+                closing_date: closingDate
+            };
+        }
+        
+        function addTransaction(transactionData) {
+            const deadlines = calculateDeadlines(transactionData.contract_date, transactionData.closing_date);
+            
+            const transaction = {
+                id: Date.now(),
+                ...transactionData,
+                ...deadlines,
+                notes: '',
+                modifiedDeadlines: {},
+                created_at: new Date().toISOString()
+            };
+            
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
+            transactions.push(transaction);
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            
+            return transaction;
+        }
+        
+        function deleteTransaction(id) {
+            if (confirm('Are you sure you want to delete this transaction?')) {
+                const transactions = JSON.parse(localStorage.getItem('transactions'));
+                const filtered = transactions.filter(t => t.id !== id);
+                localStorage.setItem('transactions', JSON.stringify(filtered));
+                loadDashboard();
+                showMessage('Transaction deleted successfully', 'success');
             }
         }
         
-        // Trial payment manager
-        class TrialPaymentManager {
-            constructor() {
-                this.trialDaysRemaining = 14;
-                this.initializeTrialSystem();
-            }
-            
-            initializeTrialSystem() {
-                this.createTrialBanner();
-                this.setupPaymentModal();
-            }
-            
-            createTrialBanner() {
-                const banner = document.createElement('div');
-                banner.className = 'trial-banner';
-                banner.id = 'trialBanner';
-                banner.innerHTML = `
-                    <strong>FREE TRIAL:</strong> ${this.trialDaysRemaining} days remaining to test all features
-                    <button class="trial-cta" onclick="trialManager.showPaymentModal()">
-                        Upgrade Now - $397/month
-                    </button>
-                `;
-                
-                const demoNote = document.querySelector('.demo-note');
-                if (demoNote) {
-                    demoNote.parentNode.insertBefore(banner, demoNote.nextSibling);
-                }
-            }
-            
-            setupPaymentModal() {
-                const modalHTML = `
-                    <div id="paymentModal" class="modal">
-                        <div class="modal-content">
-                            <span class="close" onclick="trialManager.closePaymentModal()">&times;</span>
-                            <h2>Choose Your Plan</h2>
-                            
-                            <div class="plan-options">
-                                <div class="plan-card">
-                                    <h3>Solo Agent</h3>
-                                    <div class="plan-price">$297<span>/month</span></div>
-                                    <ul style="text-align: left; margin: 15px 0;">
-                                        <li>✓ Up to 50 transactions/month</li>
-                                        <li>✓ Automated deadline reminders</li>
-                                        <li>✓ Voice input capability</li>
-                                        <li>✓ Mobile-optimized interface</li>
-                                        <li>✓ Email support</li>
-                                    </ul>
-                                    <button class="plan-btn" onclick="alert('Demo mode - Payment integration needed')">
-                                        Start Solo Plan
-                                    </button>
-                                </div>
-                                
-                                <div class="plan-card recommended">
-                                    <h3>Professional</h3>
-                                    <div class="plan-price">$397<span>/month</span></div>
-                                    <ul style="text-align: left; margin: 15px 0;">
-                                        <li>✓ Unlimited transactions</li>
-                                        <li>✓ Automated deadline reminders</li>
-                                        <li>✓ Voice input capability</li>
-                                        <li>✓ Mobile-optimized interface</li>
-                                        <li>✓ Priority support</li>
-                                        <li>✓ Custom deadline templates</li>
-                                    </ul>
-                                    <button class="plan-btn" onclick="alert('Demo mode - Payment integration needed')">
-                                        Start Professional Plan
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div style="text-align: center; margin-top: 20px;">
-                                <p>Need more time to evaluate? <a href="#" onclick="trialManager.requestExtension()">Request trial extension</a></p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.insertAdjacentHTML('beforeend', modalHTML);
-            }
-            
-            showPaymentModal() {
-                document.getElementById('paymentModal').style.display = 'block';
-            }
-            
-            closePaymentModal() {
-                document.getElementById('paymentModal').style.display = 'none';
-            }
-            
-            requestExtension() {
-                this.trialDaysRemaining += 7;
-                this.updateTrialBanner();
-                this.closePaymentModal();
-                showMessage('Trial extended by 7 days! Use this time to test all features.', 'success');
-            }
-            
-            updateTrialBanner() {
-                const banner = document.getElementById('trialBanner');
-                if (banner) {
-                    banner.innerHTML = `
-                        <strong>FREE TRIAL:</strong> ${this.trialDaysRemaining} days remaining to test all features
-                        <button class="trial-cta" onclick="trialManager.showPaymentModal()">
-                            Upgrade Now - $397/month
-                        </button>
-                    `;
-                }
+        function updateTransactionNotes(id, notes) {
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
+            const transaction = transactions.find(t => t.id === id);
+            if (transaction) {
+                transaction.notes = notes;
+                localStorage.setItem('transactions', JSON.stringify(transactions));
             }
         }
         
-        // Core application functions
-        function showMessage(message, type = 'success') {
-            const messageArea = document.getElementById('messageArea');
-            const messageClass = type === 'error' ? 'error-message' : 'success-message';
-            messageArea.innerHTML = `<div class="${messageClass}">${message}</div>`;
-            setTimeout(() => messageArea.innerHTML = '', 5000);
+        function updateDeadline(transactionId, deadlineType, newDate) {
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
+            const transaction = transactions.find(t => t.id === transactionId);
+            if (transaction) {
+                transaction[deadlineType] = newDate;
+                if (!transaction.modifiedDeadlines) transaction.modifiedDeadlines = {};
+                transaction.modifiedDeadlines[deadlineType] = true;
+                localStorage.setItem('transactions', JSON.stringify(transactions));
+                loadDashboard();
+                showMessage('Deadline updated successfully', 'success');
+            }
         }
         
-        document.getElementById('transactionForm').addEventListener('submit', async function(e) {
+        // Form submission
+        document.getElementById('transactionForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const formData = {
@@ -760,77 +1049,66 @@
                 transaction_type: document.getElementById('transactionType').value,
                 contract_date: document.getElementById('contractDate').value,
                 closing_date: document.getElementById('closingDate').value,
-                list_price: document.getElementById('listPrice').value
+                list_price: parseFloat(document.getElementById('listPrice').value) || 0
             };
             
             try {
-                const response = await fetch('/api/add-transaction', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    showMessage('Transaction added successfully! Automated reminders scheduled for all deadlines.');
-                    document.getElementById('transactionForm').reset();
-                    setDefaultDates();
-                    currentAgentEmail = formData.agent_email;
-                    loadDashboard();
-                } else {
-                    showMessage(result.message, 'error');
-                }
+                addTransaction(formData);
+                showMessage('Transaction added successfully! Automated reminders scheduled for all deadlines.');
+                document.getElementById('transactionForm').reset();
+                setDefaultDates();
+                loadDashboard();
             } catch (error) {
                 showMessage('Error adding transaction: ' + error.message, 'error');
             }
         });
         
-        async function loadDashboard() {
-            const transactionsList = document.getElementById('transactionsList');
-            transactionsList.innerHTML = '<div class="loading">Loading transactions...</div>';
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            filterTransactions(searchTerm);
+        });
+        
+        function filterTransactions(searchTerm) {
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
             
-            try {
-                const response = await fetch(`/api/dashboard/${encodeURIComponent(currentAgentEmail)}`);
-                const result = await response.json();
-                
-                if (result.success) {
-                    allTransactions = result.transactions;
-                    if (searchManager) {
-                        searchManager.updateTransactions(allTransactions);
-                    } else {
-                        displayTransactions(allTransactions);
-                    }
-                } else {
-                    transactionsList.innerHTML = '<div class="error-message">Error loading transactions</div>';
-                }
-            } catch (error) {
-                transactionsList.innerHTML = '<div class="error-message">Error loading dashboard</div>';
+            if (!searchTerm) {
+                displayTransactions(transactions);
+                document.getElementById('resultsCount').textContent = `Showing all ${transactions.length} transactions`;
+                return;
             }
+            
+            const filtered = transactions.filter(transaction => 
+                transaction.property_address.toLowerCase().includes(searchTerm)
+            );
+            
+            displayTransactions(filtered);
+            document.getElementById('resultsCount').textContent = `Showing ${filtered.length} of ${transactions.length} transactions`;
         }
         
+        // Display transactions
         function displayTransactions(transactions) {
             const transactionsList = document.getElementById('transactionsList');
             
             if (transactions.length === 0) {
-                transactionsList.innerHTML = '<div class="demo-note">No transactions found. Add one above to get started!</div>';
+                transactionsList.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No transactions found. Add one above to get started!</div>';
                 return;
             }
             
-            transactionsList.innerHTML = transactions.map(transaction => {
-                return createTransactionCardHTML(transaction);
-            }).join('');
+            transactionsList.innerHTML = transactions.map(transaction => 
+                createTransactionCardHTML(transaction)
+            ).join('');
         }
         
         function createTransactionCardHTML(transaction) {
             const today = new Date();
             
             const deadlines = [
-                { label: 'Option Period Ends', date: transaction.option_period_end },
-                { label: 'Inspection Due', date: transaction.inspection_date },
-                { label: 'Appraisal Due', date: transaction.appraisal_date },
-                { label: 'Financing Deadline', date: transaction.financing_deadline },
-                { label: 'Closing Date', date: transaction.closing_date }
+                { label: 'Option Period Ends', type: 'option_period_end', date: transaction.option_period_end },
+                { label: 'Inspection Due', type: 'inspection_date', date: transaction.inspection_date },
+                { label: 'Appraisal Due', type: 'appraisal_date', date: transaction.appraisal_date },
+                { label: 'Financing Deadline', type: 'financing_deadline', date: transaction.financing_deadline },
+                { label: 'Closing Date', type: 'closing_date', date: transaction.closing_date }
             ];
             
             const deadlinesHTML = deadlines.map(deadline => {
@@ -841,8 +1119,11 @@
                 if (daysUntil <= 2) deadlineClass = 'urgent';
                 else if (daysUntil <= 7) deadlineClass = 'warning';
                 
+                const isModified = transaction.modifiedDeadlines && transaction.modifiedDeadlines[deadline.type];
+                
                 return `
-                    <div class="deadline-item ${deadlineClass}">
+                    <div class="deadline-item ${deadlineClass}" onclick="editDeadline(${transaction.id}, '${deadline.type}', '${deadline.date}')">
+                        ${isModified ? '<div class="deadline-modified">✎</div>' : ''}
                         <div class="deadline-label">${deadline.label}</div>
                         <div class="deadline-date">${deadlineDate.toLocaleDateString()}</div>
                         <div class="days-until">${daysUntil > 0 ? `${daysUntil} days left` : 'Past due!'}</div>
@@ -854,35 +1135,133 @@
                 <div class="transaction-card">
                     <div class="transaction-header">
                         <div>
-                            <div class="property-address" style="font-weight: bold; color: #2c3e50; font-size: 1.1rem;">${transaction.property_address}</div>
-                            <div class="client-name" style="color: #7f8c8d; font-size: 0.9rem;">Client: ${transaction.client_name} (${transaction.transaction_type === 'buyer' ? 'Buyer' : 'Seller'})</div>
+                            <div class="property-address">${transaction.property_address}</div>
+                            <div class="client-name">Client: ${transaction.client_name} (${transaction.transaction_type === 'buyer' ? 'Buyer' : 'Seller'})</div>
+                        </div>
+                        <div class="transaction-actions">
+                            <button class="btn-small btn-delete" onclick="deleteTransaction(${transaction.id})">Delete</button>
                         </div>
                     </div>
                     <div class="deadlines">
                         ${deadlinesHTML}
                     </div>
+                    <div class="notes-section">
+                        <button class="notes-toggle" onclick="toggleNotes(${transaction.id})">
+                            📝 Notes ${transaction.notes ? '(has content)' : '(empty)'}
+                        </button>
+                        <div class="notes-content" id="notes-${transaction.id}">
+                            <textarea class="notes-textarea" placeholder="Add notes about this transaction..."
+                                      onblur="updateTransactionNotes(${transaction.id}, this.value)">${transaction.notes || ''}</textarea>
+                        </div>
+                    </div>
                 </div>
             `;
         }
         
-        async function triggerReminders() {
-            try {
-                const response = await fetch('/api/trigger-reminders', { method: 'POST' });
-                const result = await response.json();
-                showMessage(result.success ? result.message : result.message, result.success ? 'success' : 'error');
-            } catch (error) {
-                showMessage('Error triggering reminders: ' + error.message, 'error');
+        function editDeadline(transactionId, deadlineType, currentDate) {
+            const newDate = prompt(`Edit deadline date (YYYY-MM-DD):`, currentDate);
+            if (newDate && newDate !== currentDate) {
+                updateDeadline(transactionId, deadlineType, newDate);
             }
         }
         
-        async function checkStatus() {
-            try {
-                const response = await fetch('/api/status');
-                const result = await response.json();
-                showMessage(`System Status: ${result.status.isRunning ? 'Running' : 'Stopped'} - Last check: ${new Date(result.timestamp).toLocaleString()}`);
-            } catch (error) {
-                showMessage('Error checking status: ' + error.message, 'error');
+        function toggleNotes(transactionId) {
+            const notesContent = document.getElementById(`notes-${transactionId}`);
+            notesContent.classList.toggle('expanded');
+        }
+        
+        // Export functionality
+        function exportTransactions() {
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
+            
+            if (transactions.length === 0) {
+                showMessage('No transactions to export', 'error');
+                return;
             }
+            
+            const csvContent = [
+                ['Property Address', 'Client Name', 'Transaction Type', 'Contract Date', 'Closing Date', 'Option Period End', 'Inspection Date', 'Appraisal Date', 'Financing Deadline', 'List Price', 'Notes'].join(','),
+                ...transactions.map(t => [
+                    `"${t.property_address}"`,
+                    `"${t.client_name}"`,
+                    t.transaction_type,
+                    t.contract_date,
+                    t.closing_date,
+                    t.option_period_end,
+                    t.inspection_date,
+                    t.appraisal_date,
+                    t.financing_deadline,
+                    t.list_price || 0,
+                    `"${(t.notes || '').replace(/"/g, '""')}"`
+                ].join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `transactions_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showMessage('Transactions exported successfully', 'success');
+        }
+        
+        // Modal management
+        function showPaymentModal() {
+            document.getElementById('paymentModal').style.display = 'block';
+        }
+        
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+        
+        function showSurveyModal() {
+            closePaymentModal();
+            document.getElementById('surveyModal').style.display = 'block';
+        }
+        
+        function closeSurveyModal() {
+            document.getElementById('surveyModal').style.display = 'none';
+        }
+        
+        // Survey form handler
+        document.getElementById('surveyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Extend trial by 7 days
+            const startDate = new Date(localStorage.getItem('trialStartDate'));
+            const extendedDate = new Date(startDate);
+            extendedDate.setDate(startDate.getDate() - 7); // Extend by moving start date back
+            localStorage.setItem('trialStartDate', extendedDate.toISOString());
+            
+            closeSurveyModal();
+            updateTrialStatus();
+            showMessage('Thank you! Your trial has been extended by 7 days.', 'success');
+        });
+        
+        // Demo functions
+        function triggerReminders() {
+            showMessage('Demo: Email reminders would be sent for upcoming deadlines', 'success');
+        }
+        
+        function loadDashboard() {
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
+            allTransactions = transactions;
+            displayTransactions(transactions);
+            document.getElementById('resultsCount').textContent = `Showing all ${transactions.length} transactions`;
+        }
+        
+        function checkStatus() {
+            showMessage('System Status: Running - All systems operational', 'success');
+        }
+        
+        // Utility functions
+        function showMessage(message, type = 'success') {
+            const messageArea = document.getElementById('messageArea');
+            const messageClass = type === 'error' ? 'error-message' : 'success-message';
+            messageArea.innerHTML = `<div class="${messageClass}">${message}</div>`;
+            setTimeout(() => messageArea.innerHTML = '', 5000);
         }
         
         function setDefaultDates() {
@@ -896,14 +1275,16 @@
         
         // Initialize everything
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing Real Estate Transaction Tracker...');
+            
+            initializeStorage();
+            updateTrialStatus();
             initializeVoiceRecognition();
             setDefaultDates();
             document.getElementById('agentEmail').value = currentAgentEmail;
-            
-            searchManager = new TransactionSearch();
-            trialManager = new TrialPaymentManager();
-            
             loadDashboard();
+            
+            console.log('System initialization complete');
         });
     </script>
 </body>
