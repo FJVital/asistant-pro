@@ -118,74 +118,6 @@
             box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
         }
         
-        .voice-input-section {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 2px solid #e9ecef;
-        }
-        
-        .voice-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            min-width: 60px;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-        }
-        
-        .voice-btn:hover {
-            background: #c0392b;
-            transform: scale(1.05);
-        }
-        
-        .voice-btn.recording {
-            background: #e74c3c;
-            animation: pulse 1.5s infinite;
-            box-shadow: 0 0 20px rgba(231, 76, 60, 0.6);
-        }
-        
-        .voice-btn:disabled {
-            background: #bdc3c7;
-            cursor: not-allowed;
-            animation: none;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 20px rgba(231, 76, 60, 0.6); }
-            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(231, 76, 60, 0.8); }
-            100% { transform: scale(1); box-shadow: 0 0 20px rgba(231, 76, 60, 0.6); }
-        }
-        
-        .voice-status {
-            color: #666;
-            font-size: 14px;
-            flex: 1;
-            line-height: 1.4;
-        }
-        
-        .voice-status.error { color: #e74c3c; font-weight: 600; }
-        .voice-status.success { color: #27ae60; font-weight: 600; }
-        
-        .voice-instructions {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-            line-height: 1.3;
-        }
-        
         .btn-image {
             background: none;
             border: none;
@@ -266,6 +198,28 @@
             margin-top: 10px;
         }
         
+        .download-section {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .download-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .download-btn img {
+            height: 50px;
+            width: auto;
+        }
+        
         .transaction-card {
             background: white;
             border: 1px solid #e9ecef;
@@ -308,15 +262,6 @@
             transition: all 0.2s;
         }
         
-        .btn-edit {
-            background: #3498db;
-            color: white;
-        }
-        
-        .btn-edit:hover {
-            background: #2980b9;
-        }
-        
         .btn-delete {
             background: #e74c3c;
             color: white;
@@ -324,20 +269,6 @@
         
         .btn-delete:hover {
             background: #c0392b;
-        }
-        
-        .btn-export {
-            background: #27ae60;
-            color: white;
-            padding: 8px 15px;
-            margin-bottom: 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .btn-export:hover {
-            background: #229954;
         }
         
         .deadlines {
@@ -527,11 +458,6 @@
             .deadlines { 
                 grid-template-columns: 1fr; 
             }
-            .voice-input-section {
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
             .transaction-header {
                 flex-direction: column;
                 gap: 10px;
@@ -568,16 +494,6 @@
             <!-- 1. Add New Transaction -->
             <div class="section">
                 <h2 class="section-title">Add New Transaction</h2>
-                
-                <div class="voice-input-section">
-                    <button class="voice-btn" id="voiceBtn" title="Voice Input">🎤</button>
-                    <div>
-                        <div class="voice-status" id="voiceStatus">Tap microphone to use voice input</div>
-                        <div class="voice-instructions" id="voiceInstructions">
-                            Say: "Add transaction 123 Oak Street client John Smith buyer contract today"
-                        </div>
-                    </div>
-                </div>
                 
                 <form id="transactionForm">
                     <div class="form-group">
@@ -643,7 +559,6 @@
                     <button class="admin-btn" onclick="checkStatus()">
                         <img src="button_system_status.png" alt="System Status">
                     </button>
-                    <button class="btn-export" onclick="exportTransactions()">📥 Export CSV</button>
                 </div>
             </div>
             
@@ -662,6 +577,13 @@
                     <div class="loading">Loading transactions...</div>
                 </div>
             </div>
+        </div>
+        
+        <!-- Download Section -->
+        <div class="download-section">
+            <button class="download-btn" onclick="exportTransactions()">
+                <img src="button_download_transactions.png" alt="Download Transactions">
+            </button>
         </div>
         
         <div class="footer">
@@ -683,7 +605,6 @@
                     <ul style="text-align: left; margin: 15px 0;">
                         <li>✓ Unlimited transactions</li>
                         <li>✓ Automated deadline reminders</li>
-                        <li>✓ Voice input capability</li>
                         <li>✓ Mobile-optimized interface</li>
                         <li>✓ Priority support</li>
                         <li>✓ Transaction notes</li>
@@ -712,10 +633,10 @@
                     <label>Which features have you used most?</label>
                     <select required>
                         <option value="">Select...</option>
-                        <option value="voice">Voice input</option>
                         <option value="deadlines">Deadline calculations</option>
                         <option value="reminders">Email reminders</option>
                         <option value="search">Transaction search</option>
+                        <option value="notes">Transaction notes</option>
                     </select>
                 </div>
                 
@@ -745,9 +666,6 @@
         // Global variables
         let currentAgentEmail = 'demo@agent.com';
         let allTransactions = [];
-        let isRecording = false;
-        let recognition = null;
-        let voiceSupported = false;
         let trialDaysRemaining = 14;
         
         // Initialize local storage
@@ -780,185 +698,6 @@
                 trialDaysText.textContent = 'Trial expired';
             }
         }
-        
-        // Enhanced voice recognition
-        function initializeVoiceRecognition() {
-            const voiceBtn = document.getElementById('voiceBtn');
-            const voiceStatus = document.getElementById('voiceStatus');
-            const voiceInstructions = document.getElementById('voiceInstructions');
-            
-            if (!window.isSecureContext) {
-                voiceStatus.textContent = 'Voice input requires HTTPS connection';
-                voiceStatus.className = 'voice-status error';
-                voiceInstructions.innerHTML = 'Use ngrok: <code>ngrok http 3000</code> for HTTPS';
-                voiceBtn.disabled = true;
-                return;
-            }
-            
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechRecognition) {
-                voiceStatus.textContent = 'Voice input not supported';
-                voiceStatus.className = 'voice-status error';
-                voiceInstructions.textContent = 'Use Chrome or Edge browser';
-                voiceBtn.disabled = true;
-                return;
-            }
-            
-            recognition = new SpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
-            recognition.lang = 'en-US';
-            recognition.maxAlternatives = 3;
-            
-            recognition.onstart = function() {
-                isRecording = true;
-                voiceBtn.classList.add('recording');
-                voiceStatus.textContent = 'Listening... Speak clearly';
-                voiceStatus.className = 'voice-status';
-                if (navigator.vibrate) navigator.vibrate(50);
-            };
-            
-            recognition.onresult = function(event) {
-                let bestTranscript = '';
-                let highestConfidence = 0;
-                
-                for (let i = 0; i < event.results[0].length; i++) {
-                    const alternative = event.results[0][i];
-                    if (alternative.confidence > highestConfidence) {
-                        highestConfidence = alternative.confidence;
-                        bestTranscript = alternative.transcript;
-                    }
-                }
-                
-                voiceStatus.textContent = `Processing: "${bestTranscript}"`;
-                voiceStatus.className = 'voice-status success';
-                parseVoiceInput(bestTranscript, highestConfidence);
-            };
-            
-            recognition.onerror = function(event) {
-                isRecording = false;
-                voiceBtn.classList.remove('recording');
-                voiceStatus.textContent = 'Voice input error - try again';
-                voiceStatus.className = 'voice-status error';
-            };
-            
-            recognition.onend = function() {
-                isRecording = false;
-                voiceBtn.classList.remove('recording');
-            };
-            
-            voiceSupported = true;
-            voiceStatus.textContent = 'Voice input ready';
-            voiceInstructions.textContent = 'Example: "Add transaction 123 Oak Street client John Smith buyer"';
-        }
-        
-        function parseVoiceInput(transcript, confidence) {
-            const text = transcript.toLowerCase().trim();
-            let fieldsUpdated = 0;
-            
-            // Property address patterns
-            const addressPatterns = [
-                /(\d+\s+[\w\s]+(street|st|avenue|ave|drive|dr|road|rd|lane|ln|court|ct|way|circle|cir|place|pl|boulevard|blvd|trail|tr)[\w\s]*)/i,
-                /(\d+\s+[\w\s]{3,50}(?:\s+(houston|tx|texas)))/i,
-                /(\d+\s+[\w\s]{5,40})/i
-            ];
-            
-            for (const pattern of addressPatterns) {
-                const match = text.match(pattern);
-                if (match && match[1].length > 8) {
-                    document.getElementById('propertyAddress').value = match[1].trim();
-                    fieldsUpdated++;
-                    break;
-                }
-            }
-            
-            // Client name patterns
-            const clientPatterns = [
-                /(client|for|buyers?|sellers?)\s+([a-zA-Z][a-zA-Z\s&]+?)(?:\s+(?:buyer|seller|listing|contract|closing)|$)/i,
-                /(mr|mrs|ms)\.?\s+([a-zA-Z\s&]{2,30})/i,
-                /([a-zA-Z]+\s+and\s+[a-zA-Z]+\s+[a-zA-Z]+)/i,
-                /([a-zA-Z]+\s+[a-zA-Z]+)(?:\s+(?:buyer|seller|client))/i
-            ];
-            
-            for (const pattern of clientPatterns) {
-                const match = text.match(pattern);
-                if (match && match[2] && match[2].length > 2) {
-                    document.getElementById('clientName').value = match[2].trim();
-                    fieldsUpdated++;
-                    break;
-                }
-            }
-            
-            // Transaction type
-            if (text.includes('buyer') || text.includes('buying') || text.includes('purchase')) {
-                document.getElementById('transactionType').value = 'buyer';
-                fieldsUpdated++;
-            } else if (text.includes('seller') || text.includes('listing') || text.includes('selling')) {
-                document.getElementById('transactionType').value = 'listing';
-                fieldsUpdated++;
-            }
-            
-            // Date detection
-            if (text.includes('today') || text.includes('contract today')) {
-                document.getElementById('contractDate').value = new Date().toISOString().split('T')[0];
-                fieldsUpdated++;
-            }
-            
-            // Price extraction
-            const pricePatterns = [
-                /(\d{3,7})\s*(?:thousand|k|dollars?)/i,
-                /(\d{6,7})/i
-            ];
-            
-            for (const pattern of pricePatterns) {
-                const match = text.match(pattern);
-                if (match) {
-                    let price = parseInt(match[1]);
-                    if (price < 10000) price *= 1000;
-                    document.getElementById('listPrice').value = price;
-                    fieldsUpdated++;
-                    break;
-                }
-            }
-            
-            setTimeout(() => {
-                const voiceStatus = document.getElementById('voiceStatus');
-                const voiceInstructions = document.getElementById('voiceInstructions');
-                
-                if (fieldsUpdated > 0) {
-                    const confidenceText = confidence > 0.8 ? 'High confidence' : 
-                                         confidence > 0.6 ? 'Good confidence' : 'Low confidence';
-                    
-                    voiceStatus.textContent = `${confidenceText} - ${fieldsUpdated} fields filled`;
-                    voiceStatus.className = 'voice-status success';
-                    voiceInstructions.textContent = 'Review and complete any missing information';
-                    showMessage(`Voice input successful: ${fieldsUpdated} fields filled`, 'success');
-                } else {
-                    voiceStatus.textContent = 'No information extracted - try again';
-                    voiceStatus.className = 'voice-status error';
-                    voiceInstructions.textContent = 'Speak more clearly. Example: "Add transaction 123 Oak Street for John Smith buyer"';
-                    showMessage('Voice input unclear - please try manual input', 'error');
-                }
-            }, 1000);
-        }
-        
-        // Voice button handler
-        document.getElementById('voiceBtn').addEventListener('click', async function() {
-            if (!voiceSupported || !recognition) return;
-            
-            if (isRecording) {
-                recognition.stop();
-                return;
-            }
-            
-            try {
-                await navigator.mediaDevices.getUserMedia({ audio: true });
-                recognition.start();
-            } catch (error) {
-                document.getElementById('voiceStatus').textContent = 'Microphone access required';
-                document.getElementById('voiceStatus').className = 'voice-status error';
-            }
-        });
         
         // Transaction management
         function calculateDeadlines(contractDate, closingDate) {
@@ -1279,7 +1018,6 @@
             
             initializeStorage();
             updateTrialStatus();
-            initializeVoiceRecognition();
             setDefaultDates();
             document.getElementById('agentEmail').value = currentAgentEmail;
             loadDashboard();
