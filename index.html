@@ -164,9 +164,11 @@
         }
         
         .admin-btn img {
-            height: 40px;
-            width: auto;
-        }
+    height: 60px;
+    width: auto;
+    display: block;
+    margin: 5px;
+}
         
         .search-section {
             background: #f8f9fa;
@@ -555,11 +557,16 @@
             <div class="section">
                 <div class="admin-panel">
     <h4>Demo Controls</h4>
-    <div style="border: 2px solid red; padding: 10px;">
-        <img src="button_test_reminders.png" style="height: 80px; border: 1px solid blue;">
-        <img src="button_refresh_dashboard.png" style="height: 80px; border: 1px solid blue;">
-        <img src="button_system_status.png" style="height: 80px; border: 1px solid blue;">
-    </div>
+    <button class="admin-btn" onclick="triggerReminders()">
+        <img src="button_test_reminders.png" alt="Test Reminders">
+    </button>
+    <button class="admin-btn" onclick="loadDashboard()">
+        <img src="button_refresh_dashboard.png" alt="Refresh Dashboard">
+    </button>
+    <button class="admin-btn" onclick="checkStatus()">
+        <img src="button_system_status.png" alt="System Status">
+    </button>
+</div>
                     <button class="admin-btn" onclick="loadDashboard()">
                         <img src="button_refresh_dashboard.png" alt="Refresh Dashboard">
                     </button>
@@ -1034,6 +1041,7 @@
     </script>
 </body>
 </html>
+
 
 
 
