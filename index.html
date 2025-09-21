@@ -164,10 +164,8 @@
         }
         
         .admin-btn img {
-            height: 60px;
+            height: 40px;
             width: auto;
-            display: block;
-            margin: 5px;
         }
         
         .search-section {
@@ -472,8 +470,9 @@
             .transaction-actions {
                 align-self: flex-start;
             }
-            .admin-btn img {
-                height: 50px;
+            .admin-btn {
+                font-size: 12px;
+                padding: 8px 15px;
             }
         }
     </style>
@@ -594,7 +593,7 @@
         </div>
         
         <div class="footer">
-            © 2025. All rights reserved. Contact: <a href="mailto:support@asistant.pro">support@asistant.pro</a>
+            © 2025 asistant.pro. All rights reserved. Contact: <a href="mailto:support@asistant.pro">support@asistant.pro</a>
         </div>
     </div>
     
@@ -610,12 +609,12 @@
                         $397<span style="font-size: 1rem; color: #7f8c8d;">/month</span>
                     </div>
                     <ul style="text-align: left; margin: 15px 0;">
-                        <li>✓ Unlimited transactions</li>
-                        <li>✓ Automated deadline reminders</li>
-                        <li>✓ Mobile-optimized interface</li>
-                        <li>✓ Priority support</li>
-                        <li>✓ Transaction notes</li>
-                        <li>✓ CSV export</li>
+                        <li>✅ Unlimited transactions</li>
+                        <li>✅ Automated deadline reminders</li>
+                        <li>✅ Mobile-optimized interface</li>
+                        <li>✅ Priority support</li>
+                        <li>✅ Transaction notes</li>
+                        <li>✅ CSV export</li>
                     </ul>
                     <button style="background: #667eea; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: 600;" onclick="alert('Demo mode - Payment integration needed')">
                         Start Professional Plan
@@ -987,8 +986,50 @@
         });
         
         // Demo functions
-        function triggerReminders() {
-            showMessage('Demo: Email reminders would be sent for upcoming deadlines', 'success');
+        async function triggerReminders() {
+            const agentEmail = document.getElementById('agentEmail').value;
+            if (!agentEmail) {
+                showMessage('Please enter an agent email address first', 'error');
+                return;
+            }
+            
+            showMessage('Sending test reminder email...', 'success');
+            
+            // Create a sample transaction for testing
+            const testTransaction = {
+                id: 'TEST_' + Date.now(),
+                property_address: '1234 Main St, Houston, TX 77002',
+                client_name: 'John & Mary Smith',
+                agent_email: agentEmail,
+                transaction_type: 'buyer',
+                contract_date: new Date().toISOString().split('T')[0],
+                closing_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                option_period_end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+            };
+            
+            try {
+                // Attempt to send test email using backend API
+                const response = await fetch('/api/send-test-reminder', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        transaction: testTransaction,
+                        agentEmail: agentEmail,
+                        reminderType: 'option_period'
+                    })
+                });
+                
+                if (response.ok) {
+                    showMessage(`Test reminder sent successfully to ${agentEmail}! Check your inbox (including spam folder).`, 'success');
+                } else {
+                    throw new Error('Email service not available');
+                }
+            } catch (error) {
+                // Fallback message for standalone version
+                showMessage(`Email system ready! In production, this would send a test reminder to ${agentEmail} about the option period ending for ${testTransaction.property_address}. Backend email service needed for actual delivery.`, 'success');
+            }
         }
         
         function loadDashboard() {
