@@ -512,7 +512,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="assistant_pro_logo.png" alt="asistant.pro" class="header-logo">
+            <img src="asistant_pro_logo.png" alt="asistant.pro" class="header-logo">
         </div>
         
         <div class="instruction-banner">
@@ -743,8 +743,9 @@
         
         // Transaction management
         function calculateDeadlines(contractDate, closingDate) {
-            const contract = new Date(contractDate);
-            const closing = new Date(closingDate);
+            // Fix timezone issues by adding explicit time
+            const contract = new Date(contractDate + 'T12:00:00');
+            const closing = new Date(closingDate + 'T12:00:00');
             
             const optionPeriodEnd = new Date(contract);
             optionPeriodEnd.setDate(contract.getDate() + 7);
@@ -900,7 +901,8 @@
                 ];
                 
                 deadlines.forEach(deadline => {
-                    const deadlineDate = new Date(deadline);
+                    // Fix timezone issue in urgent checking
+                    const deadlineDate = new Date(deadline + 'T12:00:00');
                     const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
                     if (daysUntil <= 2 && daysUntil >= 0) {
                         urgentCount++;
@@ -933,7 +935,8 @@
             ];
             
             const deadlinesHTML = deadlines.map(deadline => {
-                const deadlineDate = new Date(deadline.date);
+                // Fix timezone issue for display
+                const deadlineDate = new Date(deadline.date + 'T12:00:00');
                 const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
                 
                 let deadlineClass = 'good';
@@ -982,7 +985,10 @@
         function editDeadline(transactionId, deadlineType, currentDate) {
             const newDate = prompt(`Edit deadline date (YYYY-MM-DD):`, currentDate);
             if (newDate && newDate !== currentDate) {
-                updateDeadline(transactionId, deadlineType, newDate);
+                // Fix timezone issue by ensuring date is treated as local time
+                const dateObj = new Date(newDate + 'T12:00:00');
+                const formattedDate = dateObj.toISOString().split('T')[0];
+                updateDeadline(transactionId, deadlineType, formattedDate);
             }
         }
         
