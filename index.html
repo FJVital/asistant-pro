@@ -41,8 +41,8 @@
             color: rgb(0, 0, 102);
             padding: 15px;
             text-align: center;
-            font-size: 1rem;
-            font-weight: 500;
+            font-size: 0.8rem;
+            font-weight: 400;
         }
         
         .trial-banner {
@@ -140,22 +140,19 @@
             margin: 0 auto;
         }
         
-        .admin-controls-centered {
+        .admin-controls-no-container {
             text-align: center;
-            padding: 10px;
-            background: #f5f5f5;
-            border-radius: 6px;
-            border: 1px solid #e0e0e0;
+            padding: 20px 0;
         }
         
-        .admin-controls-centered .btn-image {
+        .admin-controls-no-container .btn-image {
             display: inline-block;
-            margin: 0 10px;
+            margin: 0 30px;
             width: auto;
         }
         
-        .admin-controls-centered .btn-image img {
-            max-width: 300px;
+        .admin-controls-no-container .btn-image img {
+            max-width: 400px;
             height: auto;
         }
         
@@ -584,7 +581,7 @@
             
             <!-- 2. Admin Controls -->
             <div class="section">
-                <div class="admin-controls-centered">
+                <div class="admin-controls-no-container">
                     <button class="btn-image" onclick="loadDashboard()">
                         <img src="button_refresh_dashboard.png" alt="Refresh Dashboard">
                     </button>
@@ -598,7 +595,10 @@
             <div class="search-section">
                 <h3 class="section-title">Search Transactions</h3>
                 <input type="text" class="search-input" id="searchInput" 
-                       placeholder="Search by property address...">
+                       placeholder="Search by property address..." list="addressSuggestions">
+                <datalist id="addressSuggestions">
+                    <!-- Dynamic suggestions will be populated here -->
+                </datalist>
                 <div class="results-count" id="resultsCount">Showing all transactions</div>
             </div>
             
@@ -1069,15 +1069,57 @@
             showMessage(`Demo: Test reminder email would be sent to ${agentEmail}. This demonstrates the automated reminder system that prevents missed deadlines. In production, real emails are sent via our backend server.`, 'success');
         }
         
+        // Load dashboard and update search suggestions
         function loadDashboard() {
             const transactions = JSON.parse(localStorage.getItem('transactions'));
             allTransactions = transactions;
             displayTransactions(transactions);
             document.getElementById('resultsCount').textContent = `Showing all ${transactions.length} transactions`;
+            
+            // Update search autofill suggestions
+            updateSearchSuggestions(transactions);
+            showMessage('Dashboard refreshed successfully', 'success');
+        }
+        
+        // Update search suggestions datalist
+        function updateSearchSuggestions(transactions) {
+            const datalist = document.getElementById('addressSuggestions');
+            datalist.innerHTML = '';
+            
+            transactions.forEach(transaction => {
+                const option = document.createElement('option');
+                option.value = transaction.property_address;
+                datalist.appendChild(option);
+            });
         }
         
         function checkStatus() {
-            showMessage('System Status: Running - All systems operational', 'success');
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
+            const totalTransactions = transactions.length;
+            
+            // Count urgent deadlines
+            let urgentCount = 0;
+            const today = new Date();
+            
+            transactions.forEach(transaction => {
+                const deadlines = [
+                    transaction.option_period_end,
+                    transaction.inspection_date,
+                    transaction.appraisal_date,
+                    transaction.financing_deadline,
+                    transaction.closing_date
+                ];
+                
+                deadlines.forEach(deadline => {
+                    const deadlineDate = new Date(deadline + 'T12:00:00');
+                    const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                    if (daysUntil <= 2 && daysUntil >= 0) {
+                        urgentCount++;
+                    }
+                });
+            });
+            
+            showMessage(`System Status: ✓ Operational | ${totalTransactions} active transactions | ${urgentCount} urgent deadlines`, 'success');
         }
         
         // Utility functions
