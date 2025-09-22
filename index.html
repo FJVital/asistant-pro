@@ -394,11 +394,12 @@
         }
         
         .success-message {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
+            background: #003399;
+            border: 1px solid #003399;
+            color: white;
+            font-weight: bold;
             padding: 15px;
-            border-radius: 6px;
+            border-radius: 0;
             margin-bottom: 20px;
             text-align: center;
         }
@@ -519,6 +520,26 @@
             .admin-controls-no-container {
                 padding: 20px 0;
             }
+            
+            /* Enhanced mobile search */
+            .search-input {
+                font-size: 16px; /* Prevents zoom on iOS */
+                padding: 18px 20px; /* Larger touch target */
+                border-width: 2px;
+            }
+            
+            .search-input:focus {
+                outline: none;
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            }
+            
+            .results-count {
+                font-size: 14px;
+                margin-top: 15px;
+                color: #333;
+                font-weight: 500;
+            }
         }
     </style>
 </head>
@@ -621,7 +642,10 @@
             <div class="search-section">
                 <h3 class="section-title">Search Transactions</h3>
                 <input type="text" class="search-input" id="searchInput" 
-                       placeholder="Search by property address..." list="addressSuggestions">
+                       placeholder="Search by property address..." 
+                       list="addressSuggestions"
+                       autocomplete="off"
+                       inputmode="text">
                 <datalist id="addressSuggestions">
                     <!-- Dynamic suggestions will be populated here -->
                 </datalist>
@@ -861,10 +885,25 @@
             }
         });
         
-        // Search functionality
+        // Search functionality - Enhanced for mobile compatibility
         document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
+            const searchTerm = e.target.value.toLowerCase().trim();
             filterTransactions(searchTerm);
+        });
+        
+        // Add focus and blur events for better mobile experience
+        document.getElementById('searchInput').addEventListener('focus', function(e) {
+            // Clear placeholder on mobile for better UX
+            if (window.innerWidth <= 768) {
+                e.target.placeholder = '';
+            }
+        });
+        
+        document.getElementById('searchInput').addEventListener('blur', function(e) {
+            // Restore placeholder on mobile
+            if (window.innerWidth <= 768 && !e.target.value) {
+                e.target.placeholder = 'Search by property address...';
+            }
         });
         
         function filterTransactions(searchTerm) {
@@ -876,12 +915,25 @@
                 return;
             }
             
-            const filtered = transactions.filter(transaction => 
-                transaction.property_address.toLowerCase().includes(searchTerm)
-            );
+            // Enhanced search - more flexible matching
+            const filtered = transactions.filter(transaction => {
+                const address = transaction.property_address.toLowerCase();
+                const client = transaction.client_name.toLowerCase();
+                const searchWords = searchTerm.split(' ');
+                
+                // Check if any search word matches address or client
+                return searchWords.some(word => 
+                    word.length > 0 && (address.includes(word) || client.includes(word))
+                );
+            });
             
             displayTransactions(filtered);
             document.getElementById('resultsCount').textContent = `Showing ${filtered.length} of ${transactions.length} transactions`;
+            
+            // Debug for mobile - log search results
+            console.log('Search term:', searchTerm);
+            console.log('Total transactions:', transactions.length);
+            console.log('Filtered results:', filtered.length);
         }
         
         // Display transactions
