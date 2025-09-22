@@ -403,6 +403,24 @@
             text-align: center;
         }
         
+        .refresh-message {
+            background: #CC3399;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .status-message {
+            background: #FF6600;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
         .error-message {
             background: #f8d7da;
             border: 1px solid #f5c6cb;
@@ -521,8 +539,6 @@
             </div>
         </div>
         
-        <div id="messageArea"></div>
-        
         <div class="main-content">
             <!-- 1. Add New Transaction -->
             <div class="section">
@@ -581,6 +597,9 @@
             
             <!-- 2. Admin Controls -->
             <div class="section">
+                <!-- Success Messages Area - Right above buttons -->
+                <div id="messageArea"></div>
+                
                 <div class="admin-controls-no-container">
                     <button class="btn-image" onclick="loadDashboard()">
                         <img src="button_refresh_dashboard.png" alt="Refresh Dashboard">
@@ -1078,7 +1097,7 @@
             
             // Update search autofill suggestions
             updateSearchSuggestions(transactions);
-            showMessage('Dashboard refreshed successfully', 'success');
+            showMessage('Dashboard refreshed successfully', 'refresh');
         }
         
         // Update search suggestions datalist
@@ -1119,13 +1138,28 @@
                 });
             });
             
-            showMessage(`System Status: ✓ Operational | ${totalTransactions} active transactions | ${urgentCount} urgent deadlines`, 'success');
+            showMessage(`System Status: ✓ Operational | ${totalTransactions} active transactions | ${urgentCount} urgent deadlines`, 'status');
         }
         
         // Utility functions
         function showMessage(message, type = 'success') {
             const messageArea = document.getElementById('messageArea');
-            const messageClass = type === 'error' ? 'error-message' : 'success-message';
+            let messageClass;
+            
+            switch(type) {
+                case 'refresh':
+                    messageClass = 'refresh-message';
+                    break;
+                case 'status':
+                    messageClass = 'status-message';
+                    break;
+                case 'error':
+                    messageClass = 'error-message';
+                    break;
+                default:
+                    messageClass = 'success-message';
+            }
+            
             messageArea.innerHTML = `<div class="${messageClass}">${message}</div>`;
             setTimeout(() => messageArea.innerHTML = '', 5000);
         }
