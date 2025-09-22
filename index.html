@@ -298,7 +298,39 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
-        .deadline-item.urgent { background: #e74c3c; color: white; }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .urgent-alerts-banner {
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from { height: 0; opacity: 0; }
+            to { height: auto; opacity: 1; }
+        }
+        
+        .deadline-item.urgent {
+            background: #e74c3c;
+            color: white;
+            animation: pulse 2s infinite;
+            border: 2px solid #c0392b;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+        }
+        
+        .priority-summary {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
         .deadline-item.warning { background: #f39c12; color: white; }
         .deadline-item.good { background: #27ae60; color: white; }
         
@@ -480,7 +512,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="asistant_pro_logo.png" alt="asistant.pro" class="header-logo">
+            <img src="assistant_pro_logo.png" alt="asistant.pro" class="header-logo">
         </div>
         
         <div class="instruction-banner">
@@ -492,6 +524,13 @@
             <button class="trial-cta" onclick="showPaymentModal()">
                 Upgrade Now - $397/month
             </button>
+        </div>
+        
+        <!-- Alert Banner for Urgent Deadlines -->
+        <div id="urgentAlerts" class="urgent-alerts-banner" style="display: none;">
+            <div style="background: #e74c3c; color: white; padding: 15px; text-align: center; font-weight: bold; animation: pulse 2s infinite;">
+                ⚠️ URGENT: You have deadlines expiring within 48 hours! Scroll down to review.
+            </div>
         </div>
         
         <div id="messageArea"></div>
@@ -556,9 +595,6 @@
             <div class="section">
                 <div class="admin-panel">
                     <h4>Demo Controls</h4>
-                    <button class="admin-btn" onclick="triggerReminders()">
-                        <img src="button_test_reminders.png" alt="Test Reminders">
-                    </button>
                     <button class="admin-btn" onclick="loadDashboard()">
                         <img src="button_refresh_dashboard.png" alt="Refresh Dashboard">
                     </button>
@@ -837,12 +873,52 @@
             
             if (transactions.length === 0) {
                 transactionsList.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No transactions found. Add one above to get started!</div>';
+                document.getElementById('urgentAlerts').style.display = 'none';
                 return;
             }
+            
+            // Check for urgent deadlines
+            checkUrgentDeadlines(transactions);
             
             transactionsList.innerHTML = transactions.map(transaction => 
                 createTransactionCardHTML(transaction)
             ).join('');
+        }
+        
+        // Check for urgent deadlines and show alerts
+        function checkUrgentDeadlines(transactions) {
+            const today = new Date();
+            let urgentCount = 0;
+            
+            transactions.forEach(transaction => {
+                const deadlines = [
+                    transaction.option_period_end,
+                    transaction.inspection_date,
+                    transaction.appraisal_date,
+                    transaction.financing_deadline,
+                    transaction.closing_date
+                ];
+                
+                deadlines.forEach(deadline => {
+                    const deadlineDate = new Date(deadline);
+                    const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                    if (daysUntil <= 2 && daysUntil >= 0) {
+                        urgentCount++;
+                    }
+                });
+            });
+            
+            const urgentAlerts = document.getElementById('urgentAlerts');
+            if (urgentCount > 0) {
+                urgentAlerts.style.display = 'block';
+                urgentAlerts.innerHTML = `
+                    <div style="background: #e74c3c; color: white; padding: 15px; text-align: center; font-weight: bold; animation: pulse 2s infinite;">
+                        ⚠️ URGENT: You have ${urgentCount} deadline${urgentCount > 1 ? 's' : ''} expiring within 48 hours! Review below immediately.
+                    </div>
+                `;
+            } else {
+                urgentAlerts.style.display = 'none';
+            }
         }
         
         function createTransactionCardHTML(transaction) {
@@ -993,43 +1069,8 @@
                 return;
             }
             
-            showMessage('Sending test reminder email...', 'success');
-            
-            // Create a sample transaction for testing
-            const testTransaction = {
-                id: 'TEST_' + Date.now(),
-                property_address: '1234 Main St, Houston, TX 77002',
-                client_name: 'John & Mary Smith',
-                agent_email: agentEmail,
-                transaction_type: 'buyer',
-                contract_date: new Date().toISOString().split('T')[0],
-                closing_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                option_period_end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-            };
-            
-            try {
-                // Attempt to send test email using backend API
-                const response = await fetch('/api/send-test-reminder', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        transaction: testTransaction,
-                        agentEmail: agentEmail,
-                        reminderType: 'option_period'
-                    })
-                });
-                
-                if (response.ok) {
-                    showMessage(`Test reminder sent successfully to ${agentEmail}! Check your inbox (including spam folder).`, 'success');
-                } else {
-                    throw new Error('Email service not available');
-                }
-            } catch (error) {
-                // Fallback message for standalone version
-                showMessage(`Email system ready! In production, this would send a test reminder to ${agentEmail} about the option period ending for ${testTransaction.property_address}. Backend email service needed for actual delivery.`, 'success');
-            }
+            // Demo version - no actual email sending
+            showMessage(`Demo: Test reminder email would be sent to ${agentEmail}. This demonstrates the automated reminder system that prevents missed deadlines. In production, real emails are sent via our backend server.`, 'success');
         }
         
         function loadDashboard() {
