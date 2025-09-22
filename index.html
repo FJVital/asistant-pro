@@ -140,32 +140,23 @@
             margin: 0 auto;
         }
         
-        .admin-panel {
-            background: #e8f5e8;
-            border: 1px solid #c3e6cb;
-            padding: 15px;
+        .admin-controls-centered {
+            text-align: center;
+            padding: 10px;
+            background: #f5f5f5;
             border-radius: 6px;
-            margin-top: 20px;
+            border: 1px solid #e0e0e0;
         }
         
-        .admin-btn {
-            background: none;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            border-radius: 4px;
-            transition: transform 0.2s;
-        }
-        
-        .admin-btn:hover {
-            transform: translateY(-1px);
-        }
-        
-        .admin-btn img {
-            height: 40px;
+        .admin-controls-centered .btn-image {
+            display: inline-block;
+            margin: 0 10px;
             width: auto;
+        }
+        
+        .admin-controls-centered .btn-image img {
+            max-width: 300px;
+            height: auto;
         }
         
         .search-section {
@@ -593,12 +584,11 @@
             
             <!-- 2. Admin Controls -->
             <div class="section">
-                <div class="admin-panel">
-                    <h4>Demo Controls</h4>
-                    <button class="admin-btn" onclick="loadDashboard()">
+                <div class="admin-controls-centered">
+                    <button class="btn-image" onclick="loadDashboard()">
                         <img src="button_refresh_dashboard.png" alt="Refresh Dashboard">
                     </button>
-                    <button class="admin-btn" onclick="checkStatus()">
+                    <button class="btn-image" onclick="checkStatus()">
                         <img src="button_system_status.png" alt="System Status">
                     </button>
                 </div>
