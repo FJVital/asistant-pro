@@ -508,9 +508,16 @@
             .transaction-actions {
                 align-self: flex-start;
             }
-            .admin-btn {
-                font-size: 12px;
-                padding: 8px 15px;
+            
+            /* FIXED: Mobile admin control buttons - override desktop styles */
+            .admin-controls-no-container .btn-image {
+                display: block !important;
+                width: 100% !important;
+                margin: 15px 0 !important;
+            }
+            
+            .admin-controls-no-container {
+                padding: 20px 0;
             }
         }
     </style>
@@ -601,7 +608,7 @@
                 <div id="messageArea"></div>
                 
                 <div class="admin-controls-no-container">
-                    <button class="btn-image" onclick="loadDashboard()">
+                    <button class="btn-image" onclick="loadDashboardWithMessage()">
                         <img src="button_refresh_dashboard.png" alt="Refresh Dashboard">
                     </button>
                     <button class="btn-image" onclick="checkStatus()">
@@ -1088,7 +1095,7 @@
             showMessage(`Demo: Test reminder email would be sent to ${agentEmail}. This demonstrates the automated reminder system that prevents missed deadlines. In production, real emails are sent via our backend server.`, 'success');
         }
         
-        // Load dashboard and update search suggestions
+        // FIXED: Load dashboard without message (for page load)
         function loadDashboard() {
             const transactions = JSON.parse(localStorage.getItem('transactions'));
             allTransactions = transactions;
@@ -1097,6 +1104,12 @@
             
             // Update search autofill suggestions
             updateSearchSuggestions(transactions);
+            // NO MESSAGE on page load
+        }
+        
+        // NEW: Load dashboard WITH message (for button clicks)
+        function loadDashboardWithMessage() {
+            loadDashboard();
             showMessage('Dashboard refreshed successfully', 'refresh');
         }
         
@@ -1181,7 +1194,7 @@
             updateTrialStatus();
             setDefaultDates();
             document.getElementById('agentEmail').value = currentAgentEmail;
-            loadDashboard();
+            loadDashboard(); // FIXED: No message on page load
             
             console.log('System initialization complete');
         });
