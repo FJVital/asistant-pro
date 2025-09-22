@@ -164,6 +164,10 @@
             margin-bottom: 30px;
         }
         
+        .search-container {
+            position: relative;
+        }
+        
         .search-input {
             width: 100%;
             padding: 15px 20px;
@@ -178,6 +182,44 @@
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #667eea;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-suggestions.show {
+            display: block;
+        }
+        
+        .suggestion-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+        
+        .suggestion-item:hover,
+        .suggestion-item.highlighted {
+            background-color: #f8f9ff;
+            color: #667eea;
+        }
+        
+        .suggestion-item:last-child {
+            border-bottom: none;
         }
         
         .results-count {
@@ -556,7 +598,7 @@
         <div class="trial-banner" id="trialBanner">
             <strong>TRIAL ENDING SOON:</strong> <span id="trialDaysText">2 days remaining</span>
             <button class="trial-cta" onclick="showPaymentModal()">
-                Upgrade Now - $397/month
+                Upgrade Now - $149/month
             </button>
         </div>
         
@@ -641,14 +683,13 @@
             <!-- 3. Simple Search -->
             <div class="search-section">
                 <h3 class="section-title">Search Transactions</h3>
-                <input type="text" class="search-input" id="searchInput" 
-                       placeholder="Search by property address..." 
-                       list="addressSuggestions"
-                       autocomplete="off"
-                       inputmode="text">
-                <datalist id="addressSuggestions">
-                    <!-- Dynamic suggestions will be populated here -->
-                </datalist>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" 
+                           placeholder="Search by property address..." 
+                           autocomplete="off"
+                           inputmode="text">
+                    <div id="searchSuggestions" class="search-suggestions"></div>
+                </div>
                 <div class="results-count" id="resultsCount">Showing all transactions</div>
             </div>
             
@@ -682,7 +723,7 @@
                 <div style="border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: linear-gradient(135deg, #f8f9ff, #fff);">
                     <h3>Professional Plan</h3>
                     <div style="font-size: 2rem; font-weight: bold; color: #2c3e50; margin: 10px 0;">
-                        $397<span style="font-size: 1rem; color: #7f8c8d;">/month</span>
+                        $149<span style="font-size: 1rem; color: #7f8c8d;">/month</span>
                     </div>
                     <ul style="text-align: left; margin: 15px 0;">
                         <li>✅ Unlimited transactions</li>
@@ -765,7 +806,7 @@
             const startDate = new Date(localStorage.getItem('trialStartDate'));
             const now = new Date();
             const daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-            trialDaysRemaining = Math.max(0, 14 - daysSinceStart);
+            trialDaysRemaining = Math.max(0, 15 - daysSinceStart); // FIXED: 15 days to match email
             
             const trialBanner = document.getElementById('trialBanner');
             const trialDaysText = document.getElementById('trialDaysText');
@@ -885,26 +926,130 @@
             }
         });
         
-        // Search functionality - Enhanced for mobile compatibility
+        // Custom search functionality with mobile-friendly dropdown
+        let currentSuggestionIndex = -1;
+        let availableSuggestions = [];
+        
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase().trim();
             filterTransactions(searchTerm);
+            showSearchSuggestions(searchTerm);
         });
         
-        // Add focus and blur events for better mobile experience
         document.getElementById('searchInput').addEventListener('focus', function(e) {
-            // Clear placeholder on mobile for better UX
-            if (window.innerWidth <= 768) {
-                e.target.placeholder = '';
+            const searchTerm = e.target.value.toLowerCase().trim();
+            if (searchTerm) {
+                showSearchSuggestions(searchTerm);
             }
         });
         
         document.getElementById('searchInput').addEventListener('blur', function(e) {
-            // Restore placeholder on mobile
-            if (window.innerWidth <= 768 && !e.target.value) {
-                e.target.placeholder = 'Search by property address...';
+            // Delay hiding to allow for click events on suggestions
+            setTimeout(() => {
+                hideSearchSuggestions();
+            }, 150);
+        });
+        
+        // Keyboard navigation for suggestions
+        document.getElementById('searchInput').addEventListener('keydown', function(e) {
+            const suggestions = document.querySelectorAll('.suggestion-item');
+            
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                currentSuggestionIndex = Math.min(currentSuggestionIndex + 1, suggestions.length - 1);
+                updateSuggestionHighlight(suggestions);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                currentSuggestionIndex = Math.max(currentSuggestionIndex - 1, -1);
+                updateSuggestionHighlight(suggestions);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (currentSuggestionIndex >= 0 && suggestions[currentSuggestionIndex]) {
+                    selectSuggestion(suggestions[currentSuggestionIndex].textContent);
+                }
+            } else if (e.key === 'Escape') {
+                hideSearchSuggestions();
             }
         });
+        
+        function showSearchSuggestions(searchTerm) {
+            const transactions = JSON.parse(localStorage.getItem('transactions'));
+            const suggestionsContainer = document.getElementById('searchSuggestions');
+            
+            if (!searchTerm || searchTerm.length < 1) {
+                hideSearchSuggestions();
+                return;
+            }
+            
+            // Get matching suggestions
+            const matchingSuggestions = transactions
+                .filter(transaction => {
+                    const address = transaction.property_address.toLowerCase();
+                    const client = transaction.client_name.toLowerCase();
+                    return address.includes(searchTerm) || client.includes(searchTerm);
+                })
+                .slice(0, 5) // Limit to 5 suggestions
+                .map(transaction => ({
+                    display: `${transaction.property_address} - ${transaction.client_name}`,
+                    address: transaction.property_address
+                }));
+            
+            availableSuggestions = matchingSuggestions;
+            
+            if (matchingSuggestions.length === 0) {
+                hideSearchSuggestions();
+                return;
+            }
+            
+            // Build suggestions HTML
+            suggestionsContainer.innerHTML = matchingSuggestions
+                .map(suggestion => 
+                    `<div class="suggestion-item" data-address="${suggestion.address}">${suggestion.display}</div>`
+                )
+                .join('');
+            
+            // Add click/touch handlers
+            suggestionsContainer.querySelectorAll('.suggestion-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    selectSuggestion(this.getAttribute('data-address'));
+                });
+                
+                // Touch events for mobile
+                item.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    selectSuggestion(this.getAttribute('data-address'));
+                });
+            });
+            
+            suggestionsContainer.classList.add('show');
+            currentSuggestionIndex = -1;
+        }
+        
+        function hideSearchSuggestions() {
+            document.getElementById('searchSuggestions').classList.remove('show');
+            currentSuggestionIndex = -1;
+        }
+        
+        function selectSuggestion(address) {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = address;
+            hideSearchSuggestions();
+            filterTransactions(address.toLowerCase().trim());
+            searchInput.blur(); // Remove focus after selection
+        }
+        
+        function updateSuggestionHighlight(suggestions) {
+            suggestions.forEach((item, index) => {
+                if (index === currentSuggestionIndex) {
+                    item.classList.add('highlighted');
+                } else {
+                    item.classList.remove('highlighted');
+                }
+            });
+        }
         
         function filterTransactions(searchTerm) {
             const transactions = JSON.parse(localStorage.getItem('transactions'));
@@ -929,12 +1074,14 @@
             
             displayTransactions(filtered);
             document.getElementById('resultsCount').textContent = `Showing ${filtered.length} of ${transactions.length} transactions`;
-            
-            // Debug for mobile - log search results
-            console.log('Search term:', searchTerm);
-            console.log('Total transactions:', transactions.length);
-            console.log('Filtered results:', filtered.length);
         }
+        
+        // Close suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-container')) {
+                hideSearchSuggestions();
+            }
+        });
         
         // Display transactions
         function displayTransactions(transactions) {
@@ -1165,16 +1312,10 @@
             showMessage('Dashboard refreshed successfully', 'refresh');
         }
         
-        // Update search suggestions datalist
+        // Update search suggestions - now handled by custom dropdown
         function updateSearchSuggestions(transactions) {
-            const datalist = document.getElementById('addressSuggestions');
-            datalist.innerHTML = '';
-            
-            transactions.forEach(transaction => {
-                const option = document.createElement('option');
-                option.value = transaction.property_address;
-                datalist.appendChild(option);
-            });
+            // This function is no longer needed as we use custom dropdown
+            // Kept for backward compatibility but does nothing
         }
         
         function checkStatus() {
