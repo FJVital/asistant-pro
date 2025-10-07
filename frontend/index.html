@@ -28,12 +28,172 @@
             color: white;
             padding: 20px 30px;
             text-align: center;
+            position: relative;
         }
         
         .header-logo {
             max-width: 300px;
             width: 80%;
             height: auto;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* AUTH SCREENS */
+        .auth-container {
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-logo img {
+            max-width: 250px;
+            width: 80%;
+        }
+        
+        .auth-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .auth-subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        
+        .auth-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .auth-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 14px;
+        }
+        
+        .auth-form input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        .auth-form input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+        
+        .auth-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .auth-switch a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+        
+        .auth-benefits {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .auth-benefits h3 {
+            font-size: 1rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .auth-benefits ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .auth-benefits li {
+            padding: 8px 0;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .auth-benefits li:before {
+            content: "✓ ";
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        /* MAIN APP - hidden until authenticated */
+        .app-content {
+            display: none;
+        }
+        
+        .app-content.active {
+            display: block;
         }
         
         .instruction-banner {
@@ -309,16 +469,6 @@
             box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
         }
         
-        .priority-summary {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
         .deadline-item.warning { background: #f39c12; color: white; }
         .deadline-item.good { background: #27ae60; color: white; }
         
@@ -509,7 +659,6 @@
                 align-self: flex-start;
             }
             
-            /* FIXED: Mobile admin control buttons - override desktop styles */
             .admin-controls-no-container .btn-image {
                 display: block !important;
                 width: 100% !important;
@@ -519,13 +668,95 @@
             .admin-controls-no-container {
                 padding: 20px 0;
             }
+            
+            .logout-btn {
+                position: static;
+                transform: none;
+                display: block;
+                margin: 10px auto 0;
+                width: 120px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- AUTH SCREENS -->
+    <div id="authScreen">
+        <div class="auth-container" id="loginScreen">
+            <div class="auth-logo">
+                <img src="asistant_pro_logo.png" alt="asistant.pro">
+            </div>
+            <h2 class="auth-title">Welcome Back</h2>
+            <p class="auth-subtitle">Sign in to manage your transactions</p>
+            
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" required placeholder="agent@realty.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                </div>
+                
+                <button type="submit" class="auth-btn" id="loginBtn">Sign In</button>
+            </form>
+            
+            <div class="auth-switch">
+                Don't have an account? <a href="#" onclick="showRegister(); return false;">Start Free Trial</a>
+            </div>
+        </div>
+        
+        <div class="auth-container" id="registerScreen" style="display: none;">
+            <div class="auth-logo">
+                <img src="asistant_pro_logo.png" alt="asistant.pro">
+            </div>
+            <h2 class="auth-title">Start Your Free Trial</h2>
+            <p class="auth-subtitle">15 days free - No credit card required</p>
+            
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="registerName" required placeholder="John Smith">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="registerEmail" required placeholder="agent@realty.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" required placeholder="Create a password (min 6 characters)" minlength="6">
+                </div>
+                
+                <button type="submit" class="auth-btn" id="registerBtn">Start Free Trial</button>
+            </form>
+            
+            <div class="auth-benefits">
+                <h3>What's Included:</h3>
+                <ul>
+                    <li>Automatic Texas deadline calculations</li>
+                    <li>Color-coded urgency alerts</li>
+                    <li>Mobile-optimized interface</li>
+                    <li>Transaction notes & search</li>
+                    <li>CSV export functionality</li>
+                    <li>Cancel anytime</li>
+                </ul>
+            </div>
+            
+            <div class="auth-switch">
+                Already have an account? <a href="#" onclick="showLogin(); return false;">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div class="container app-content" id="mainApp">
         <div class="header">
             <img src="asistant_pro_logo.png" alt="asistant.pro" class="header-logo">
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
         
         <div class="instruction-banner">
@@ -535,28 +766,17 @@
         <div class="trial-banner" id="trialBanner">
             <strong>TRIAL ENDING SOON:</strong> <span id="trialDaysText">2 days remaining</span>
             <button class="trial-cta" onclick="showPaymentModal()">
-                Upgrade Now - $397/month
+                Upgrade Now - $149/month
             </button>
         </div>
         
-        <!-- Alert Banner for Urgent Deadlines -->
-        <div id="urgentAlerts" class="urgent-alerts-banner" style="display: none;">
-            <div style="background: #e74c3c; color: white; padding: 15px; text-align: center; font-weight: bold; animation: pulse 2s infinite;">
-                ⚠️ URGENT: You have deadlines expiring within 48 hours! Scroll down to review.
-            </div>
-        </div>
+        <div id="urgentAlerts" class="urgent-alerts-banner" style="display: none;"></div>
         
         <div class="main-content">
-            <!-- 1. Add New Transaction -->
             <div class="section">
                 <h2 class="section-title">Add New Transaction</h2>
                 
                 <form id="transactionForm">
-                    <div class="form-group">
-                        <label>Agent Email</label>
-                        <input type="email" id="agentEmail" required placeholder="agent@realty.com">
-                    </div>
-                    
                     <div class="form-group">
                         <label>Property Address</label>
                         <input type="text" id="propertyAddress" required placeholder="1234 Main St, Houston, TX 77002">
@@ -602,9 +822,7 @@
                 </form>
             </div>
             
-            <!-- 2. Admin Controls -->
             <div class="section">
-                <!-- Success Messages Area - Right above buttons -->
                 <div id="messageArea"></div>
                 
                 <div class="admin-controls-no-container">
@@ -617,18 +835,14 @@
                 </div>
             </div>
             
-            <!-- 3. Simple Search -->
             <div class="search-section">
                 <h3 class="section-title">Search Transactions</h3>
                 <input type="text" class="search-input" id="searchInput" 
                        placeholder="Search by property address..." list="addressSuggestions">
-                <datalist id="addressSuggestions">
-                    <!-- Dynamic suggestions will be populated here -->
-                </datalist>
+                <datalist id="addressSuggestions"></datalist>
                 <div class="results-count" id="resultsCount">Showing all transactions</div>
             </div>
             
-            <!-- 4. Active Transactions -->
             <div class="section">
                 <h2 class="section-title">Active Transactions</h2>
                 <div id="transactionsList">
@@ -637,7 +851,6 @@
             </div>
         </div>
         
-        <!-- Download Section -->
         <div class="download-section">
             <button class="download-btn" onclick="exportTransactions()">
                 <img src="button_download_transactions.png" alt="Download Transactions">
@@ -658,7 +871,7 @@
                 <div style="border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: linear-gradient(135deg, #f8f9ff, #fff);">
                     <h3>Professional Plan</h3>
                     <div style="font-size: 2rem; font-weight: bold; color: #2c3e50; margin: 10px 0;">
-                        $397<span style="font-size: 1rem; color: #7f8c8d;">/month</span>
+                        $149<span style="font-size: 1rem; color: #7f8c8d;">/month</span>
                     </div>
                     <ul style="text-align: left; margin: 15px 0;">
                         <li>✅ Unlimited transactions</li>
@@ -668,7 +881,7 @@
                         <li>✅ Transaction notes</li>
                         <li>✅ CSV export</li>
                     </ul>
-                    <button style="background: #667eea; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: 600;" onclick="alert('Demo mode - Payment integration needed')">
+                    <button id="stripeCheckoutBtn" style="background: #667eea; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: 600;">
                         Start Professional Plan
                     </button>
                 </div>
@@ -689,7 +902,7 @@
             <form id="surveyForm">
                 <div class="form-group">
                     <label>Which features have you used most?</label>
-                    <select required>
+                    <select id="surveyFeature" required>
                         <option value="">Select...</option>
                         <option value="deadlines">Deadline calculations</option>
                         <option value="reminders">Email reminders</option>
@@ -700,12 +913,12 @@
                 
                 <div class="form-group">
                     <label>What frustrated you most?</label>
-                    <textarea placeholder="Your feedback helps us improve..." rows="3"></textarea>
+                    <textarea id="surveyFeedback" placeholder="Your feedback helps us improve..." rows="3"></textarea>
                 </div>
                 
                 <div class="form-group">
                     <label>Would you recommend this to other agents?</label>
-                    <select required>
+                    <select id="surveyRecommend" required>
                         <option value="">Select...</option>
                         <option value="yes">Yes, definitely</option>
                         <option value="maybe">Maybe</option>
@@ -720,31 +933,228 @@
         </div>
     </div>
     
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
-        // Global variables
-        let currentAgentEmail = 'demo@agent.com';
-        let allTransactions = [];
-        let trialDaysRemaining = 14;
+        // Configuration
+        const API_BASE_URL = 'https://asistant-pro-production.up.railway.app/api';
+        const STRIPE_PUBLISHABLE_KEY = 'pk_live_51S6Iwe6W7xl7S1m11FkI51ucL0G5pdnpFqV4JPWB2Bxcuyrn6XH3hhQI5wjEhEdLXVCB7BZeZ6eTZ6TUawFKnGhy00Hdble84x';
+        const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
         
-        // Initialize local storage
-        function initializeStorage() {
-            if (!localStorage.getItem('transactions')) {
-                localStorage.setItem('transactions', JSON.stringify([]));
+        // Global state
+        let currentUser = null;
+        let allTransactions = [];
+        
+        // ==================== API UTILITY ====================
+        class API {
+            static getToken() {
+                return localStorage.getItem('auth_token');
             }
-            if (!localStorage.getItem('trialStartDate')) {
-                localStorage.setItem('trialStartDate', new Date().toISOString());
+            
+            static setToken(token) {
+                localStorage.setItem('auth_token', token);
+            }
+            
+            static clearToken() {
+                localStorage.removeItem('auth_token');
+            }
+            
+            static async request(endpoint, options = {}) {
+                const token = this.getToken();
+                const headers = {
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                };
+                
+                if (token && !options.skipAuth) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                        ...options,
+                        headers
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        if (response.status === 401 || response.status === 403) {
+                            if (data.trialExpired) {
+                                showPaymentModal();
+                                throw new Error('Your trial has expired. Please upgrade to continue.');
+                            }
+                            // Token expired or invalid
+                            this.clearToken();
+                            showLogin();
+                            throw new Error('Session expired. Please login again.');
+                        }
+                        throw new Error(data.error || 'Request failed');
+                    }
+                    
+                    return data;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    throw error;
+                }
+            }
+            
+            // Auth endpoints
+            static async register(email, password, fullName) {
+                const data = await this.request('/register', {
+                    method: 'POST',
+                    skipAuth: true,
+                    body: JSON.stringify({ email, password, full_name: fullName })
+                });
+                this.setToken(data.token);
+                return data.user;
+            }
+            
+            static async login(email, password) {
+                const data = await this.request('/login', {
+                    method: 'POST',
+                    skipAuth: true,
+                    body: JSON.stringify({ email, password })
+                });
+                this.setToken(data.token);
+                return data.user;
+            }
+            
+            static async getCurrentUser() {
+                return await this.request('/user');
+            }
+            
+            // Transaction endpoints
+            static async getTransactions() {
+                return await this.request('/transactions');
+            }
+            
+            static async createTransaction(transactionData) {
+                return await this.request('/transactions', {
+                    method: 'POST',
+                    body: JSON.stringify(transactionData)
+                });
+            }
+            
+            static async updateTransaction(id, updates) {
+                return await this.request(`/transactions/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(updates)
+                });
+            }
+            
+            static async deleteTransaction(id) {
+                return await this.request(`/transactions/${id}`, {
+                    method: 'DELETE'
+                });
+            }
+            
+            // Stripe endpoints
+            static async createCheckoutSession() {
+                return await this.request('/create-checkout-session', {
+                    method: 'POST'
+                });
+            }
+            
+            static async extendTrial() {
+                return await this.request('/extend-trial', {
+                    method: 'POST'
+                });
             }
         }
         
-        // Trial management
+        // ==================== AUTH FUNCTIONS ====================
+        function showLogin() {
+            document.getElementById('authScreen').style.display = 'block';
+            document.getElementById('mainApp').classList.remove('active');
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('registerScreen').style.display = 'none';
+        }
+        
+        function showRegister() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('registerScreen').style.display = 'block';
+        }
+        
+        function showMainApp() {
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('mainApp').classList.add('active');
+        }
+        
+        async function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                API.clearToken();
+                currentUser = null;
+                allTransactions = [];
+                showLogin();
+            }
+        }
+        
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('loginBtn');
+            
+            btn.disabled = true;
+            btn.textContent = 'Signing in...';
+            
+            try {
+                currentUser = await API.login(email, password);
+                showMainApp();
+                await initializeApp();
+                showMessage('Welcome back!', 'success');
+            } catch (error) {
+                alert(error.message || 'Login failed. Please check your credentials.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+            }
+        });
+        
+        // Register form handler
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const btn = document.getElementById('registerBtn');
+            
+            btn.disabled = true;
+            btn.textContent = 'Creating account...';
+            
+            try {
+                currentUser = await API.register(email, password, name);
+                showMainApp();
+                await initializeApp();
+                showMessage('Welcome! Your 15-day free trial has started.', 'success');
+            } catch (error) {
+                alert(error.message || 'Registration failed. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Start Free Trial';
+            }
+        });
+        
+        // ==================== TRIAL MANAGEMENT ====================
         function updateTrialStatus() {
-            const startDate = new Date(localStorage.getItem('trialStartDate'));
+            if (!currentUser) return;
+            
+            const startDate = new Date(currentUser.trial_start_date);
             const now = new Date();
             const daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-            trialDaysRemaining = Math.max(0, 14 - daysSinceStart);
+            const trialDays = currentUser.trial_extended ? 22 : 15;
+            const trialDaysRemaining = Math.max(0, trialDays - daysSinceStart);
             
             const trialBanner = document.getElementById('trialBanner');
             const trialDaysText = document.getElementById('trialDaysText');
+            
+            if (currentUser.subscription_status === 'active') {
+                trialBanner.style.display = 'none';
+                return;
+            }
             
             if (trialDaysRemaining <= 2 && trialDaysRemaining > 0) {
                 trialBanner.style.display = 'block';
@@ -757,9 +1167,8 @@
             }
         }
         
-        // Transaction management
+        // ==================== TRANSACTION MANAGEMENT ====================
         function calculateDeadlines(contractDate, closingDate) {
-            // Fix timezone issues by adding explicit time
             const contract = new Date(contractDate + 'T12:00:00');
             const closing = new Date(closingDate + 'T12:00:00');
             
@@ -779,68 +1188,15 @@
                 option_period_end: optionPeriodEnd.toISOString().split('T')[0],
                 inspection_date: inspectionDate.toISOString().split('T')[0],
                 appraisal_date: appraisalDate.toISOString().split('T')[0],
-                financing_deadline: financingDeadline.toISOString().split('T')[0],
-                closing_date: closingDate
+                financing_deadline: financingDeadline.toISOString().split('T')[0]
             };
         }
         
-        function addTransaction(transactionData) {
-            const deadlines = calculateDeadlines(transactionData.contract_date, transactionData.closing_date);
-            
-            const transaction = {
-                id: Date.now(),
-                ...transactionData,
-                ...deadlines,
-                notes: '',
-                modifiedDeadlines: {},
-                created_at: new Date().toISOString()
-            };
-            
-            const transactions = JSON.parse(localStorage.getItem('transactions'));
-            transactions.push(transaction);
-            localStorage.setItem('transactions', JSON.stringify(transactions));
-            
-            return transaction;
-        }
-        
-        function deleteTransaction(id) {
-            if (confirm('Are you sure you want to delete this transaction?')) {
-                const transactions = JSON.parse(localStorage.getItem('transactions'));
-                const filtered = transactions.filter(t => t.id !== id);
-                localStorage.setItem('transactions', JSON.stringify(filtered));
-                loadDashboard();
-                showMessage('Transaction deleted successfully', 'success');
-            }
-        }
-        
-        function updateTransactionNotes(id, notes) {
-            const transactions = JSON.parse(localStorage.getItem('transactions'));
-            const transaction = transactions.find(t => t.id === id);
-            if (transaction) {
-                transaction.notes = notes;
-                localStorage.setItem('transactions', JSON.stringify(transactions));
-            }
-        }
-        
-        function updateDeadline(transactionId, deadlineType, newDate) {
-            const transactions = JSON.parse(localStorage.getItem('transactions'));
-            const transaction = transactions.find(t => t.id === transactionId);
-            if (transaction) {
-                transaction[deadlineType] = newDate;
-                if (!transaction.modifiedDeadlines) transaction.modifiedDeadlines = {};
-                transaction.modifiedDeadlines[deadlineType] = true;
-                localStorage.setItem('transactions', JSON.stringify(transactions));
-                loadDashboard();
-                showMessage('Deadline updated successfully', 'success');
-            }
-        }
-        
-        // Form submission
-        document.getElementById('transactionForm').addEventListener('submit', function(e) {
+        // Transaction form handler
+        document.getElementById('transactionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = {
-                agent_email: document.getElementById('agentEmail').value,
                 property_address: document.getElementById('propertyAddress').value,
                 client_name: document.getElementById('clientName').value,
                 client_email: document.getElementById('clientEmail').value,
@@ -850,41 +1206,81 @@
                 list_price: parseFloat(document.getElementById('listPrice').value) || 0
             };
             
+            // Calculate deadlines
+            const deadlines = calculateDeadlines(formData.contract_date, formData.closing_date);
+            const transactionData = { ...formData, ...deadlines, notes: '' };
+            
             try {
-                addTransaction(formData);
+                await API.createTransaction(transactionData);
                 showMessage('Transaction added successfully! Automated reminders scheduled for all deadlines.');
                 document.getElementById('transactionForm').reset();
                 setDefaultDates();
-                loadDashboard();
+                await loadDashboard();
             } catch (error) {
                 showMessage('Error adding transaction: ' + error.message, 'error');
             }
         });
         
-        // Search functionality
+        async function deleteTransaction(id) {
+            if (confirm('Are you sure you want to delete this transaction?')) {
+                try {
+                    await API.deleteTransaction(id);
+                    await loadDashboard();
+                    showMessage('Transaction deleted successfully', 'success');
+                } catch (error) {
+                    showMessage('Error deleting transaction: ' + error.message, 'error');
+                }
+            }
+        }
+        
+        async function updateTransactionNotes(id, notes) {
+            try {
+                await API.updateTransaction(id, { notes });
+            } catch (error) {
+                console.error('Error updating notes:', error);
+            }
+        }
+        
+        async function updateDeadline(transactionId, deadlineType, newDate) {
+            try {
+                const transaction = allTransactions.find(t => t.id === transactionId);
+                const modifiedDeadlines = transaction.modified_deadlines || {};
+                modifiedDeadlines[deadlineType] = true;
+                
+                await API.updateTransaction(transactionId, {
+                    [deadlineType]: newDate,
+                    modified_deadlines: JSON.stringify(modifiedDeadlines)
+                });
+                
+                await loadDashboard();
+                showMessage('Deadline updated successfully', 'success');
+            } catch (error) {
+                showMessage('Error updating deadline: ' + error.message, 'error');
+            }
+        }
+        
+        // ==================== SEARCH FUNCTIONALITY ====================
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             filterTransactions(searchTerm);
         });
         
         function filterTransactions(searchTerm) {
-            const transactions = JSON.parse(localStorage.getItem('transactions'));
-            
             if (!searchTerm) {
-                displayTransactions(transactions);
-                document.getElementById('resultsCount').textContent = `Showing all ${transactions.length} transactions`;
+                displayTransactions(allTransactions);
+                document.getElementById('resultsCount').textContent = `Showing all ${allTransactions.length} transactions`;
                 return;
             }
             
-            const filtered = transactions.filter(transaction => 
+            const filtered = allTransactions.filter(transaction => 
                 transaction.property_address.toLowerCase().includes(searchTerm)
             );
             
             displayTransactions(filtered);
-            document.getElementById('resultsCount').textContent = `Showing ${filtered.length} of ${transactions.length} transactions`;
+            document.getElementById('resultsCount').textContent = `Showing ${filtered.length} of ${allTransactions.length} transactions`;
         }
         
-        // Display transactions
+        // ==================== DISPLAY FUNCTIONS ====================
         function displayTransactions(transactions) {
             const transactionsList = document.getElementById('transactionsList');
             
@@ -894,7 +1290,6 @@
                 return;
             }
             
-            // Check for urgent deadlines
             checkUrgentDeadlines(transactions);
             
             transactionsList.innerHTML = transactions.map(transaction => 
@@ -902,7 +1297,6 @@
             ).join('');
         }
         
-        // Check for urgent deadlines and show alerts
         function checkUrgentDeadlines(transactions) {
             const today = new Date();
             let urgentCount = 0;
@@ -917,7 +1311,6 @@
                 ];
                 
                 deadlines.forEach(deadline => {
-                    // Fix timezone issue in urgent checking
                     const deadlineDate = new Date(deadline + 'T12:00:00');
                     const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
                     if (daysUntil <= 2 && daysUntil >= 0) {
@@ -951,7 +1344,6 @@
             ];
             
             const deadlinesHTML = deadlines.map(deadline => {
-                // Fix timezone issue for display
                 const deadlineDate = new Date(deadline.date + 'T12:00:00');
                 const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
                 
@@ -959,7 +1351,10 @@
                 if (daysUntil <= 2) deadlineClass = 'urgent';
                 else if (daysUntil <= 7) deadlineClass = 'warning';
                 
-                const isModified = transaction.modifiedDeadlines && transaction.modifiedDeadlines[deadline.type];
+                const modifiedDeadlines = transaction.modified_deadlines ? 
+                    (typeof transaction.modified_deadlines === 'string' ? 
+                        JSON.parse(transaction.modified_deadlines) : transaction.modified_deadlines) : {};
+                const isModified = modifiedDeadlines[deadline.type];
                 
                 return `
                     <div class="deadline-item ${deadlineClass}" onclick="editDeadline(${transaction.id}, '${deadline.type}', '${deadline.date}')">
@@ -1001,7 +1396,6 @@
         function editDeadline(transactionId, deadlineType, currentDate) {
             const newDate = prompt(`Edit deadline date (YYYY-MM-DD):`, currentDate);
             if (newDate && newDate !== currentDate) {
-                // Fix timezone issue by ensuring date is treated as local time
                 const dateObj = new Date(newDate + 'T12:00:00');
                 const formattedDate = dateObj.toISOString().split('T')[0];
                 updateDeadline(transactionId, deadlineType, formattedDate);
@@ -1013,18 +1407,72 @@
             notesContent.classList.toggle('expanded');
         }
         
-        // Export functionality
-        function exportTransactions() {
-            const transactions = JSON.parse(localStorage.getItem('transactions'));
+        // ==================== DASHBOARD FUNCTIONS ====================
+        async function loadDashboard() {
+            try {
+                allTransactions = await API.getTransactions();
+                displayTransactions(allTransactions);
+                updateSearchSuggestions(allTransactions);
+                document.getElementById('resultsCount').textContent = `Showing all ${allTransactions.length} transactions`;
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                showMessage('Error loading transactions', 'error');
+            }
+        }
+        
+        async function loadDashboardWithMessage() {
+            await loadDashboard();
+            showMessage('Dashboard refreshed successfully', 'refresh');
+        }
+        
+        function updateSearchSuggestions(transactions) {
+            const datalist = document.getElementById('addressSuggestions');
+            datalist.innerHTML = '';
             
-            if (transactions.length === 0) {
+            transactions.forEach(transaction => {
+                const option = document.createElement('option');
+                option.value = transaction.property_address;
+                datalist.appendChild(option);
+            });
+        }
+        
+        async function checkStatus() {
+            const totalTransactions = allTransactions.length;
+            
+            let urgentCount = 0;
+            const today = new Date();
+            
+            allTransactions.forEach(transaction => {
+                const deadlines = [
+                    transaction.option_period_end,
+                    transaction.inspection_date,
+                    transaction.appraisal_date,
+                    transaction.financing_deadline,
+                    transaction.closing_date
+                ];
+                
+                deadlines.forEach(deadline => {
+                    const deadlineDate = new Date(deadline + 'T12:00:00');
+                    const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                    if (daysUntil <= 2 && daysUntil >= 0) {
+                        urgentCount++;
+                    }
+                });
+            });
+            
+            showMessage(`System Status: ✓ Operational | ${totalTransactions} active transactions | ${urgentCount} urgent deadlines`, 'status');
+        }
+        
+        // ==================== EXPORT FUNCTION ====================
+        function exportTransactions() {
+            if (allTransactions.length === 0) {
                 showMessage('No transactions to export', 'error');
                 return;
             }
             
             const csvContent = [
                 ['Property Address', 'Client Name', 'Transaction Type', 'Contract Date', 'Closing Date', 'Option Period End', 'Inspection Date', 'Appraisal Date', 'Financing Deadline', 'List Price', 'Notes'].join(','),
-                ...transactions.map(t => [
+                ...allTransactions.map(t => [
                     `"${t.property_address}"`,
                     `"${t.client_name}"`,
                     t.transaction_type,
@@ -1050,7 +1498,21 @@
             showMessage('Transactions exported successfully', 'success');
         }
         
-        // Modal management
+        // ==================== STRIPE PAYMENT ====================
+        document.getElementById('stripeCheckoutBtn').addEventListener('click', async function() {
+            this.disabled = true;
+            this.textContent = 'Loading...';
+            
+            try {
+                const { url } = await API.createCheckoutSession();
+                window.location.href = url;
+            } catch (error) {
+                alert('Payment processing failed. Please try again.');
+                this.disabled = false;
+                this.textContent = 'Start Professional Plan';
+            }
+        });
+        
         function showPaymentModal() {
             document.getElementById('paymentModal').style.display = 'block';
         }
@@ -1069,92 +1531,21 @@
         }
         
         // Survey form handler
-        document.getElementById('surveyForm').addEventListener('submit', function(e) {
+        document.getElementById('surveyForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Extend trial by 7 days
-            const startDate = new Date(localStorage.getItem('trialStartDate'));
-            const extendedDate = new Date(startDate);
-            extendedDate.setDate(startDate.getDate() - 7); // Extend by moving start date back
-            localStorage.setItem('trialStartDate', extendedDate.toISOString());
-            
-            closeSurveyModal();
-            updateTrialStatus();
-            showMessage('Thank you! Your trial has been extended by 7 days.', 'success');
+            try {
+                await API.extendTrial();
+                currentUser.trial_extended = 1;
+                closeSurveyModal();
+                updateTrialStatus();
+                showMessage('Thank you! Your trial has been extended by 7 days.', 'success');
+            } catch (error) {
+                alert('Error extending trial. Please try again.');
+            }
         });
         
-        // Demo functions
-        async function triggerReminders() {
-            const agentEmail = document.getElementById('agentEmail').value;
-            if (!agentEmail) {
-                showMessage('Please enter an agent email address first', 'error');
-                return;
-            }
-            
-            // Demo version - no actual email sending
-            showMessage(`Demo: Test reminder email would be sent to ${agentEmail}. This demonstrates the automated reminder system that prevents missed deadlines. In production, real emails are sent via our backend server.`, 'success');
-        }
-        
-        // FIXED: Load dashboard without message (for page load)
-        function loadDashboard() {
-            const transactions = JSON.parse(localStorage.getItem('transactions'));
-            allTransactions = transactions;
-            displayTransactions(transactions);
-            document.getElementById('resultsCount').textContent = `Showing all ${transactions.length} transactions`;
-            
-            // Update search autofill suggestions
-            updateSearchSuggestions(transactions);
-            // NO MESSAGE on page load
-        }
-        
-        // NEW: Load dashboard WITH message (for button clicks)
-        function loadDashboardWithMessage() {
-            loadDashboard();
-            showMessage('Dashboard refreshed successfully', 'refresh');
-        }
-        
-        // Update search suggestions datalist
-        function updateSearchSuggestions(transactions) {
-            const datalist = document.getElementById('addressSuggestions');
-            datalist.innerHTML = '';
-            
-            transactions.forEach(transaction => {
-                const option = document.createElement('option');
-                option.value = transaction.property_address;
-                datalist.appendChild(option);
-            });
-        }
-        
-        function checkStatus() {
-            const transactions = JSON.parse(localStorage.getItem('transactions'));
-            const totalTransactions = transactions.length;
-            
-            // Count urgent deadlines
-            let urgentCount = 0;
-            const today = new Date();
-            
-            transactions.forEach(transaction => {
-                const deadlines = [
-                    transaction.option_period_end,
-                    transaction.inspection_date,
-                    transaction.appraisal_date,
-                    transaction.financing_deadline,
-                    transaction.closing_date
-                ];
-                
-                deadlines.forEach(deadline => {
-                    const deadlineDate = new Date(deadline + 'T12:00:00');
-                    const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
-                    if (daysUntil <= 2 && daysUntil >= 0) {
-                        urgentCount++;
-                    }
-                });
-            });
-            
-            showMessage(`System Status: ✓ Operational | ${totalTransactions} active transactions | ${urgentCount} urgent deadlines`, 'status');
-        }
-        
-        // Utility functions
+        // ==================== UTILITY FUNCTIONS ====================
         function showMessage(message, type = 'success') {
             const messageArea = document.getElementById('messageArea');
             let messageClass;
@@ -1186,17 +1577,37 @@
             document.getElementById('closingDate').value = closingDefault.toISOString().split('T')[0];
         }
         
-        // Initialize everything
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Initializing Real Estate Transaction Tracker...');
-            
-            initializeStorage();
+        // ==================== INITIALIZATION ====================
+        async function initializeApp() {
+            console.log('Initializing app...');
             updateTrialStatus();
             setDefaultDates();
-            document.getElementById('agentEmail').value = currentAgentEmail;
-            loadDashboard(); // FIXED: No message on page load
+            await loadDashboard();
+        }
+        
+        async function checkAuth() {
+            const token = API.getToken();
             
-            console.log('System initialization complete');
+            if (!token) {
+                showLogin();
+                return;
+            }
+            
+            try {
+                currentUser = await API.getCurrentUser();
+                showMainApp();
+                await initializeApp();
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                API.clearToken();
+                showLogin();
+            }
+        }
+        
+        // Start the app
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Real Estate Transaction Tracker - Integrated Version');
+            checkAuth();
         });
     </script>
 </body>
