@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Transaction Tracker - asistant.pro</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #2c3e50, #3498db);
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header-logo {
+            max-width: 300px;
+            width: 80%;
+            height: auto;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* AUTH SCREENS */
+        .auth-container {
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-logo img {
+            max-width: 250px;
+            width: 80%;
+        }
+        
+        .auth-title {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .auth-subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        
+        .auth-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .auth-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 14px;
+        }
+        
+        .auth-form input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        .auth-form input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+        
+        .auth-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .auth-switch a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+        
+        .auth-benefits {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .auth-benefits h3 {
+            font-size: 1rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .auth-benefits ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .auth-benefits li {
+            padding: 8px 0;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .auth-benefits li:before {
+            content: "✓ ";
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        /* MAIN APP - hidden until authenticated */
+        .app-content {
+            display: none;
+        }
+        
+        .app-content.active {
+            display: block;
+        }
+        
+        .instruction-banner {
+            background: rgb(204, 204, 204);
+            color: rgb(0, 0, 102);
+            padding: 15px;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 400;
+        }
+        
+        .trial-banner {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+            display: none;
+        }
+
+        .trial-cta {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            margin-left: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .trial-cta:hover {
+            background: #000;
+            transform: translateY(-1px);
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #34495e;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-image {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+            margin: 15px 0;
+        }
+        
+        .btn-image:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-image img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .admin-controls-no-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .admin-controls-no-container .btn-image {
+            display: inline-block;
+            margin: 0 30px;
+            width: auto;
+        }
+        
+        .admin-controls-no-container .btn-image img {
+            max-width: 400px;
+            height: auto;
+        }
+        
+        .search-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 30px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .results-count {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .download-section {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .download-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+            margin: 15px 0;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .download-btn img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .transaction-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .property-address {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .client-name {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .transaction-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+        
+        .deadlines {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .deadline-item {
+            background: #ecf0f1;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .deadline-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .urgent-alerts-banner {
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from { height: 0; opacity: 0; }
+            to { height: auto; opacity: 1; }
+        }
+        
+        .deadline-item.urgent {
+            background: #e74c3c;
+            color: white;
+            animation: pulse 2s infinite;
+            border: 2px solid #c0392b;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+        }
+        
+        .deadline-item.warning { background: #f39c12; color: white; }
+        .deadline-item.good { background: #27ae60; color: white; }
+        
+        .deadline-label {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+        
+        .deadline-date {
+            font-weight: bold;
+        }
+        
+        .days-until {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .deadline-modified {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+        
+        .notes-section {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .notes-toggle {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .notes-toggle:hover {
+            background: #e9ecef;
+        }
+        
+        .notes-content {
+            display: none;
+            margin-top: 10px;
+        }
+        
+        .notes-content.expanded {
+            display: block;
+        }
+        
+        .notes-textarea {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            font-size: 13px;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .refresh-message {
+            background: #CC3399;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .status-message {
+            background: #FF6600;
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #6c757d;
+            padding: 20px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content { 
+                padding: 15px;
+            }
+            .deadlines { 
+                grid-template-columns: 1fr; 
+            }
+            .transaction-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .transaction-actions {
+                align-self: flex-start;
+            }
+            
+            .admin-controls-no-container .btn-image {
+                display: block !important;
+                width: 100% !important;
+                margin: 15px 0 !important;
+            }
+            
+            .admin-controls-no-container {
+                padding: 20px 0;
+            }
+            
+            .logout-btn {
+                position: static;
+                transform: none;
+                display: block;
+                margin: 10px auto 0;
+                width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- AUTH SCREENS -->
+    <div id="authScreen">
+        <div class="auth-container" id="loginScreen">
+            <div class="auth-logo">
+                <img src="asistant_pro_logo.png" alt="asistant.pro">
+            </div>
+            <h2 class="auth-title">Welcome Back</h2>
+            <p class="auth-subtitle">Sign in to manage your transactions</p>
+            
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" required placeholder="agent@realty.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                </div>
+                
+                <button type="submit" class="auth-btn" id="loginBtn">Sign In</button>
+            </form>
+            
+            <div class="auth-switch">
+                Don't have an account? <a href="#" onclick="showRegister(); return false;">Start Free Trial</a>
+            </div>
+        </div>
+        
+        <div class="auth-container" id="registerScreen" style="display: none;">
+            <div class="auth-logo">
+                <img src="asistant_pro_logo.png" alt="asistant.pro">
+            </div>
+            <h2 class="auth-title">Start Your Free Trial</h2>
+            <p class="auth-subtitle">15 days free - No credit card required</p>
+            
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="registerName" required placeholder="John Smith">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="registerEmail" required placeholder="agent@realty.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" required placeholder="Create a password (min 6 characters)" minlength="6">
+                </div>
+                
+                <button type="submit" class="auth-btn" id="registerBtn">Start Free Trial</button>
+            </form>
+            
+            <div class="auth-benefits">
+                <h3>What's Included:</h3>
+                <ul>
+                    <li>Automatic Texas deadline calculations</li>
+                    <li>Color-coded urgency alerts</li>
+                    <li>Mobile-optimized interface</li>
+                    <li>Transaction notes & search</li>
+                    <li>CSV export functionality</li>
+                    <li>Cancel anytime</li>
+                </ul>
+            </div>
+            
+            <div class="auth-switch">
+                Already have an account? <a href="#" onclick="showLogin(); return false;">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div class="container app-content" id="mainApp">
+        <div class="header">
+            <img src="asistant_pro_logo.png" alt="asistant.pro" class="header-logo">
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        
+        <div class="instruction-banner">
+            Type your transaction below, then click the blue button at the bottom to add it to your active transactions.
+        </div>
+        
+        <div class="trial-banner" id="trialBanner">
+            <strong>TRIAL ENDING SOON:</strong> <span id="trialDaysText">2 days remaining</span>
+            <button class="trial-cta" onclick="showPaymentModal()">
+                Upgrade Now - $149/month
+            </button>
+        </div>
+        
+        <div id="urgentAlerts" class="urgent-alerts-banner" style="display: none;"></div>
+        
+        <div class="main-content">
+            <div class="section">
+                <h2 class="section-title">Add New Transaction</h2>
+                
+                <form id="transactionForm">
+                    <div class="form-group">
+                        <label>Property Address</label>
+                        <input type="text" id="propertyAddress" required placeholder="1234 Main St, Houston, TX 77002">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Client Name</label>
+                        <input type="text" id="clientName" required placeholder="John & Mary Smith">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Client Email (Optional)</label>
+                        <input type="email" id="clientEmail" placeholder="client@email.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Transaction Type</label>
+                        <select id="transactionType" required>
+                            <option value="">Select Type</option>
+                            <option value="buyer">Representing Buyer</option>
+                            <option value="listing">Representing Seller</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Contract Date</label>
+                        <input type="date" id="contractDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Closing Date</label>
+                        <input type="date" id="closingDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>List Price (Optional)</label>
+                        <input type="number" id="listPrice" placeholder="450000" step="1000">
+                    </div>
+                    
+                    <button type="submit" class="btn-image">
+                        <img src="button_add_transaction_calculate_deadlines.png" alt="Add Transaction & Calculate Deadlines">
+                    </button>
+                </form>
+            </div>
+            
+            <div class="section">
+                <div id="messageArea"></div>
+                
+                <div class="admin-controls-no-container">
+                    <button class="btn-image" onclick="loadDashboardWithMessage()">
+                        <img src="button_refresh_dashboard.png" alt="Refresh Dashboard">
+                    </button>
+                    <button class="btn-image" onclick="checkStatus()">
+                        <img src="button_system_status.png" alt="System Status">
+                    </button>
+                </div>
+            </div>
+            
+            <div class="search-section">
+                <h3 class="section-title">Search Transactions</h3>
+                <input type="text" class="search-input" id="searchInput" 
+                       placeholder="Search by property address..." list="addressSuggestions">
+                <datalist id="addressSuggestions"></datalist>
+                <div class="results-count" id="resultsCount">Showing all transactions</div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">Active Transactions</h2>
+                <div id="transactionsList">
+                    <div class="loading">Loading transactions...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="download-section">
+            <button class="download-btn" onclick="exportTransactions()">
+                <img src="button_download_transactions.png" alt="Download Transactions">
+            </button>
+        </div>
+        
+        <div class="footer">
+            © 2025 asistant.pro. All rights reserved. Contact: <a href="mailto:support@asistant.pro">support@asistant.pro</a>
+        </div>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePaymentModal()">&times;</span>
+            <h2>Choose Your Plan</h2>
+            <div style="text-align: center; margin: 20px 0;">
+                <div style="border: 2px solid #667eea; border-radius: 10px; padding: 20px; background: linear-gradient(135deg, #f8f9ff, #fff);">
+                    <h3>Professional Plan</h3>
+                    <div style="font-size: 2rem; font-weight: bold; color: #2c3e50; margin: 10px 0;">
+                        $149<span style="font-size: 1rem; color: #7f8c8d;">/month</span>
+                    </div>
+                    <ul style="text-align: left; margin: 15px 0;">
+                        <li>✅ Unlimited transactions</li>
+                        <li>✅ Automated deadline reminders</li>
+                        <li>✅ Mobile-optimized interface</li>
+                        <li>✅ Priority support</li>
+                        <li>✅ Transaction notes</li>
+                        <li>✅ CSV export</li>
+                    </ul>
+                    <button id="stripeCheckoutBtn" style="background: #667eea; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: 600;">
+                        Start Professional Plan
+                    </button>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <p>Need more time to evaluate? <a href="#" onclick="showSurveyModal()">Request trial extension</a></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Survey Modal -->
+    <div id="surveyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSurveyModal()">&times;</span>
+            <h2>Get 7 More Days Free!</h2>
+            <p style="margin-bottom: 20px;">Help us improve by answering these quick questions to extend your trial:</p>
+            
+            <form id="surveyForm">
+                <div class="form-group">
+                    <label>Which features have you used most?</label>
+                    <select id="surveyFeature" required>
+                        <option value="">Select...</option>
+                        <option value="deadlines">Deadline calculations</option>
+                        <option value="reminders">Email reminders</option>
+                        <option value="search">Transaction search</option>
+                        <option value="notes">Transaction notes</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>What frustrated you most?</label>
+                    <textarea id="surveyFeedback" placeholder="Your feedback helps us improve..." rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Would you recommend this to other agents?</label>
+                    <select id="surveyRecommend" required>
+                        <option value="">Select...</option>
+                        <option value="yes">Yes, definitely</option>
+                        <option value="maybe">Maybe</option>
+                        <option value="no">Probably not</option>
+                    </select>
+                </div>
+                
+                <button type="submit" style="background: #27ae60; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 600;">
+                    Submit & Get 7 More Days
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Configuration
+        const API_BASE_URL = 'https://asistant-pro-production.up.railway.app/api';
+        const STRIPE_PUBLISHABLE_KEY = 'pk_live_51S6Iwe6W7xl7S1m11FkI51ucL0G5pdnpFqV4JPWB2Bxcuyrn6XH3hhQI5wjEhEdLXVCB7BZeZ6eTZ6TUawFKnGhy00Hdble84x';
+        const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+        
+        // Global state
+        let currentUser = null;
+        let allTransactions = [];
+        
+        // ==================== API UTILITY ====================
+        class API {
+            static getToken() {
+                return localStorage.getItem('auth_token');
+            }
+            
+            static setToken(token) {
+                localStorage.setItem('auth_token', token);
+            }
+            
+            static clearToken() {
+                localStorage.removeItem('auth_token');
+            }
+            
+            static async request(endpoint, options = {}) {
+                const token = this.getToken();
+                const headers = {
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                };
+                
+                if (token && !options.skipAuth) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                        ...options,
+                        headers
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        if (response.status === 401 || response.status === 403) {
+                            if (data.trialExpired) {
+                                showPaymentModal();
+                                throw new Error('Your trial has expired. Please upgrade to continue.');
+                            }
+                            // Token expired or invalid
+                            this.clearToken();
+                            showLogin();
+                            throw new Error('Session expired. Please login again.');
+                        }
+                        throw new Error(data.error || 'Request failed');
+                    }
+                    
+                    return data;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    throw error;
+                }
+            }
+            
+            // Auth endpoints
+            static async register(email, password, fullName) {
+                const data = await this.request('/register', {
+                    method: 'POST',
+                    skipAuth: true,
+                    body: JSON.stringify({ email, password, full_name: fullName })
+                });
+                this.setToken(data.token);
+                return data.user;
+            }
+            
+            static async login(email, password) {
+                const data = await this.request('/login', {
+                    method: 'POST',
+                    skipAuth: true,
+                    body: JSON.stringify({ email, password })
+                });
+                this.setToken(data.token);
+                return data.user;
+            }
+            
+            static async getCurrentUser() {
+                return await this.request('/user');
+            }
+            
+            // Transaction endpoints
+            static async getTransactions() {
+                return await this.request('/transactions');
+            }
+            
+            static async createTransaction(transactionData) {
+                return await this.request('/transactions', {
+                    method: 'POST',
+                    body: JSON.stringify(transactionData)
+                });
+            }
+            
+            static async updateTransaction(id, updates) {
+                return await this.request(`/transactions/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(updates)
+                });
+            }
+            
+            static async deleteTransaction(id) {
+                return await this.request(`/transactions/${id}`, {
+                    method: 'DELETE'
+                });
+            }
+            
+            // Stripe endpoints
+            static async createCheckoutSession() {
+                return await this.request('/create-checkout-session', {
+                    method: 'POST'
+                });
+            }
+            
+            static async extendTrial() {
+                return await this.request('/extend-trial', {
+                    method: 'POST'
+                });
+            }
+        }
+        
+        // ==================== AUTH FUNCTIONS ====================
+        function showLogin() {
+            document.getElementById('authScreen').style.display = 'block';
+            document.getElementById('mainApp').classList.remove('active');
+            document.getElementById('loginScreen').style.display = 'block';
+            document.getElementById('registerScreen').style.display = 'none';
+        }
+        
+        function showRegister() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('registerScreen').style.display = 'block';
+        }
+        
+        function showMainApp() {
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('mainApp').classList.add('active');
+        }
+        
+        async function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                API.clearToken();
+                currentUser = null;
+                allTransactions = [];
+                showLogin();
+            }
+        }
+        
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('loginBtn');
+            
+            btn.disabled = true;
+            btn.textContent = 'Signing in...';
+            
+            try {
+                currentUser = await API.login(email, password);
+                showMainApp();
+                await initializeApp();
+                showMessage('Welcome back!', 'success');
+            } catch (error) {
+                alert(error.message || 'Login failed. Please check your credentials.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+            }
+        });
+        
+        // Register form handler
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const btn = document.getElementById('registerBtn');
+            
+            btn.disabled = true;
+            btn.textContent = 'Creating account...';
+            
+            try {
+                currentUser = await API.register(email, password, name);
+                showMainApp();
+                await initializeApp();
+                showMessage('Welcome! Your 15-day free trial has started.', 'success');
+            } catch (error) {
+                alert(error.message || 'Registration failed. Please try again.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Start Free Trial';
+            }
+        });
+        
+        // ==================== TRIAL MANAGEMENT ====================
+        function updateTrialStatus() {
+            if (!currentUser) return;
+            
+            const startDate = new Date(currentUser.trial_start_date);
+            const now = new Date();
+            const daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+            const trialDays = currentUser.trial_extended ? 22 : 15;
+            const trialDaysRemaining = Math.max(0, trialDays - daysSinceStart);
+            
+            const trialBanner = document.getElementById('trialBanner');
+            const trialDaysText = document.getElementById('trialDaysText');
+            
+            if (currentUser.subscription_status === 'active') {
+                trialBanner.style.display = 'none';
+                return;
+            }
+            
+            if (trialDaysRemaining <= 2 && trialDaysRemaining > 0) {
+                trialBanner.style.display = 'block';
+                trialDaysText.textContent = `${trialDaysRemaining} days remaining`;
+            } else if (trialDaysRemaining === 0) {
+                trialBanner.style.display = 'block';
+                trialBanner.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                trialBanner.style.color = 'white';
+                trialDaysText.textContent = 'Trial expired';
+            }
+        }
+        
+        // ==================== TRANSACTION MANAGEMENT ====================
+        function calculateDeadlines(contractDate, closingDate) {
+            const contract = new Date(contractDate + 'T12:00:00');
+            const closing = new Date(closingDate + 'T12:00:00');
+            
+            const optionPeriodEnd = new Date(contract);
+            optionPeriodEnd.setDate(contract.getDate() + 7);
+            
+            const inspectionDate = new Date(contract);
+            inspectionDate.setDate(contract.getDate() + 10);
+            
+            const appraisalDate = new Date(contract);
+            appraisalDate.setDate(contract.getDate() + 21);
+            
+            const financingDeadline = new Date(closing);
+            financingDeadline.setDate(closing.getDate() - 5);
+            
+            return {
+                option_period_end: optionPeriodEnd.toISOString().split('T')[0],
+                inspection_date: inspectionDate.toISOString().split('T')[0],
+                appraisal_date: appraisalDate.toISOString().split('T')[0],
+                financing_deadline: financingDeadline.toISOString().split('T')[0]
+            };
+        }
+        
+        // Transaction form handler
+        document.getElementById('transactionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                property_address: document.getElementById('propertyAddress').value,
+                client_name: document.getElementById('clientName').value,
+                client_email: document.getElementById('clientEmail').value,
+                transaction_type: document.getElementById('transactionType').value,
+                contract_date: document.getElementById('contractDate').value,
+                closing_date: document.getElementById('closingDate').value,
+                list_price: parseFloat(document.getElementById('listPrice').value) || 0
+            };
+            
+            // Calculate deadlines
+            const deadlines = calculateDeadlines(formData.contract_date, formData.closing_date);
+            const transactionData = { ...formData, ...deadlines, notes: '' };
+            
+            try {
+                await API.createTransaction(transactionData);
+                showMessage('Transaction added successfully! Automated reminders scheduled for all deadlines.');
+                document.getElementById('transactionForm').reset();
+                setDefaultDates();
+                await loadDashboard();
+            } catch (error) {
+                showMessage('Error adding transaction: ' + error.message, 'error');
+            }
+        });
+        
+        async function deleteTransaction(id) {
+            if (confirm('Are you sure you want to delete this transaction?')) {
+                try {
+                    await API.deleteTransaction(id);
+                    await loadDashboard();
+                    showMessage('Transaction deleted successfully', 'success');
+                } catch (error) {
+                    showMessage('Error deleting transaction: ' + error.message, 'error');
+                }
+            }
+        }
+        
+        async function updateTransactionNotes(id, notes) {
+            try {
+                await API.updateTransaction(id, { notes });
+            } catch (error) {
+                console.error('Error updating notes:', error);
+            }
+        }
+        
+        async function updateDeadline(transactionId, deadlineType, newDate) {
+            try {
+                const transaction = allTransactions.find(t => t.id === transactionId);
+                const modifiedDeadlines = transaction.modified_deadlines || {};
+                modifiedDeadlines[deadlineType] = true;
+                
+                await API.updateTransaction(transactionId, {
+                    [deadlineType]: newDate,
+                    modified_deadlines: JSON.stringify(modifiedDeadlines)
+                });
+                
+                await loadDashboard();
+                showMessage('Deadline updated successfully', 'success');
+            } catch (error) {
+                showMessage('Error updating deadline: ' + error.message, 'error');
+            }
+        }
+        
+        // ==================== SEARCH FUNCTIONALITY ====================
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            filterTransactions(searchTerm);
+        });
+        
+        function filterTransactions(searchTerm) {
+            if (!searchTerm) {
+                displayTransactions(allTransactions);
+                document.getElementById('resultsCount').textContent = `Showing all ${allTransactions.length} transactions`;
+                return;
+            }
+            
+            const filtered = allTransactions.filter(transaction => 
+                transaction.property_address.toLowerCase().includes(searchTerm)
+            );
+            
+            displayTransactions(filtered);
+            document.getElementById('resultsCount').textContent = `Showing ${filtered.length} of ${allTransactions.length} transactions`;
+        }
+        
+        // ==================== DISPLAY FUNCTIONS ====================
+        function displayTransactions(transactions) {
+            const transactionsList = document.getElementById('transactionsList');
+            
+            if (transactions.length === 0) {
+                transactionsList.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">No transactions found. Add one above to get started!</div>';
+                document.getElementById('urgentAlerts').style.display = 'none';
+                return;
+            }
+            
+            checkUrgentDeadlines(transactions);
+            
+            transactionsList.innerHTML = transactions.map(transaction => 
+                createTransactionCardHTML(transaction)
+            ).join('');
+        }
+        
+        function checkUrgentDeadlines(transactions) {
+            const today = new Date();
+            let urgentCount = 0;
+            
+            transactions.forEach(transaction => {
+                const deadlines = [
+                    transaction.option_period_end,
+                    transaction.inspection_date,
+                    transaction.appraisal_date,
+                    transaction.financing_deadline,
+                    transaction.closing_date
+                ];
+                
+                deadlines.forEach(deadline => {
+                    const deadlineDate = new Date(deadline + 'T12:00:00');
+                    const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                    if (daysUntil <= 2 && daysUntil >= 0) {
+                        urgentCount++;
+                    }
+                });
+            });
+            
+            const urgentAlerts = document.getElementById('urgentAlerts');
+            if (urgentCount > 0) {
+                urgentAlerts.style.display = 'block';
+                urgentAlerts.innerHTML = `
+                    <div style="background: #e74c3c; color: white; padding: 15px; text-align: center; font-weight: bold; animation: pulse 2s infinite;">
+                        ⚠️ URGENT: You have ${urgentCount} deadline${urgentCount > 1 ? 's' : ''} expiring within 48 hours! Review below immediately.
+                    </div>
+                `;
+            } else {
+                urgentAlerts.style.display = 'none';
+            }
+        }
+        
+        function createTransactionCardHTML(transaction) {
+            const today = new Date();
+            
+            const deadlines = [
+                { label: 'Option Period Ends', type: 'option_period_end', date: transaction.option_period_end },
+                { label: 'Inspection Due', type: 'inspection_date', date: transaction.inspection_date },
+                { label: 'Appraisal Due', type: 'appraisal_date', date: transaction.appraisal_date },
+                { label: 'Financing Deadline', type: 'financing_deadline', date: transaction.financing_deadline },
+                { label: 'Closing Date', type: 'closing_date', date: transaction.closing_date }
+            ];
+            
+            const deadlinesHTML = deadlines.map(deadline => {
+                const deadlineDate = new Date(deadline.date + 'T12:00:00');
+                const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                
+                let deadlineClass = 'good';
+                if (daysUntil <= 2) deadlineClass = 'urgent';
+                else if (daysUntil <= 7) deadlineClass = 'warning';
+                
+                const modifiedDeadlines = transaction.modified_deadlines ? 
+                    (typeof transaction.modified_deadlines === 'string' ? 
+                        JSON.parse(transaction.modified_deadlines) : transaction.modified_deadlines) : {};
+                const isModified = modifiedDeadlines[deadline.type];
+                
+                return `
+                    <div class="deadline-item ${deadlineClass}" onclick="editDeadline(${transaction.id}, '${deadline.type}', '${deadline.date}')">
+                        ${isModified ? '<div class="deadline-modified">✎</div>' : ''}
+                        <div class="deadline-label">${deadline.label}</div>
+                        <div class="deadline-date">${deadlineDate.toLocaleDateString()}</div>
+                        <div class="days-until">${daysUntil > 0 ? `${daysUntil} days left` : 'Past due!'}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            return `
+                <div class="transaction-card">
+                    <div class="transaction-header">
+                        <div>
+                            <div class="property-address">${transaction.property_address}</div>
+                            <div class="client-name">Client: ${transaction.client_name} (${transaction.transaction_type === 'buyer' ? 'Buyer' : 'Seller'})</div>
+                        </div>
+                        <div class="transaction-actions">
+                            <button class="btn-small btn-delete" onclick="deleteTransaction(${transaction.id})">Delete</button>
+                        </div>
+                    </div>
+                    <div class="deadlines">
+                        ${deadlinesHTML}
+                    </div>
+                    <div class="notes-section">
+                        <button class="notes-toggle" onclick="toggleNotes(${transaction.id})">
+                            📝 Notes ${transaction.notes ? '(has content)' : '(empty)'}
+                        </button>
+                        <div class="notes-content" id="notes-${transaction.id}">
+                            <textarea class="notes-textarea" placeholder="Add notes about this transaction..."
+                                      onblur="updateTransactionNotes(${transaction.id}, this.value)">${transaction.notes || ''}</textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function editDeadline(transactionId, deadlineType, currentDate) {
+            const newDate = prompt(`Edit deadline date (YYYY-MM-DD):`, currentDate);
+            if (newDate && newDate !== currentDate) {
+                const dateObj = new Date(newDate + 'T12:00:00');
+                const formattedDate = dateObj.toISOString().split('T')[0];
+                updateDeadline(transactionId, deadlineType, formattedDate);
+            }
+        }
+        
+        function toggleNotes(transactionId) {
+            const notesContent = document.getElementById(`notes-${transactionId}`);
+            notesContent.classList.toggle('expanded');
+        }
+        
+        // ==================== DASHBOARD FUNCTIONS ====================
+        async function loadDashboard() {
+            try {
+                allTransactions = await API.getTransactions();
+                displayTransactions(allTransactions);
+                updateSearchSuggestions(allTransactions);
+                document.getElementById('resultsCount').textContent = `Showing all ${allTransactions.length} transactions`;
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                showMessage('Error loading transactions', 'error');
+            }
+        }
+        
+        async function loadDashboardWithMessage() {
+            await loadDashboard();
+            showMessage('Dashboard refreshed successfully', 'refresh');
+        }
+        
+        function updateSearchSuggestions(transactions) {
+            const datalist = document.getElementById('addressSuggestions');
+            datalist.innerHTML = '';
+            
+            transactions.forEach(transaction => {
+                const option = document.createElement('option');
+                option.value = transaction.property_address;
+                datalist.appendChild(option);
+            });
+        }
+        
+        async function checkStatus() {
+            const totalTransactions = allTransactions.length;
+            
+            let urgentCount = 0;
+            const today = new Date();
+            
+            allTransactions.forEach(transaction => {
+                const deadlines = [
+                    transaction.option_period_end,
+                    transaction.inspection_date,
+                    transaction.appraisal_date,
+                    transaction.financing_deadline,
+                    transaction.closing_date
+                ];
+                
+                deadlines.forEach(deadline => {
+                    const deadlineDate = new Date(deadline + 'T12:00:00');
+                    const daysUntil = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+                    if (daysUntil <= 2 && daysUntil >= 0) {
+                        urgentCount++;
+                    }
+                });
+            });
+            
+            showMessage(`System Status: ✓ Operational | ${totalTransactions} active transactions | ${urgentCount} urgent deadlines`, 'status');
+        }
+        
+        // ==================== EXPORT FUNCTION ====================
+        function exportTransactions() {
+            if (allTransactions.length === 0) {
+                showMessage('No transactions to export', 'error');
+                return;
+            }
+            
+            const csvContent = [
+                ['Property Address', 'Client Name', 'Transaction Type', 'Contract Date', 'Closing Date', 'Option Period End', 'Inspection Date', 'Appraisal Date', 'Financing Deadline', 'List Price', 'Notes'].join(','),
+                ...allTransactions.map(t => [
+                    `"${t.property_address}"`,
+                    `"${t.client_name}"`,
+                    t.transaction_type,
+                    t.contract_date,
+                    t.closing_date,
+                    t.option_period_end,
+                    t.inspection_date,
+                    t.appraisal_date,
+                    t.financing_deadline,
+                    t.list_price || 0,
+                    `"${(t.notes || '').replace(/"/g, '""')}"`
+                ].join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `transactions_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showMessage('Transactions exported successfully', 'success');
+        }
+        
+        // ==================== STRIPE PAYMENT ====================
+        document.getElementById('stripeCheckoutBtn').addEventListener('click', async function() {
+            this.disabled = true;
+            this.textContent = 'Loading...';
+            
+            try {
+                const { url } = await API.createCheckoutSession();
+                window.location.href = url;
+            } catch (error) {
+                alert('Payment processing failed. Please try again.');
+                this.disabled = false;
+                this.textContent = 'Start Professional Plan';
+            }
+        });
+        
+        function showPaymentModal() {
+            document.getElementById('paymentModal').style.display = 'block';
+        }
+        
+        function closePaymentModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+        
+        function showSurveyModal() {
+            closePaymentModal();
+            document.getElementById('surveyModal').style.display = 'block';
+        }
+        
+        function closeSurveyModal() {
+            document.getElementById('surveyModal').style.display = 'none';
+        }
+        
+        // Survey form handler
+        document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                await API.extendTrial();
+                currentUser.trial_extended = 1;
+                closeSurveyModal();
+                updateTrialStatus();
+                showMessage('Thank you! Your trial has been extended by 7 days.', 'success');
+            } catch (error) {
+                alert('Error extending trial. Please try again.');
+            }
+        });
+        
+        // ==================== UTILITY FUNCTIONS ====================
+        function showMessage(message, type = 'success') {
+            const messageArea = document.getElementById('messageArea');
+            let messageClass;
+            
+            switch(type) {
+                case 'refresh':
+                    messageClass = 'refresh-message';
+                    break;
+                case 'status':
+                    messageClass = 'status-message';
+                    break;
+                case 'error':
+                    messageClass = 'error-message';
+                    break;
+                default:
+                    messageClass = 'success-message';
+            }
+            
+            messageArea.innerHTML = `<div class="${messageClass}">${message}</div>`;
+            setTimeout(() => messageArea.innerHTML = '', 5000);
+        }
+        
+        function setDefaultDates() {
+            const today = new Date();
+            const closingDefault = new Date();
+            closingDefault.setDate(today.getDate() + 30);
+            
+            document.getElementById('contractDate').value = today.toISOString().split('T')[0];
+            document.getElementById('closingDate').value = closingDefault.toISOString().split('T')[0];
+        }
+        
+        // ==================== INITIALIZATION ====================
+        async function initializeApp() {
+            console.log('Initializing app...');
+            updateTrialStatus();
+            setDefaultDates();
+            await loadDashboard();
+        }
+        
+        async function checkAuth() {
+            const token = API.getToken();
+            
+            if (!token) {
+                showLogin();
+                return;
+            }
+            
+            try {
+                currentUser = await API.getCurrentUser();
+                showMainApp();
+                await initializeApp();
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                API.clearToken();
+                showLogin();
+            }
+        }
+        
+        // Start the app
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Real Estate Transaction Tracker - Integrated Version');
+            checkAuth();
+        });
+    </script>
+</body>
+</html>
