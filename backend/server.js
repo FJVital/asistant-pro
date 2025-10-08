@@ -1,45 +1,38 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const cors = require('cors');
-const bodyParser = require('body-parser');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const sqlite3 = require('sqlite3').verbose();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 // Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.raw({ type: 'application/json' }));
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+}));
+app.use(express.json());
 
 // Database setup
-const db = new sqlite3.Database('./asistant.db', (err) => {
-    if (err) {
-        console.error('Database connection error:', err);
-    } else {
-        console.log('Connected to SQLite database');
-        initializeDatabase();
-    }
-});
+const db = new sqlite3.Database('./asistant.db');
 
 // Initialize database tables
-function initializeDatabase() {
+db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT UNIQUE NOT NULL,
         password_hash TEXT NOT NULL,
-        full_name TEXT,
+        full_name TEXT NOT NULL,
         stripe_customer_id TEXT,
         subscription_status TEXT DEFAULT 'trial',
         subscription_id TEXT,
-        trial_start_date TEXT,
+        trial_start_date TEXT DEFAULT (datetime('now')),
         trial_extended INTEGER DEFAULT 0,
-        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        created_at TEXT DEFAULT (datetime('now'))
     )`);
-
+    
     db.run(`CREATE TABLE IF NOT EXISTS transactions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
@@ -50,97 +43,96 @@ function initializeDatabase() {
         contract_date TEXT NOT NULL,
         closing_date TEXT NOT NULL,
         list_price REAL,
-        option_period_end TEXT,
-        inspection_date TEXT,
-        appraisal_date TEXT,
-        financing_deadline TEXT,
+        option_period_end TEXT NOT NULL,
+        inspection_date TEXT NOT NULL,
+        appraisal_date TEXT NOT NULL,
+        financing_deadline TEXT NOT NULL,
         notes TEXT,
         modified_deadlines TEXT,
-        created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+        created_at TEXT DEFAULT (datetime('now')),
         FOREIGN KEY (user_id) REFERENCES users(id)
     )`);
+});
 
-    console.log('Database tables initialized');
-}
+console.log('Server running on port', PORT);
+console.log('Environment:', process.env.NODE_ENV);
+console.log('Connected to SQLite database');
+console.log('Database tables initialized');
 
-// Authentication middleware
-function authenticateToken(req, res, next) {
+// Auth middleware
+const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
-
+    
     if (!token) {
         return res.status(401).json({ error: 'Access token required' });
     }
-
-    jwt.verify(token, JWT_SECRET, (err, user) => {
+    
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
             return res.status(403).json({ error: 'Invalid or expired token' });
         }
-        req.user = user;
+        req.userId = user.id;
         next();
     });
-}
+};
 
-// Check subscription status
-function checkSubscription(req, res, next) {
-    const userId = req.user.userId;
-
-    db.get('SELECT subscription_status, trial_start_date, trial_extended FROM users WHERE id = ?', 
-        [userId], (err, user) => {
+// Check trial status
+const checkTrialStatus = (req, res, next) => {
+    db.get('SELECT * FROM users WHERE id = ?', [req.userId], (err, user) => {
         if (err || !user) {
-            return res.status(404).json({ error: 'User not found' });
+            return res.status(500).json({ error: 'User not found' });
         }
-
-        // Calculate trial days remaining
+        
+        if (user.subscription_status === 'active') {
+            return next();
+        }
+        
         const trialStart = new Date(user.trial_start_date);
         const now = new Date();
         const daysSinceStart = Math.floor((now - trialStart) / (1000 * 60 * 60 * 24));
-        const trialDays = user.trial_extended ? 22 : 15; // 15 days + 7 if extended
-        const trialExpired = daysSinceStart >= trialDays;
-
-        if (user.subscription_status === 'active' || !trialExpired) {
-            next();
-        } else {
-            res.status(403).json({ error: 'Subscription expired', trialExpired: true });
+        const trialDays = user.trial_extended ? 22 : 15;
+        
+        if (daysSinceStart >= trialDays) {
+            return res.status(403).json({ 
+                error: 'Trial expired',
+                trialExpired: true
+            });
         }
+        
+        next();
     });
-}
+};
 
-// ==================== AUTH ENDPOINTS ====================
+// Routes
+app.get('/', (req, res) => {
+    res.json({ message: 'API is running' });
+});
 
-// Register new user
+// Register
 app.post('/api/register', async (req, res) => {
-    const { email, password, full_name } = req.body;
-
-    if (!email || !password) {
-        return res.status(400).json({ error: 'Email and password required' });
-    }
-
     try {
-        const passwordHash = await bcrypt.hash(password, 10);
-        const trialStartDate = new Date().toISOString();
-
-        // Create Stripe customer
+        const { email, password, full_name } = req.body;
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
         const customer = await stripe.customers.create({
             email: email,
             name: full_name,
-            metadata: { app: 'asistant_pro' }
+            metadata: { source: 'asistant.pro' }
         });
-
+        
         db.run(
-            `INSERT INTO users (email, password_hash, full_name, stripe_customer_id, trial_start_date) 
-             VALUES (?, ?, ?, ?, ?)`,
-            [email, passwordHash, full_name, customer.id, trialStartDate],
+            'INSERT INTO users (email, password_hash, full_name, stripe_customer_id) VALUES (?, ?, ?, ?)',
+            [email, hashedPassword, full_name, customer.id],
             function(err) {
                 if (err) {
-                    if (err.message.includes('UNIQUE constraint failed')) {
-                        return res.status(400).json({ error: 'Email already registered' });
-                    }
-                    return res.status(500).json({ error: 'Registration failed' });
+                    console.error('Registration error:', err);
+                    return res.status(400).json({ error: 'Email already registered' });
                 }
-
-                const token = jwt.sign({ userId: this.lastID, email }, JWT_SECRET, { expiresIn: '30d' });
-
+                
+                const token = jwt.sign({ id: this.lastID }, process.env.JWT_SECRET, { expiresIn: '30d' });
+                
                 res.json({
                     token,
                     user: {
@@ -148,7 +140,8 @@ app.post('/api/register', async (req, res) => {
                         email,
                         full_name,
                         subscription_status: 'trial',
-                        trial_start_date: trialStartDate
+                        trial_start_date: new Date().toISOString(),
+                        trial_extended: 0
                     }
                 });
             }
@@ -162,19 +155,19 @@ app.post('/api/register', async (req, res) => {
 // Login
 app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
-
+    
     db.get('SELECT * FROM users WHERE email = ?', [email], async (err, user) => {
         if (err || !user) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
-
+        
         const validPassword = await bcrypt.compare(password, user.password_hash);
         if (!validPassword) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
-
-        const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '30d' });
-
+        
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+        
         res.json({
             token,
             user: {
@@ -191,28 +184,96 @@ app.post('/api/login', (req, res) => {
 
 // Get current user
 app.get('/api/user', authenticateToken, (req, res) => {
-    db.get('SELECT id, email, full_name, subscription_status, trial_start_date, trial_extended FROM users WHERE id = ?', 
-        [req.user.userId], (err, user) => {
+    db.get('SELECT * FROM users WHERE id = ?', [req.userId], (err, user) => {
         if (err || !user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        res.json(user);
+        
+        res.json({
+            id: user.id,
+            email: user.email,
+            full_name: user.full_name,
+            subscription_status: user.subscription_status,
+            trial_start_date: user.trial_start_date,
+            trial_extended: user.trial_extended
+        });
     });
 });
 
-// ==================== STRIPE ENDPOINTS ====================
+// Get transactions
+app.get('/api/transactions', authenticateToken, checkTrialStatus, (req, res) => {
+    db.all('SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC', [req.userId], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.json(rows);
+    });
+});
 
-// Create checkout session
+// Create transaction
+app.post('/api/transactions', authenticateToken, checkTrialStatus, (req, res) => {
+    const transaction = req.body;
+    
+    db.run(
+        `INSERT INTO transactions (user_id, property_address, client_name, client_email, transaction_type, 
+         contract_date, closing_date, list_price, option_period_end, inspection_date, appraisal_date, 
+         financing_deadline, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [req.userId, transaction.property_address, transaction.client_name, transaction.client_email,
+         transaction.transaction_type, transaction.contract_date, transaction.closing_date, 
+         transaction.list_price, transaction.option_period_end, transaction.inspection_date,
+         transaction.appraisal_date, transaction.financing_deadline, transaction.notes],
+        function(err) {
+            if (err) {
+                console.error('Error creating transaction:', err);
+                return res.status(500).json({ error: 'Failed to create transaction' });
+            }
+            res.json({ id: this.lastID, ...transaction });
+        }
+    );
+});
+
+// Update transaction
+app.put('/api/transactions/:id', authenticateToken, checkTrialStatus, (req, res) => {
+    const { id } = req.params;
+    const updates = req.body;
+    
+    const fields = Object.keys(updates).map(key => `${key} = ?`).join(', ');
+    const values = [...Object.values(updates), req.userId, id];
+    
+    db.run(
+        `UPDATE transactions SET ${fields} WHERE user_id = ? AND id = ?`,
+        values,
+        function(err) {
+            if (err) {
+                return res.status(500).json({ error: 'Update failed' });
+            }
+            res.json({ success: true });
+        }
+    );
+});
+
+// Delete transaction
+app.delete('/api/transactions/:id', authenticateToken, checkTrialStatus, (req, res) => {
+    const { id } = req.params;
+    
+    db.run('DELETE FROM transactions WHERE id = ? AND user_id = ?', [id, req.userId], function(err) {
+        if (err) {
+            return res.status(500).json({ error: 'Delete failed' });
+        }
+        res.json({ success: true });
+    });
+});
+
+// Create Stripe checkout session
 app.post('/api/create-checkout-session', authenticateToken, async (req, res) => {
     try {
         const user = await new Promise((resolve, reject) => {
-            db.get('SELECT stripe_customer_id, email FROM users WHERE id = ?', 
-                [req.user.userId], (err, row) => {
+            db.get('SELECT * FROM users WHERE id = ?', [req.userId], (err, row) => {
                 if (err) reject(err);
                 else resolve(row);
             });
         });
-
+        
         const session = await stripe.checkout.sessions.create({
             customer: user.stripe_customer_id,
             payment_method_types: ['card'],
@@ -224,170 +285,51 @@ app.post('/api/create-checkout-session', authenticateToken, async (req, res) => 
             success_url: `${process.env.FRONTEND_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${process.env.FRONTEND_URL}/cancel.html`,
             metadata: {
-                user_id: req.user.userId.toString()
+                user_id: user.id
             }
         });
-
-        res.json({ sessionId: session.id, url: session.url });
+        
+        res.json({ url: session.url });
     } catch (error) {
         console.error('Checkout session error:', error);
         res.status(500).json({ error: 'Failed to create checkout session' });
     }
 });
 
-// Stripe webhook handler
-app.post('/api/webhook', bodyParser.raw({ type: 'application/json' }), async (req, res) => {
+// Extend trial
+app.post('/api/extend-trial', authenticateToken, (req, res) => {
+    db.run('UPDATE users SET trial_extended = 1 WHERE id = ?', [req.userId], function(err) {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to extend trial' });
+        }
+        res.json({ success: true });
+    });
+});
+
+// Stripe webhook
+app.post('/api/webhook', express.raw({type: 'application/json'}), async (req, res) => {
     const sig = req.headers['stripe-signature'];
-    let event;
-
+    
     try {
-        event = stripe.webhooks.constructEvent(
-            req.body,
-            sig,
-            process.env.STRIPE_WEBHOOK_SECRET
-        );
-    } catch (err) {
-        console.error('Webhook signature verification failed:', err.message);
-        return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-
-    // Handle the event
-    switch (event.type) {
-        case 'checkout.session.completed':
+        const event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+        
+        if (event.type === 'checkout.session.completed') {
             const session = event.data.object;
             const userId = session.metadata.user_id;
             
             db.run(
-                `UPDATE users SET subscription_status = 'active', subscription_id = ? WHERE id = ?`,
-                [session.subscription, userId]
+                'UPDATE users SET subscription_status = ?, subscription_id = ? WHERE id = ?',
+                ['active', session.subscription, userId]
             );
-            break;
-
-        case 'customer.subscription.updated':
-        case 'customer.subscription.deleted':
-            const subscription = event.data.object;
-            const status = subscription.status === 'active' ? 'active' : 'inactive';
-            
-            db.run(
-                `UPDATE users SET subscription_status = ? WHERE subscription_id = ?`,
-                [status, subscription.id]
-            );
-            break;
+        }
+        
+        res.json({received: true});
+    } catch (err) {
+        console.error('Webhook error:', err);
+        res.status(400).send(`Webhook Error: ${err.message}`);
     }
-
-    res.json({ received: true });
 });
 
-// Extend trial (after survey)
-app.post('/api/extend-trial', authenticateToken, (req, res) => {
-    db.run(
-        'UPDATE users SET trial_extended = 1 WHERE id = ?',
-        [req.user.userId],
-        (err) => {
-            if (err) {
-                return res.status(500).json({ error: 'Failed to extend trial' });
-            }
-            res.json({ success: true, message: 'Trial extended by 7 days' });
-        }
-    );
-});
-
-// ==================== TRANSACTION ENDPOINTS ====================
-
-// Get all transactions for user
-app.get('/api/transactions', authenticateToken, checkSubscription, (req, res) => {
-    db.all(
-        'SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC',
-        [req.user.userId],
-        (err, rows) => {
-            if (err) {
-                return res.status(500).json({ error: 'Failed to fetch transactions' });
-            }
-            
-            // Parse JSON fields
-            const transactions = rows.map(row => ({
-                ...row,
-                modified_deadlines: row.modified_deadlines ? JSON.parse(row.modified_deadlines) : {}
-            }));
-            
-            res.json(transactions);
-        }
-    );
-});
-
-// Create transaction
-app.post('/api/transactions', authenticateToken, checkSubscription, (req, res) => {
-    const {
-        property_address, client_name, client_email, transaction_type,
-        contract_date, closing_date, list_price, option_period_end,
-        inspection_date, appraisal_date, financing_deadline, notes
-    } = req.body;
-
-    db.run(
-        `INSERT INTO transactions (
-            user_id, property_address, client_name, client_email, transaction_type,
-            contract_date, closing_date, list_price, option_period_end,
-            inspection_date, appraisal_date, financing_deadline, notes, modified_deadlines
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-            req.user.userId, property_address, client_name, client_email, transaction_type,
-            contract_date, closing_date, list_price || 0, option_period_end,
-            inspection_date, appraisal_date, financing_deadline, notes || '', '{}'
-        ],
-        function(err) {
-            if (err) {
-                return res.status(500).json({ error: 'Failed to create transaction' });
-            }
-            res.json({ id: this.lastID, success: true });
-        }
-    );
-});
-
-// Update transaction
-app.put('/api/transactions/:id', authenticateToken, checkSubscription, (req, res) => {
-    const { id } = req.params;
-    const updateFields = req.body;
-    
-    // Build dynamic update query
-    const fields = Object.keys(updateFields);
-    const setClause = fields.map(field => `${field} = ?`).join(', ');
-    const values = fields.map(field => {
-        if (field === 'modified_deadlines') {
-            return JSON.stringify(updateFields[field]);
-        }
-        return updateFields[field];
-    });
-    
-    db.run(
-        `UPDATE transactions SET ${setClause} WHERE id = ? AND user_id = ?`,
-        [...values, id, req.user.userId],
-        (err) => {
-            if (err) {
-                return res.status(500).json({ error: 'Failed to update transaction' });
-            }
-            res.json({ success: true });
-        }
-    );
-});
-
-// Delete transaction
-app.delete('/api/transactions/:id', authenticateToken, checkSubscription, (req, res) => {
-    const { id } = req.params;
-    
-    db.run(
-        'DELETE FROM transactions WHERE id = ? AND user_id = ?',
-        [id, req.user.userId],
-        (err) => {
-            if (err) {
-                return res.status(500).json({ error: 'Failed to delete transaction' });
-            }
-            res.json({ success: true });
-        }
-    );
-});
-
-// Start server
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log('Environment:', process.env.NODE_ENV || 'development');
+    console.log(`Server listening on port ${PORT}`);
 });
