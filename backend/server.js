@@ -114,6 +114,8 @@ app.post('/api/register', async (req, res) => {
     try {
         const { email, password, full_name } = req.body;
         
+        console.log('📝 Registration attempt for:', email);
+        
         const hashedPassword = await bcrypt.hash(password, 10);
         
         const customer = await stripe.customers.create({
@@ -122,16 +124,22 @@ app.post('/api/register', async (req, res) => {
             metadata: { source: 'asistant.pro' }
         });
         
+        console.log('✅ Stripe customer created:', customer.id);
+        
         db.run(
             'INSERT INTO users (email, password_hash, full_name, stripe_customer_id) VALUES (?, ?, ?, ?)',
             [email, hashedPassword, full_name, customer.id],
             function(err) {
                 if (err) {
-                    console.error('Registration error:', err);
+                    console.error('❌ Registration database error:', err);
                     return res.status(400).json({ error: 'Email already registered' });
                 }
                 
+                console.log('✅ User created with ID:', this.lastID);
+                
                 const token = jwt.sign({ id: this.lastID }, process.env.JWT_SECRET, { expiresIn: '30d' });
+                
+                console.log('✅ Registration complete, token generated');
                 
                 res.json({
                     token,
@@ -147,38 +155,87 @@ app.post('/api/register', async (req, res) => {
             }
         );
     } catch (error) {
-        console.error('Registration error:', error);
+        console.error('❌ Registration error:', error);
         res.status(500).json({ error: 'Registration failed' });
     }
 });
 
-// Login
+// Login - ENHANCED WITH DEBUG LOGGING
 app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
     
+    console.log('🔐 ========== LOGIN ATTEMPT ==========');
+    console.log('📧 Email:', email);
+    console.log('🔑 Password length:', password ? password.length : 0);
+    console.log('⏰ Timestamp:', new Date().toISOString());
+    
     db.get('SELECT * FROM users WHERE email = ?', [email], async (err, user) => {
-        if (err || !user) {
+        if (err) {
+            console.error('❌ Database error during login:', err);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        
+        if (!user) {
+            console.log('❌ User NOT FOUND in database for email:', email);
+            console.log('💡 Checking if email exists with different case...');
+            
+            // Check all users to see if it's a case sensitivity issue
+            db.all('SELECT email FROM users', [], (err, allUsers) => {
+                if (!err && allUsers) {
+                    console.log('📊 All registered emails:', allUsers.map(u => u.email).join(', '));
+                }
+            });
+            
             return res.status(401).json({ error: 'Invalid credentials' });
         }
         
-        const validPassword = await bcrypt.compare(password, user.password_hash);
-        if (!validPassword) {
-            return res.status(401).json({ error: 'Invalid credentials' });
-        }
+        console.log('✅ User FOUND in database');
+        console.log('👤 User ID:', user.id);
+        console.log('📧 User Email:', user.email);
+        console.log('👔 Full Name:', user.full_name);
+        console.log('📅 Created At:', user.created_at);
+        console.log('🔒 Password Hash (first 20 chars):', user.password_hash.substring(0, 20) + '...');
         
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+        console.log('🔑 Starting password comparison...');
         
-        res.json({
-            token,
-            user: {
-                id: user.id,
-                email: user.email,
-                full_name: user.full_name,
-                subscription_status: user.subscription_status,
-                trial_start_date: user.trial_start_date,
-                trial_extended: user.trial_extended
+        try {
+            const validPassword = await bcrypt.compare(password, user.password_hash);
+            
+            console.log('🔑 Password comparison result:', validPassword);
+            
+            if (!validPassword) {
+                console.log('❌ PASSWORD MISMATCH');
+                console.log('💡 Provided password length:', password.length);
+                return res.status(401).json({ error: 'Invalid credentials' });
             }
-        });
+            
+            console.log('✅ Password is VALID');
+            console.log('🎫 Generating JWT token...');
+            
+            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+            
+            console.log('✅ Token generated successfully');
+            console.log('📤 Sending response to client...');
+            
+            res.json({
+                token,
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    full_name: user.full_name,
+                    subscription_status: user.subscription_status,
+                    trial_start_date: user.trial_start_date,
+                    trial_extended: user.trial_extended
+                }
+            });
+            
+            console.log('✅ LOGIN SUCCESSFUL for user:', user.email);
+            console.log('🔐 ========== LOGIN COMPLETE ==========\n');
+            
+        } catch (bcryptError) {
+            console.error('❌ Bcrypt comparison error:', bcryptError);
+            return res.status(500).json({ error: 'Authentication error' });
+        }
     });
 });
 
