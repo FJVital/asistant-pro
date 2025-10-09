@@ -382,7 +382,6 @@ app.post('/api/extend-trial', authenticateToken, async (req, res) => {
     }
 });
 
-// Stripe webhook
 app.post('/api/webhook', express.raw({type: 'application/json'}), async (req, res) => {
     const sig = req.headers['stripe-signature'];
     
@@ -395,4 +394,18 @@ app.post('/api/webhook', express.raw({type: 'application/json'}), async (req, re
             
             await pool.query(
                 'UPDATE users SET subscription_status = $1, subscription_id = $2 WHERE id = $3',
-                ['active', session.subscript
+                ['active', session.subscription, userId]
+            );
+        }
+        
+        res.json({received: true});
+    } catch (err) {
+        console.error('Webhook error:', err);
+        res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+});
+
