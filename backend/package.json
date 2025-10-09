@@ -1,7 +1,6 @@
 {
   "name": "asistant-pro-backend",
   "version": "1.0.0",
-  "description": "Backend for Real Estate Transaction Tracker",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -11,7 +10,7 @@
     "cors": "^2.8.5",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
-    "sqlite3": "^5.1.6",
-    "stripe": "^14.0.0"
+    "stripe": "^14.0.0",
+    "pg": "^8.11.3"
   }
 }
