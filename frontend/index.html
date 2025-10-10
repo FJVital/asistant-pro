@@ -278,6 +278,33 @@
             box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
         }
         
+        /* Manual dates section styling */
+        .manual-dates-section {
+            display: none;
+            background: #fff3cd;
+            border: 2px dashed #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .manual-dates-section.active {
+            display: block;
+        }
+        
+        .manual-dates-section h4 {
+            color: #856404;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .manual-dates-section p {
+            color: #856404;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        
         .btn-image {
             background: none;
             border: none;
@@ -798,6 +825,10 @@
                             <option value="">Select Type</option>
                             <option value="buyer">Representing Buyer</option>
                             <option value="listing">Representing Seller</option>
+                            <option value="dual">Dual Agency</option>
+                            <option value="lease">Lease Transaction</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="custom">Custom/Other (Manual Dates)</option>
                         </select>
                     </div>
                     
@@ -814,6 +845,32 @@
                     <div class="form-group">
                         <label>List Price (Optional)</label>
                         <input type="number" id="listPrice" placeholder="450000" step="1000">
+                    </div>
+                    
+                    <!-- Manual Dates Section (only shown for Custom/Other) -->
+                    <div id="manualDatesSection" class="manual-dates-section">
+                        <h4>📅 Enter Dates Manually</h4>
+                        <p>Since you selected Custom/Other, please enter all deadline dates manually.</p>
+                        
+                        <div class="form-group">
+                            <label>Option Period End Date</label>
+                            <input type="date" id="manualOptionPeriod">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Inspection Date</label>
+                            <input type="date" id="manualInspection">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Appraisal Date</label>
+                            <input type="date" id="manualAppraisal">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Financing Deadline</label>
+                            <input type="date" id="manualFinancing">
+                        </div>
                     </div>
                     
                     <button type="submit" class="btn-image">
@@ -943,6 +1000,22 @@
         // Global state
         let currentUser = null;
         let allTransactions = [];
+        
+        // ==================== SHOW/HIDE MANUAL DATES ====================
+        document.getElementById('transactionType').addEventListener('change', function() {
+            const isCustom = this.value === 'custom';
+            const manualSection = document.getElementById('manualDatesSection');
+            
+            if (isCustom) {
+                manualSection.classList.add('active');
+                // Scroll to manual dates section
+                setTimeout(() => {
+                    manualSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            } else {
+                manualSection.classList.remove('active');
+            }
+        });
         
         // ==================== API UTILITY ====================
         class API {
@@ -1168,7 +1241,19 @@
         }
         
         // ==================== TRANSACTION MANAGEMENT ====================
-        function calculateDeadlines(contractDate, closingDate) {
+        function calculateDeadlines(contractDate, closingDate, transactionType) {
+            // If custom type, use manual dates
+            if (transactionType === 'custom') {
+                return {
+                    option_period_end: document.getElementById('manualOptionPeriod').value || contractDate,
+                    inspection_date: document.getElementById('manualInspection').value || contractDate,
+                    appraisal_date: document.getElementById('manualAppraisal').value || closingDate,
+                    financing_deadline: document.getElementById('manualFinancing').value || closingDate
+                };
+            }
+            
+            // For all other types (buyer, listing, dual, lease, commercial)
+            // Use auto-calculation
             const contract = new Date(contractDate + 'T12:00:00');
             const closing = new Date(closingDate + 'T12:00:00');
             
@@ -1196,24 +1281,41 @@
         document.getElementById('transactionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            const transactionType = document.getElementById('transactionType').value;
+            
+            // Validate custom transaction has manual dates
+            if (transactionType === 'custom') {
+                const requiredFields = ['manualOptionPeriod', 'manualInspection', 'manualAppraisal', 'manualFinancing'];
+                const emptyFields = requiredFields.filter(id => !document.getElementById(id).value);
+                
+                if (emptyFields.length > 0) {
+                    alert('Please fill in all required deadline dates for custom transactions.');
+                    return;
+                }
+            }
+            
             const formData = {
                 property_address: document.getElementById('propertyAddress').value,
                 client_name: document.getElementById('clientName').value,
                 client_email: document.getElementById('clientEmail').value,
-                transaction_type: document.getElementById('transactionType').value,
+                transaction_type: transactionType,
                 contract_date: document.getElementById('contractDate').value,
                 closing_date: document.getElementById('closingDate').value,
                 list_price: parseFloat(document.getElementById('listPrice').value) || 0
             };
             
-            // Calculate deadlines
-            const deadlines = calculateDeadlines(formData.contract_date, formData.closing_date);
+            // Calculate deadlines (either auto or manual)
+            const deadlines = calculateDeadlines(formData.contract_date, formData.closing_date, transactionType);
             const transactionData = { ...formData, ...deadlines, notes: '' };
             
             try {
                 await API.createTransaction(transactionData);
-                showMessage('Transaction added successfully! Automated reminders scheduled for all deadlines.');
+                const message = transactionType === 'custom' 
+                    ? 'Transaction added successfully with your custom dates!'
+                    : 'Transaction added successfully! Automated reminders scheduled for all deadlines.';
+                showMessage(message);
                 document.getElementById('transactionForm').reset();
+                document.getElementById('manualDatesSection').classList.remove('active');
                 setDefaultDates();
                 await loadDashboard();
             } catch (error) {
@@ -1332,6 +1434,18 @@
             }
         }
         
+        function getTransactionTypeLabel(type) {
+            const labels = {
+                'buyer': 'Buyer',
+                'listing': 'Seller',
+                'dual': 'Dual Agency',
+                'lease': 'Lease',
+                'commercial': 'Commercial',
+                'custom': 'Custom'
+            };
+            return labels[type] || type;
+        }
+        
         function createTransactionCardHTML(transaction) {
             const today = new Date();
             
@@ -1371,7 +1485,7 @@
                     <div class="transaction-header">
                         <div>
                             <div class="property-address">${transaction.property_address}</div>
-                            <div class="client-name">Client: ${transaction.client_name} (${transaction.transaction_type === 'buyer' ? 'Buyer' : 'Seller'})</div>
+                            <div class="client-name">Client: ${transaction.client_name} (${getTransactionTypeLabel(transaction.transaction_type)})</div>
                         </div>
                         <div class="transaction-actions">
                             <button class="btn-small btn-delete" onclick="deleteTransaction(${transaction.id})">Delete</button>
@@ -1475,7 +1589,7 @@
                 ...allTransactions.map(t => [
                     `"${t.property_address}"`,
                     `"${t.client_name}"`,
-                    t.transaction_type,
+                    getTransactionTypeLabel(t.transaction_type),
                     t.contract_date,
                     t.closing_date,
                     t.option_period_end,
@@ -1606,12 +1720,9 @@
         
         // Start the app
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Real Estate Transaction Tracker - Integrated Version');
+            console.log('Real Estate Transaction Tracker - Version with Custom Transaction Types');
             checkAuth();
         });
     </script>
 </body>
-
 </html>
-
-
